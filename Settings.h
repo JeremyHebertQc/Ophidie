@@ -10,7 +10,7 @@ Projet : Ophidie
 
 using json = nlohmann::json;
 
-enum difficulty
+enum Difficulty
 {
 	BABY,
 	EZ,
@@ -22,30 +22,43 @@ enum difficulty
 	HARDCORE
 };
 
-enum gameMode
+enum GameMode
 {
 	NORMAL,
 	SURVIVAL,
-	DEATH_MODE
+	DEATH_TRAP,
+	SURVIVE_HELL
 };
 
 class Settings
 {
 private:
-	int volSound,
-		volMusic,
-		gridW,
-		gridH;
+	int _volSound,
+		_volMusic,
+		_gridW,
+		_gridH;
 
+	Difficulty _difficulty;
 	
+	GameMode _mode;
 
-	bool fullScr,
-		usingArrowKey,
-		deafMode;
+	bool _fullScr,
+		_usingArrowKeys,
+		_deafMode;
 
 public:
-	Settings();
+	Settings() = delete;
+	Settings(std::string fichier);
 
+	int getSound();
+	int getMusic();
+	int getWidth();
+	int getHeight();
+	Difficulty getDifficulty();
+	GameMode getMode();
+	bool getFullScr();
+	bool getArrow();
+	bool getDeaf();
 };
 
 /*

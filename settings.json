@@ -1,0 +1,11 @@
+{
+  "Sound": 10,
+  "Music": 10,
+  "Width": 50,
+  "Height": 50,
+  "FullScreen": true,
+  "Arrow": true,
+  "Deaf": false,
+  "Difficulty": 3,
+  "Mode": 0
+}
