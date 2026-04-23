@@ -60,6 +60,9 @@
     <None Include="BD\settings.json">
       <Filter>Fichiers de ressources\BD</Filter>
     </None>
+    <None Include="scoreboard.json">
+      <Filter>Fichiers de ressources</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
