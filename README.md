@@ -1,4 +1,4 @@
-# POO-Ophidie
+# Ophidie
 CAN BE ADDED IN SETTINGS:
 - difficulty
 	- Longueur snake
