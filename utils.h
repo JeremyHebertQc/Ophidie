@@ -1,9 +1,15 @@
+/*====================================
+Auteur : Jérémy Hébert
+Projet : Ophidie
+====================================*/
+
 #pragma once
 
-#include <iostream>
+#include <iostream>  // TODO: Switch to SFML ?
 #include <algorithm>
 
+#ifndef WIN32
+#include <cassert>
+#endif
+
 void sleepMs(int ms);
-void clearScreen(std::ostream& output);
-void clearLine(std::ostream& output);
-void displayCursor(bool visible);
