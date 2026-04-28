@@ -9,13 +9,14 @@
 // Constructeurs
 Button::Button()
 {
-	_scale = _position;
-	_buttonID = _isMouseReleased = 0;
+	_buttonID = 0;
+	_isMouseReleased = false;
 }
 
-Button::Button(const sf::RectangleShape rectangle, const sf::Text text, const sf::Color fillColor, const sf::Color outlineColor, const sf::Vector2f scale, const sf::Vector2f position, const unsigned int _buttonID)
+Button::Button(const unsigned int buttonID, bool isMouseReleased)
 {
-	setButtonID
+	_buttonID = buttonID;
+	_isMouseReleased = isMouseReleased;
 }
 
 // Destructeur
@@ -56,6 +57,16 @@ sf::Vector2f Button::getPosition() const
 	return _position;
 }
 
+sf::SoundBuffer Button::getpressedSoundBuffer() const
+{
+	return _pressedSoundBuffer;
+}
+
+sf::Sound Button::getPressedSound() const
+{
+	return _pressedSound;
+}
+
 unsigned int Button::getButtonID() const
 {
 	return _buttonID;
@@ -67,8 +78,65 @@ bool Button::getIsMouseReleased() const
 }
 
 // Setters
-void Button::setRectangle()
+void Button::setRectangle(sf::RectangleShape rectangle)
 {
-
+	_rectangle = rectangle;
 }
 
+void Button::setText(sf::Text text)
+{
+	_text = text;
+}
+
+void Button::setFillColor(sf::Color fillColor)
+{
+	_fillColor = fillColor;
+}
+
+void Button::setOutlineColor(sf::Color outlineColor)
+{
+	_outlineColor = outlineColor;
+}
+
+void Button::setScale(sf::Vector2f scale)
+{
+	_scale = scale;
+}
+
+void Button::setPosition(sf::Vector2f position)
+{
+	_position = position;
+}
+
+void Button::setpressedSoundBuffer(sf::SoundBuffer pressedSoundBuffer)
+{
+	_pressedSoundBuffer = pressedSoundBuffer;
+}
+
+void Button::setPressedSound(sf::Sound pressedSound)
+{
+	_pressedSound = pressedSound;
+}
+
+void Button::setButtonID(unsigned int buttonID)
+{
+	assert(buttonID >= 0);
+	_buttonID = buttonID;
+}
+
+void Button::setIsmouseReleased(bool isMouseReleased)
+{
+	assert(isMouseReleased == (0 || 1));
+	_isMouseReleased = isMouseReleased;
+}
+
+// Fonctionnement du bouton
+void Button::playButtonSound(sf::SoundBuffer pressedSoundBuffer, sf::Sound pressedSound, std::string soundPath)
+{
+	if (!pressedSoundBuffer.loadFromFile(soundPath)) // On charge la musique du jeu
+		return;
+
+	pressedSound.setBuffer(pressedSoundBuffer); // On applique la musique chargée à l’objet de type "Sound"
+	pressedSound.setLoop(false); // La musique jouera en boucle
+	pressedSound.play(); // On fait jouer la musique
+}
