@@ -2,6 +2,25 @@
 
 const float OUTLINE_THICKNESS_BUTTON = 10; //TODO: Déplacer dans const
 const float OUTLINE_THICKNESS_PRESSED_BUTTON = 5; //TODO: Déplacer dans const
+const std::string BUTTON_SOUND_PATH = "assets/soundEffects/button.wav"; //TODO: Déplacer dans const
+
+enum ButtonAction {
+	debugAction,
+
+	closeOphidie,
+	startGame,
+	openSettings,
+	openScoreboard,
+	openHTP,
+	openHomeMenu,
+	goToNormalSCR,
+	goToSurvivalSCR,
+	goToDeathTrapSCR,
+	goToSurviveHellSCR,
+	OpenFile,
+
+	NbAction // Nombre total d'action
+};
 
 class Button
 {
@@ -21,10 +40,12 @@ private:
 
 	void calculatePos();
 
+	int _action;
+
 public:
 	// Constructeurs
 	Button();
-	Button(const unsigned int buttonID, const std::string text, const sf::Color fillColor, const sf::Color outlineColor, const sf::Vector2f scale, const sf::Vector2f position);
+	Button(const unsigned int buttonID, int action, const std::string text, const sf::Color fillColor, const sf::Color outlineColor, const sf::Vector2f scale, const sf::Vector2f position);
 
 	// Destructeur
 	~Button();
@@ -41,6 +62,7 @@ public:
 	sf::Sound getPressedSound() const;
 	unsigned int getButtonID() const;
 	bool getIsMouseReleased() const;
+	int getAction() const;
 
 	// Setters
 	void setRectangle(const sf::RectangleShape& rectangle);
@@ -54,11 +76,13 @@ public:
 	void setPressedSound(sf::Sound pressedSound);
 	void setButtonID(unsigned int buttonID);
 	void setIsmouseReleased(bool isMouseReleased);
+	void setAction(int action);
 
 	// Fonctionnement du boutton
 	void updateButton(sf::RenderWindow& window);
-	void playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pressedSound, std::string soundPath = "assets/soundEffects/button.wav");
+	void playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pressedSound, std::string soundPath);
 	void draw(sf::RenderWindow& window, const int activeID);
 	bool isButtonPressed(sf::Event event, sf::RenderWindow& window);
 	bool isButtonHover(sf::Event event, sf::RenderWindow& window);
+	void doButtonAction(int action);
 };
