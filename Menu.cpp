@@ -60,7 +60,7 @@ void Menu::drawButtons(sf::RenderWindow& window)
 	
 	for (int i = 0; i < _buttons.size(); i++)
 	{
-		_buttons[i]->draw(window, i);
+		_buttons[i]->draw(window);
 	}
 }
 

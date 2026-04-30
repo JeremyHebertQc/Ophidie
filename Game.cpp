@@ -27,7 +27,7 @@ void Game::play()
         menu.addButton(1, openHTP, "How to play?", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 250));
         menu.addButton(2, openScoreboard, "Scoreboard", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 400));
         menu.addButton(3, debugAction, "Settings", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 550));
-        menu.addButton(4, closeOphidie, "Quit", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 550));
+        menu.addButton(4, closeOphidie, "Quit", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(750, 550));
 
     while (_window.isOpen())
     {

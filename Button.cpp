@@ -7,47 +7,48 @@
 #include "Button.h"
 
 // Fonction privé
-void Button::calculatePos()
+void Button::calculateTextPosition()
 {
-	float positionMidX = _button.getGlobalBounds().width / 2.0,
-		positionMidY = _button.getGlobalBounds().height / 2.0;
-	_text.setPosition(_button.getGlobalBounds().left + positionMidX - (_text.getGlobalBounds().width / 2), _button.getGlobalBounds().top + positionMidY - (_text.getGlobalBounds().height / 2));
+	float centerPositionX = _button.getGlobalBounds().width / 2.0,
+		centerPositionY = _button.getGlobalBounds().height / 2.0;
+	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2));
 }
 
 // Constructeurs
 Button::Button()
 {
 	_buttonID = 0;
-	_isMouseReleased = false;
 	_action = debugAction;
 }
 
 Button::Button(const unsigned int buttonID, int action, const std::string text, const int buttonStyle, const sf::Vector2f scale, const sf::Vector2f position)
 {
+	// Gestion du bouton
 	_buttonID = buttonID;
-	_isMouseReleased = false;
 	_action = action;
+
+	// Gestion de l'apparence
 	setButtonTexture(buttonStyle);
-	_button.setTexture(_texture);
 	_button.setScale(scale);
 	_button.setPosition(position);
 
+	// Gestion du texte
 	if (!_font.loadFromFile(FONT_PATH))
 		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
 
 	_text.setFont(_font);
-	_text.setCharacterSize(12);
+	_text.setCharacterSize(FONT_SIZE);
 	_text.setString(text);
 	_text.setStyle(sf::Text::Bold);
-	_text.setFillColor(sf::Color::Black);
-	calculatePos();
+	setTextColor(61, 24, 79);
+	calculateTextPosition();
 }
 
 // Destructeur
 Button::~Button()
 {
 	_scale = _position;
-	_buttonID = _isMouseReleased = 0;
+	_buttonID = 0;
 }
 
 // Getters
@@ -84,11 +85,6 @@ sf::Sound Button::getPressedSound() const
 unsigned int Button::getButtonID() const
 {
 	return _buttonID;
-}
-
-bool Button::getIsMouseReleased() const
-{
-	return _isMouseReleased;
 }
 
 int Button::getAction() const
@@ -139,13 +135,6 @@ void Button::setButtonID(unsigned int buttonID)
 	_buttonID = buttonID;
 }
 
-void Button::setIsmouseReleased(bool isMouseReleased)
-{
-	assert(isMouseReleased == (true || false));
-
-	_isMouseReleased = isMouseReleased;
-}
-
 void Button::setAction(int action)
 {
 	assert(action >= 0 && action < NbAction);
@@ -158,31 +147,44 @@ void Button::setTexture(sf::Texture& texture)
 	_texture = texture;
 }
 
+void Button::setTextColor(int r, int g, int b)
+{
+	assert((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255));
+
+	_textColor.r = r;
+	_textColor.g = g;
+	_textColor.b = b;
+
+	_text.setFillColor(_textColor);
+}
+
 // Fonctionnement du bouton
 void Button::updateButton(sf::RenderWindow& window)
 {
 	window.draw(_button);
-	window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
+	window.draw(_text);
 	window.display();
-	sf::sleep(sf::milliseconds(100));
-	playButtonSound(_pressedSoundBuffer, _pressedSound, BUTTON_SOUND_PATH);
+	playButtonSound(_pressedSoundBuffer, _pressedSound, BUTTON_SOUND_PATH + "button.wav");
 	sf::sleep(sf::milliseconds(150));
 }
 
 void Button::playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pressedSound, std::string soundPath)
 {
 	if (!pressedSoundBuffer.loadFromFile(soundPath))
-		exit(1); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
+	{
+		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
+		return;
+	}
 
 	pressedSound.setBuffer(pressedSoundBuffer);
 	pressedSound.setLoop(false);
 	pressedSound.play();
 }
 
-void Button::draw(sf::RenderWindow& window, const int activeID)
+void Button::draw(sf::RenderWindow& window)
 {
 	window.draw(_button);
-	window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
+	window.draw(_text);
 }
 
 bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
@@ -321,4 +323,6 @@ void Button::setButtonTexture(int buttonStyle)
 	default:
 		exit(1); // TODO: Lors du merge, créer une erreur texture couldn't load.
 	}
+
+	_button.setTexture(_texture);
 }
