@@ -22,12 +22,13 @@ Button::Button()
 	_action = debugAction;
 }
 
-Button::Button(const unsigned int buttonID, int action, const std::string text, const sf::Texture& texture, const sf::Vector2f scale, const sf::Vector2f position)
+Button::Button(const unsigned int buttonID, int action, const std::string text, const int buttonStyle, const sf::Vector2f scale, const sf::Vector2f position)
 {
 	_buttonID = buttonID;
 	_isMouseReleased = false;
 	_action = action;
-	_button.setTexture(texture);
+	setButtonTexture(buttonStyle);
+	_button.setTexture(_texture);
 	_button.setScale(scale);
 	_button.setPosition(position);
 
@@ -187,10 +188,11 @@ void Button::draw(sf::RenderWindow& window, const int activeID)
 bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 {
 	window.display();
-	_texture.loadFromFile("assets/buttons/bigButton.png");
-	_pressedTexture.loadFromFile("assets/buttons/pressedBigButton.png");
 	if (event.type)
-		if (_button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+
+		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+		if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			_button.setTexture(_pressedTexture);
 			updateButton(window);
@@ -203,6 +205,7 @@ bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 
 			return true;
 		}
+	}
 	return false;
 }
 
@@ -217,13 +220,16 @@ bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 
 
 	if (event.type == sf::Event::MouseMoved)
-		if (_button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y))
+	{
+		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+		if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
 		{
 			window.setMouseCursor(cursorHand);
 			return true;
 		}
 		else
 			return false;
+	}
 }
 
 void Button::doButtonAction(int action)
@@ -280,5 +286,39 @@ void Button::doButtonAction(int action)
 
 	default:
 		printf("Action doesn't exist !\n"); //TODO: Transformer en SFML
+	}
+}
+
+void Button::setButtonTexture(int buttonStyle)
+{
+	switch (buttonStyle)
+	{
+	case bigButton:
+		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "bigButton.png");
+		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedBigButton.png");
+		break;
+
+	case mediumButton:
+		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "mediumButton.png");
+		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedMediumButton.png");
+		break;
+
+	case littleButton:
+		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "littleButton.png");
+		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedLittleButton.png");
+		break;
+
+	case yesButton:
+		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "yesButton.png");
+		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedYesButton.png");
+		break;
+
+	case noButton:
+		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "noButton.png");
+		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedNoButton.png");
+		break;
+
+	default:
+		exit(1); // TODO: Lors du merge, créer une erreur texture couldn't load.
 	}
 }

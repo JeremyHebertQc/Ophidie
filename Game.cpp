@@ -23,14 +23,15 @@ Game::~Game()
 void Game::play()
 {
     Menu menu;
-        menu.addButton(0, debugAction, "Bouton 0", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 100));
-        menu.addButton(1, debugAction, "Bouton 1", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 210));
-        menu.addButton(2, debugAction, "Bouton 2", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 320));
-        menu.addButton(3, debugAction, "Bouton 3", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 430));
-        menu.addButton(4, debugAction, "Bouton 4", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 540));
+        menu.addButton(0, startGame, "Play", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 100));
+        menu.addButton(1, openHTP, "How to play?", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 250));
+        menu.addButton(2, openScoreboard, "Scoreboard", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 400));
+        menu.addButton(3, debugAction, "Settings", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 550));
+        menu.addButton(4, closeOphidie, "Quit", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(250, 550));
 
     while (_window.isOpen())
     {
+        _window.clear();
         menu.drawButtons(_window);
         _window.display();
 
@@ -46,6 +47,9 @@ void Game::play()
             case sf::Event::Closed:
                 _window.close();
                 break;
+
+            case sf::Event::Resized:
+
 
             case sf::Event::MouseButtonPressed:
             case sf::Event::MouseButtonReleased:

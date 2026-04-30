@@ -4,6 +4,16 @@ const float OUTLINE_THICKNESS_BUTTON = 10; //TODO: Déplacer dans const
 const float OUTLINE_THICKNESS_PRESSED_BUTTON = 5; //TODO: Déplacer dans const
 const std::string BUTTON_SOUND_PATH = "assets/soundEffects/button.wav"; //TODO: Déplacer dans const
 const std::string FONT_PATH = "assets/fonts/arial.ttf"; //TODO: Déplacer dans const
+const std::string BUTTON_TEXTURE_PATH = "assets/buttons/"; //TODO: Déplacer dans const
+
+enum ButtonStyle
+{
+	bigButton,
+	mediumButton,
+	littleButton,
+	yesButton,
+	noButton
+};
 
 enum ButtonAction {
 	debugAction,
@@ -46,7 +56,7 @@ private:
 public:
 	// Constructeurs
 	Button();
-	Button(const unsigned int buttonID, int action, const std::string text, const sf::Texture& texture, const sf::Vector2f scale, const sf::Vector2f position);
+	Button(const unsigned int buttonID, int action, const std::string text, const int buttonStyle, const sf::Vector2f scale, const sf::Vector2f position);
 
 	// Destructeur
 	~Button();
@@ -82,4 +92,5 @@ public:
 	bool isButtonPressed(sf::Event event, sf::RenderWindow& window);
 	bool isButtonHover(sf::Event event, sf::RenderWindow& window);
 	void doButtonAction(int action);
+	void setButtonTexture(int buttonStyle);
 };

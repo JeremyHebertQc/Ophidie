@@ -3,23 +3,6 @@
 
 #pragma once
 
-const std::string BUTTON_TEXTURE_PATH = "assets/buttons/"; //TODO: Déplacer dans const
-
-enum ButtonStyle
-{
-	bigButton,
-	mediumButton,
-	littleButton,
-	yesButton,
-	noButton,
-
-	pressedBigButton,
-	pressedMediumButton,
-	pressedLittleButton,
-	pressedYesButton,
-	pressedNoButton
-};
-
 class Menu
 {
 private:
@@ -41,6 +24,5 @@ public:
 	int isButtonPressed(sf::Event event, sf::RenderWindow& window);
 	int isButtonHover(sf::Event event, sf::RenderWindow& window);
 	void drawButtons(sf::RenderWindow& window);
-	void setButtonTexture(int buttonStyle);
 };
 
