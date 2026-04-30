@@ -40,6 +40,9 @@ void Game::playGame(GameMode mode)
 	loadEndMenu(score, mode);
 }
 
+Action Game::loadPauseMenu() {
+}
+
 void Game::loadSettingsMenu()
 {
 }
