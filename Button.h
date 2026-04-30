@@ -4,7 +4,6 @@ const float OUTLINE_THICKNESS_BUTTON = 10; //TODO: Déplacer dans const
 const float OUTLINE_THICKNESS_PRESSED_BUTTON = 5; //TODO: Déplacer dans const
 const std::string BUTTON_SOUND_PATH = "assets/soundEffects/button.wav"; //TODO: Déplacer dans const
 const std::string FONT_PATH = "assets/fonts/arial.ttf"; //TODO: Déplacer dans const
-const std::string TEXTURE_PATH = "assets/buttons/bigButton.png"; //TODO: Déplacer dans const
 
 enum ButtonAction {
 	debugAction,

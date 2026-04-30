@@ -3,10 +3,28 @@
 
 #pragma once
 
+const std::string BUTTON_TEXTURE_PATH = "assets/buttons/"; //TODO: Déplacer dans const
+
+enum ButtonStyle
+{
+	bigButton,
+	mediumButton,
+	littleButton,
+	yesButton,
+	noButton,
+
+	pressedBigButton,
+	pressedMediumButton,
+	pressedLittleButton,
+	pressedYesButton,
+	pressedNoButton
+};
+
 class Menu
 {
 private:
-	std::vector<Button> _buttons;
+	std::vector<Button*> _buttons;
+	sf::Texture _texture;
 
 public:
 	// Constructeurs
@@ -16,12 +34,13 @@ public:
 	~Menu();
 
 	// Getters
-	std::vector<Button> getButtons();
+	std::vector<Button*> getButtons();
 
 	// Méthodes
-	void addButton(const unsigned int buttonID, const int action, const std::string text, const sf::Texture& texture, const sf::Vector2f scale, const sf::Vector2f position);
+	void addButton(const unsigned int buttonID, const int action, const std::string text, const int buttonStyle, const sf::Vector2f scale, const sf::Vector2f position);
 	int isButtonPressed(sf::Event event, sf::RenderWindow& window);
 	int isButtonHover(sf::Event event, sf::RenderWindow& window);
-	void drawButton(sf::RenderWindow& window, const int activeID);
+	void drawButtons(sf::RenderWindow& window);
+	void setButtonTexture(int buttonStyle);
 };
 

@@ -161,7 +161,7 @@ void Button::setTexture(sf::Texture& texture)
 void Button::updateButton(sf::RenderWindow& window)
 {
 	window.draw(_button);
-	//window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
+	window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
 	window.display();
 	sf::sleep(sf::milliseconds(100));
 	playButtonSound(_pressedSoundBuffer, _pressedSound, BUTTON_SOUND_PATH);
@@ -181,7 +181,7 @@ void Button::playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pre
 void Button::draw(sf::RenderWindow& window, const int activeID)
 {
 	window.draw(_button);
-	//window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
+	window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
 }
 
 bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
