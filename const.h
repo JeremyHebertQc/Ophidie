@@ -23,7 +23,8 @@ enum GameMode
 enum ErrorCode
 {
 	SUCCESS,
-	FILE_NOT_OPENED
+	FILE_NOT_OPENED,
+	NOT_VALID_DIRECTION
 };
 
 // Constantes pour les settings
@@ -35,3 +36,11 @@ const int MIN_VOLUME = 0,
 // Chemins
 const std::string SCOREBOARD_FILEPATH = "data/scoreboards/";
 const std::string SETTINGS_FILE_NAME = "data/settings.json";
+
+enum Direction
+{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+};
