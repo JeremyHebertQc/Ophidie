@@ -1,7 +1,8 @@
 #include "Game.h"
 
 int main() {
-    play();
+    Game game;
+    game.play();
 
     return 0;
 }

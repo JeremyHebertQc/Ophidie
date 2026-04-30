@@ -9,9 +9,9 @@
 // Fonction privé
 void Button::calculatePos()
 {
-	float positionMidX = _rectangle.getGlobalBounds().width / 2.0,
-		positionMidY = _rectangle.getGlobalBounds().height / 2.0;
-	_text.setPosition(_rectangle.getGlobalBounds().left + positionMidX - (_text.getGlobalBounds().width / 2), _rectangle.getGlobalBounds().top + positionMidY - (_text.getGlobalBounds().height / 2));
+	float positionMidX = _button.getGlobalBounds().width / 2.0,
+		positionMidY = _button.getGlobalBounds().height / 2.0;
+	_text.setPosition(_button.getGlobalBounds().left + positionMidX - (_text.getGlobalBounds().width / 2), _button.getGlobalBounds().top + positionMidY - (_text.getGlobalBounds().height / 2));
 }
 
 // Constructeurs
@@ -22,19 +22,16 @@ Button::Button()
 	_action = debugAction;
 }
 
-Button::Button(const unsigned int buttonID, int action, const std::string text, const sf::Color fillColor, const sf::Color outlineColor, const sf::Vector2f scale, const sf::Vector2f position)
+Button::Button(const unsigned int buttonID, int action, const std::string text, const sf::Texture& texture, const sf::Vector2f scale, const sf::Vector2f position)
 {
 	_buttonID = buttonID;
 	_isMouseReleased = false;
 	_action = action;
+	_button.setTexture(texture);
+	_button.setScale(scale);
+	_button.setPosition(position);
 
-	_rectangle.setFillColor(fillColor);
-	_rectangle.setOutlineColor(outlineColor);
-	_rectangle.setOutlineThickness(OUTLINE_THICKNESS_BUTTON);
-	_rectangle.setSize(scale);
-	_rectangle.setPosition(position);
-
-	if (!_font.loadFromFile("assets/fonts/arial.ttf")) //TODO: Remplacer pour la font const
+	if (!_font.loadFromFile(FONT_PATH))
 		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
 
 	_text.setFont(_font);
@@ -53,29 +50,14 @@ Button::~Button()
 }
 
 // Getters
-sf::RectangleShape Button::getRectangle() const
+sf::Sprite Button::getSprite() const
 {
-	return _rectangle;
+	return _button;
 }
 
 sf::Text Button::getText() const
 {
 	return _text;
-}
-
-sf::Color Button::getFillColor() const
-{
-	return _fillColor;
-}
-
-sf::Color Button::getOutlineColor() const
-{
-	return _outlineColor;
-}
-
-float Button::getOutlineThickness() const
-{
-	return _rectangle.getOutlineThickness();
 }
 
 sf::Vector2f Button::getScale() const
@@ -113,30 +95,20 @@ int Button::getAction() const
 	return _action;
 }
 
-// Setters
-void Button::setRectangle(const sf::RectangleShape& rectangle)
+sf::Texture Button::getTexture() const
 {
-	_rectangle = rectangle;
+	return _texture;
+}
+
+// Setters
+void Button::setSprite(sf::Sprite button)
+{
+	_button = button;
 }
 
 void Button::setText(const sf::Text& text)
 {
 	_text = text;
-}
-
-void Button::setFillColor(sf::Color fillColor)
-{
-	_fillColor = fillColor;
-}
-
-void Button::setOutlineColor(sf::Color outlineColor)
-{
-	_outlineColor = outlineColor;
-}
-
-void Button::setOutlineThickness(float thickness)
-{
-	_rectangle.setOutlineThickness(thickness);
 }
 
 void Button::setScale(sf::Vector2f scale)
@@ -180,17 +152,20 @@ void Button::setAction(int action)
 	_action = action;
 }
 
+void Button::setTexture(sf::Texture& texture)
+{
+	_texture = texture;
+}
+
 // Fonctionnement du bouton
 void Button::updateButton(sf::RenderWindow& window)
 {
-	window.draw(_rectangle);
-	window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
+	window.draw(_button);
+	//window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
 	window.display();
 	sf::sleep(sf::milliseconds(100));
 	playButtonSound(_pressedSoundBuffer, _pressedSound, BUTTON_SOUND_PATH);
 	sf::sleep(sf::milliseconds(150));
-
-	doButtonAction(_action);
 }
 
 void Button::playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pressedSound, std::string soundPath)
@@ -205,21 +180,26 @@ void Button::playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pre
 
 void Button::draw(sf::RenderWindow& window, const int activeID)
 {
-	window.draw(_rectangle);
-	window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
+	window.draw(_button);
+	//window.draw(_text); //FIXME: Non géré, fait crash le programme. Semble atteindre un assert interne a sa classe SFML
 }
 
 bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 {
-	sf::Color originOutlineColor = _rectangle.getOutlineColor();
+	window.display();
+	_texture.loadFromFile("assets/buttons/bigButton.png");
+	_pressedTexture.loadFromFile("assets/buttons/pressedBigButton.png");
 	if (event.type)
-		if (_rectangle.getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		if (_button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			_rectangle.setOutlineColor(sf::Color::Red);
+			_button.setTexture(_pressedTexture);
 			updateButton(window);
 
 			if (sf::Event::MouseButtonReleased)
-				_rectangle.setOutlineColor(originOutlineColor);
+			{
+				_button.setTexture(_texture);
+				doButtonAction(_action);
+			}
 
 			return true;
 		}
@@ -237,7 +217,7 @@ bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 
 
 	if (event.type == sf::Event::MouseMoved)
-		if (_rectangle.getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y))
+		if (_button.getGlobalBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y))
 		{
 			window.setMouseCursor(cursorHand);
 			return true;

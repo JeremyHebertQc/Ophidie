@@ -3,6 +3,8 @@
 const float OUTLINE_THICKNESS_BUTTON = 10; //TODO: Déplacer dans const
 const float OUTLINE_THICKNESS_PRESSED_BUTTON = 5; //TODO: Déplacer dans const
 const std::string BUTTON_SOUND_PATH = "assets/soundEffects/button.wav"; //TODO: Déplacer dans const
+const std::string FONT_PATH = "assets/fonts/arial.ttf"; //TODO: Déplacer dans const
+const std::string TEXTURE_PATH = "assets/buttons/bigButton.png"; //TODO: Déplacer dans const
 
 enum ButtonAction {
 	debugAction,
@@ -25,9 +27,9 @@ enum ButtonAction {
 class Button
 {
 private:
-	sf::RectangleShape _rectangle;
+	sf::Sprite _button;
+	sf::Texture _texture, _pressedTexture;
 	sf::Text _text;
-	sf::Color _fillColor, _outlineColor;
 	sf::Vector2f _scale, _position;
 
 	sf::SoundBuffer _pressedSoundBuffer;
@@ -45,17 +47,14 @@ private:
 public:
 	// Constructeurs
 	Button();
-	Button(const unsigned int buttonID, int action, const std::string text, const sf::Color fillColor, const sf::Color outlineColor, const sf::Vector2f scale, const sf::Vector2f position);
+	Button(const unsigned int buttonID, int action, const std::string text, const sf::Texture& texture, const sf::Vector2f scale, const sf::Vector2f position);
 
 	// Destructeur
 	~Button();
 
 	// Getters
-	sf::RectangleShape getRectangle() const;
+	sf::Sprite getSprite() const;
 	sf::Text getText() const;
-	sf::Color getFillColor() const;
-	sf::Color getOutlineColor() const;
-	float getOutlineThickness() const;
 	sf::Vector2f getScale() const;
 	sf::Vector2f getPosition() const;
 	sf::SoundBuffer getpressedSoundBuffer() const;
@@ -63,13 +62,11 @@ public:
 	unsigned int getButtonID() const;
 	bool getIsMouseReleased() const;
 	int getAction() const;
+	sf::Texture getTexture() const;
 
 	// Setters
-	void setRectangle(const sf::RectangleShape& rectangle);
+	void setSprite(sf::Sprite button);
 	void setText(const sf::Text& text);
-	void setFillColor(sf::Color fillColor);
-	void setOutlineColor(sf::Color outlineColor);
-	void setOutlineThickness(float thickness);
 	void setScale(sf::Vector2f scale);
 	void setPosition(sf::Vector2f position);
 	void setpressedSoundBuffer(sf::SoundBuffer pressedSoundBuffer);
@@ -77,6 +74,7 @@ public:
 	void setButtonID(unsigned int buttonID);
 	void setIsmouseReleased(bool isMouseReleased);
 	void setAction(int action);
+	void setTexture(sf::Texture& texture);
 
 	// Fonctionnement du boutton
 	void updateButton(sf::RenderWindow& window);
