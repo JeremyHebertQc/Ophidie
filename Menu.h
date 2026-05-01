@@ -11,7 +11,7 @@ private:
 
 public:
 	// Constructeurs
-	Menu();
+	Menu(); //NOTE: Créer un enum des types de menu et inclure un switch case dedans afin d'appeller différent constructeur selon le menu.
 
 	// Destructeur
 	~Menu();
