@@ -53,7 +53,7 @@ void Game::loadTutorialMenu()
 
 void Game::loadScoreboardMenu()
 {
-	_scoreboard.showMenu();
+	_scoreboard.showMenu();T
 }
 
 void Game::loadEndMenu(float score, GameMode mode)
