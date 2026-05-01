@@ -23,11 +23,11 @@ Game::~Game()
 void Game::play()
 {
     Menu menu;
-        menu.addButton(0, startGame, "Play", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 100));
-        menu.addButton(1, openHTP, "How to play?", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 250));
-        menu.addButton(2, openScoreboard, "Scoreboard", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 400));
-        menu.addButton(3, debugAction, "Settings", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 550));
-        menu.addButton(4, closeOphidie, "Quit", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(750, 550));
+    menu.addButton(0, startGame, "Play", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 100));
+    menu.addButton(1, openHTP, "How to play?", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 250));
+    menu.addButton(2, openScoreboard, "Scoreboard", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 400));
+    menu.addButton(3, openSettings, "Settings", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 550));
+    menu.addButton(4, closeOphidie, "Quit", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(750, 550));
 
     while (_window.isOpen())
     {
@@ -48,17 +48,10 @@ void Game::play()
                 _window.close();
                 break;
 
-            case sf::Event::Resized:
-
-
             case sf::Event::MouseButtonPressed:
             case sf::Event::MouseButtonReleased:
                 //int btnid = menu.isButtonPressed(event, window);
                 if (menu.isButtonPressed(event, _window) == -1);
-                {
-                    menu.drawButtons(_window);
-                    _window.display();
-                }
                 break;
 
             case sf::Event::MouseMoved:

@@ -47,41 +47,12 @@ Button::Button(const unsigned int buttonID, int action, const std::string text, 
 // Destructeur
 Button::~Button()
 {
-	_scale = _position;
 	_buttonID = 0;
+	_action = debugAction;
+	;
 }
 
 // Getters
-sf::Sprite Button::getSprite() const
-{
-	return _button;
-}
-
-sf::Text Button::getText() const
-{
-	return _text;
-}
-
-sf::Vector2f Button::getScale() const
-{
-	return _scale;
-}
-
-sf::Vector2f Button::getPosition() const
-{
-	return _position;
-}
-
-sf::SoundBuffer Button::getpressedSoundBuffer() const
-{
-	return _pressedSoundBuffer;
-}
-
-sf::Sound Button::getPressedSound() const
-{
-	return _pressedSound;
-}
-
 unsigned int Button::getButtonID() const
 {
 	return _buttonID;
@@ -97,37 +68,22 @@ sf::Texture Button::getTexture() const
 	return _texture;
 }
 
+sf::Vector2f Button::getScale() const
+{
+	return _scale;
+}
+
+sf::Vector2f Button::getPosition() const
+{
+	return _position;
+}
+
+sf::Text Button::getText() const
+{
+	return _text;
+}
+
 // Setters
-void Button::setSprite(sf::Sprite button)
-{
-	_button = button;
-}
-
-void Button::setText(const sf::Text& text)
-{
-	_text = text;
-}
-
-void Button::setScale(sf::Vector2f scale)
-{
-	_scale = scale;
-}
-
-void Button::setPosition(sf::Vector2f position)
-{
-	_position = position;
-}
-
-void Button::setpressedSoundBuffer(sf::SoundBuffer pressedSoundBuffer)
-{
-	_pressedSoundBuffer = pressedSoundBuffer;
-}
-
-void Button::setPressedSound(sf::Sound pressedSound)
-{
-	_pressedSound = pressedSound;
-}
-
 void Button::setButtonID(unsigned int buttonID)
 {
 	assert(buttonID >= 0);
@@ -145,6 +101,21 @@ void Button::setAction(int action)
 void Button::setTexture(sf::Texture& texture)
 {
 	_texture = texture;
+}
+
+void Button::setScale(sf::Vector2f scale)
+{
+	_scale = scale;
+}
+
+void Button::setPosition(sf::Vector2f position)
+{
+	_position = position;
+}
+
+void Button::setText(const sf::Text& text)
+{
+	_text = text;
 }
 
 void Button::setTextColor(int r, int g, int b)
@@ -234,7 +205,7 @@ bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 	}
 }
 
-void Button::doButtonAction(int action)
+void Button::doButtonAction(int action) //Faire un getter et mettre ceci dans game
 {
 	switch (action)
 	{

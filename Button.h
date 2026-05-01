@@ -37,21 +37,24 @@ enum ButtonAction {
 class Button
 {
 private:
+	// Gestion du bouton
+	unsigned int _buttonID;
+	int _action;
+
+	// Gestion de l'apparence
 	sf::Sprite _button;
 	sf::Texture _texture, _pressedTexture;
-	sf::Text _text;
 	sf::Vector2f _scale, _position;
 
-	sf::SoundBuffer _pressedSoundBuffer, _hoverSoundBuffer;
-	sf::Sound _pressedSound, _hoverSound;
+	// Gestion du texte
+	sf::Text _text;
 	sf::Font _font;
 	sf::Color _textColor;
-
-	unsigned int _buttonID;
-
 	void calculateTextPosition();
 
-	int _action;
+	// Gestion du son
+	sf::SoundBuffer _pressedSoundBuffer; //TODO: Rename
+	sf::Sound _pressedSound; //TODO: Rename
 
 public:
 	// Constructeurs
@@ -62,26 +65,24 @@ public:
 	~Button();
 
 	// Getters
-	sf::Sprite getSprite() const;
-	sf::Text getText() const;
-	sf::Vector2f getScale() const;
-	sf::Vector2f getPosition() const;
-	sf::SoundBuffer getpressedSoundBuffer() const;
-	sf::Sound getPressedSound() const;
 	unsigned int getButtonID() const;
 	int getAction() const;
+
 	sf::Texture getTexture() const;
+	sf::Vector2f getScale() const;
+	sf::Vector2f getPosition() const;
+
+	sf::Text getText() const;
 
 	// Setters
-	void setSprite(sf::Sprite button);
-	void setText(const sf::Text& text);
-	void setScale(sf::Vector2f scale);
-	void setPosition(sf::Vector2f position);
-	void setpressedSoundBuffer(sf::SoundBuffer pressedSoundBuffer);
-	void setPressedSound(sf::Sound pressedSound);
 	void setButtonID(unsigned int buttonID);
 	void setAction(int action);
+
 	void setTexture(sf::Texture& texture);
+	void setScale(sf::Vector2f scale);
+	void setPosition(sf::Vector2f position);
+
+	void setText(const sf::Text& text);
 	void setTextColor(int r, int g, int b);
 
 	// Fonctionnement du boutton
