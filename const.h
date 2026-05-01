@@ -17,19 +17,8 @@ enum GameMode
 	DEATH_TRAP,
 	SURVIVE_HELL,
 
-	GameModeTotal // Leave last
+	total // Leave last
 };
-
-enum Action
-{
-	Resume,
-	Exit,
-	Save,
-	ExitSave,
-
-	ActionTotal // Leave last
-};
-
 
 enum ErrorCode
 {
