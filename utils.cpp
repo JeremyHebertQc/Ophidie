@@ -4,6 +4,7 @@ Projet : Ophidie
 ====================================*/
 
 #include <fstream>
+#include <iostream>
 
 #ifdef _WIN32
 #include <cassert>
