@@ -36,7 +36,7 @@ int Menu::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 	if(_buttons.size() > 0)
 		for (int i = 0; i < _buttons.size(); i++)
 		{
-			if (_buttons[i]->isButtonPressed(event, window))
+			if (_buttons[i]->isButtonPressed(event, window) != -1)
 				return _buttons[i]->getAction();
 		}
 
