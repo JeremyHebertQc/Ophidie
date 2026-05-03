@@ -18,10 +18,10 @@ void Button::calculateTextPosition()
 Button::Button()
 {
 	_buttonID = 0;
-	_action = debugAction;
+	_action;
 }
 
-Button::Button(const unsigned int buttonID, int action, const std::string text, const int buttonStyle, const sf::Vector2f scale, const sf::Vector2f position)
+Button::Button(const unsigned int buttonID, int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
 {
 	// Gestion du bouton
 	_buttonID = buttonID;
@@ -29,7 +29,8 @@ Button::Button(const unsigned int buttonID, int action, const std::string text, 
 
 	// Gestion de l'apparence
 	setButtonTexture(buttonStyle);
-	_button.setScale(scale);
+	_button.setScale(sf::Vector2f(scale, scale));
+	_button.setOrigin(_texture.getSize().x / 2.f, _texture.getSize().y / 2.f);
 	_button.setPosition(position);
 
 	// Gestion du texte
@@ -48,7 +49,7 @@ Button::Button(const unsigned int buttonID, int action, const std::string text, 
 Button::~Button()
 {
 	_buttonID = 0;
-	_action = debugAction;
+	_action;
 	;
 }
 
@@ -135,21 +136,21 @@ void Button::updateButton(sf::RenderWindow& window)
 	window.draw(_button);
 	window.draw(_text);
 	window.display();
-	playButtonSound(_pressedSoundBuffer, _pressedSound, BUTTON_SOUND_PATH + "button.wav");
+	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav");
 	sf::sleep(sf::milliseconds(150));
 }
 
-void Button::playButtonSound(sf::SoundBuffer& pressedSoundBuffer, sf::Sound& pressedSound, std::string soundPath)
+void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath)
 {
-	if (!pressedSoundBuffer.loadFromFile(soundPath))
+	if (!soundEffectBuffer.loadFromFile(soundPath))
 	{
 		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
 		return;
 	}
 
-	pressedSound.setBuffer(pressedSoundBuffer);
-	pressedSound.setLoop(false);
-	pressedSound.play();
+	soundEffect.setBuffer(soundEffectBuffer);
+	soundEffect.setLoop(false);
+	soundEffect.play();
 }
 
 void Button::draw(sf::RenderWindow& window)
@@ -158,7 +159,7 @@ void Button::draw(sf::RenderWindow& window)
 	window.draw(_text);
 }
 
-bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
+int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 {
 	window.display();
 	if (event.type)
@@ -173,13 +174,11 @@ bool Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 			if (sf::Event::MouseButtonReleased)
 			{
 				_button.setTexture(_texture);
-				doButtonAction(_action);
+				return _action;
 			}
-
-			return true;
 		}
 	}
-	return false;
+	return -1;
 }
 
 bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
@@ -202,63 +201,6 @@ bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 		}
 		else
 			return false;
-	}
-}
-
-void Button::doButtonAction(int action) //Faire un getter et mettre ceci dans game
-{
-	switch (action)
-	{
-	case debugAction:
-		printf("Clique %02d\n", _buttonID); //TODO: Transformer en SFML
-		break;
-
-	case closeOphidie:
-		printf("Fermeture du jeu\n"); //TODO: Replace by real action
-		break;
-
-	case startGame:
-		printf("Démarrage de la partie\n"); //TODO: Replace by real action
-		break;
-
-	case openSettings:
-		printf("Ouverture des paramètres\n"); //TODO: Replace by real action
-		break;
-
-	case openScoreboard:
-		printf("Ouverture du scoreboard\n"); //TODO: Replace by real action
-		break;
-
-	case openHTP:
-		printf("Ouverture du menu How to play\n"); //TODO: Replace by real action
-		break;
-
-	case openHomeMenu:
-		printf("Ouverture du homescreen\n"); //TODO: Replace by real action
-		break;
-
-	case goToNormalSCR:
-		printf("Ouverture du scoreboard normal\n"); //TODO: Replace by real action
-		break;
-
-	case goToSurvivalSCR:
-		printf("Ouverture du scoreboard survival\n"); //TODO: Replace by real action
-		break;
-
-	case goToDeathTrapSCR:
-		printf("Ouverture du scoreboard death trap\n"); //TODO: Replace by real action
-		break;
-
-	case goToSurviveHellSCR:
-		printf("Ouverture du scoreboard survive hell\n"); //TODO: Replace by real action
-		break;
-
-	case OpenFile:
-		printf("Ouverture d'un fichier\n"); //TODO: Replace by real action
-		break;
-
-	default:
-		printf("Action doesn't exist !\n"); //TODO: Transformer en SFML
 	}
 }
 

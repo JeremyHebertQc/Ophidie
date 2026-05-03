@@ -1,8 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <vector>
-
-#include "Button.h"
 #include "Menu.h"
 #include "Game.h"
 
@@ -23,46 +20,38 @@ Game::~Game()
 void Game::play()
 {
     Menu menu;
-    menu.addButton(0, startGame, "Play", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 100));
-    menu.addButton(1, openHTP, "How to play?", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 250));
-    menu.addButton(2, openScoreboard, "Scoreboard", bigButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 400));
-    menu.addButton(3, openSettings, "Settings", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(500, 550));
-    menu.addButton(4, closeOphidie, "Quit", littleButton, sf::Vector2f(0.5, 0.3), sf::Vector2f(750, 550));
-
-    while (_window.isOpen())
+    bool playing;
+    do
     {
-        _window.clear();
-        menu.drawButtons(_window);
-        _window.display();
-
-        static sf::Cursor cursorArrow;
-        if (!cursorArrow.loadFromSystem(sf::Cursor::Arrow))
-            printf("ERROR: Cursor doesn't load!\n"); //TODO: Transformer en SFML
-
-        sf::Event event;
-        while (_window.pollEvent(event))
+        playing = false;
+        switch (menu.doButtonAction(_window, menu.loadHomeMenu(_window)))
         {
-            switch (event.type)
-            {
-            case sf::Event::Closed:
-                _window.close();
-                break;
+        case openHomeMenu:
+        case NbAction + 1:
+            playing = true;
+            break;
 
-            case sf::Event::MouseButtonPressed:
-            case sf::Event::MouseButtonReleased:
-                //int btnid = menu.isButtonPressed(event, window);
-                if (menu.isButtonPressed(event, _window) == -1);
-                break;
+        case NbAction + 2:
+            printf("Goodbye!"); //TODO: Replace by SFML
+            system("pause>NUL"); //TODO: Replace by SFML
+            exit(0); //TODO: Replace by real exit code
+            break;
 
-            case sf::Event::MouseMoved:
-                _window.setMouseCursor(cursorArrow);
-                //int btnid2 = menu.isButtonHover(event, window);
-                if (menu.isButtonHover(event, _window) == -1);
-                break;
+        case OpenFile:
+            printf("OpenFile"); //TODO: Replace by real action
+            sf::sleep(sf::milliseconds(1000));
+            break;
 
-            default:
-                break;
-            }
+        case startGame:
+            printf("Game will start soon..."); //TODO: Replace by real action
+            system("pause>NUL");
+            break;
+
+        case -1:
+        default:
+            printf("ERROR"); //TODO: Replace by SFML
+            system("pause>NUL"); //TODO: Replace by SFML
+            exit(1); //TODO: Replace by real exit code
         }
-    }
+    } while (playing == true);
 }
