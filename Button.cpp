@@ -18,7 +18,8 @@ void Button::calculateTextPosition()
 Button::Button()
 {
 	_buttonID = 0;
-	_action;
+	_action = -1;
+	_buttonPressed = false;
 }
 
 Button::Button(const unsigned int buttonID, int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
@@ -26,6 +27,7 @@ Button::Button(const unsigned int buttonID, int action, const std::string text, 
 	// Gestion du bouton
 	_buttonID = buttonID;
 	_action = action;
+	_buttonPressed = false;
 
 	// Gestion de l'apparence
 	setButtonTexture(buttonStyle);
@@ -49,8 +51,8 @@ Button::Button(const unsigned int buttonID, int action, const std::string text, 
 Button::~Button()
 {
 	_buttonID = 0;
-	_action;
-	;
+	_action = 0;
+	_buttonPressed = 0;
 }
 
 // Getters
@@ -162,23 +164,38 @@ void Button::draw(sf::RenderWindow& window)
 int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 {
 	window.display();
-	if (event.type)
+
+	sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+
+	if (_buttonPressed == true && (sf::Event::MouseButtonReleased))
 	{
+		_button.setTexture(_texture);
+		_buttonPressed = false;
+		return _action;
+	}
 
-		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-		if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			_button.setTexture(_pressedTexture);
-			updateButton(window);
-
-			if (sf::Event::MouseButtonReleased)
-			{
-				_button.setTexture(_texture);
-				return _action;
-			}
-		}
+	if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		_buttonPressed = true;
+		_button.setTexture(_pressedTexture);
+		updateButton(window);
 	}
 	return -1;
+
+
+	/*sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+	if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	{
+		_button.setTexture(_pressedTexture);
+		updateButton(window);
+
+		if (sf::Event::MouseButtonReleased)
+		{
+			_button.setTexture(_texture);
+			return _action;
+		}
+	}
+	return -1;*/
 }
 
 bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)

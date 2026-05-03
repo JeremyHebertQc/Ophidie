@@ -39,6 +39,7 @@ private:
 	// Gestion du bouton
 	unsigned int _buttonID;
 	int _action;
+	bool _buttonPressed;
 
 	// Gestion de l'apparence
 	sf::Sprite _button;

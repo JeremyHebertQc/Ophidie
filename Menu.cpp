@@ -95,10 +95,12 @@ int Menu::loadHomeMenu(sf::RenderWindow& window)
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::MouseButtonReleased:
 				action = isButtonPressed(event, window);
-				if (action == -1)
-					return -1;
+				if (action == -1);
 				else
+				{
+					window.clear();
 					return action;
+				}
 
 			case sf::Event::MouseMoved:
 				window.setMouseCursor(cursorArrow);
