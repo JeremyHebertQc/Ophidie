@@ -46,16 +46,17 @@ public:
 	// Méthodes
 	void addButton(const unsigned int buttonID, const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position);
 	int isButtonPressed(sf::Event event, sf::RenderWindow& window);
-	int isButtonHover(sf::Event event, sf::RenderWindow& window);
+	void isButtonHover(sf::Event event, sf::RenderWindow& window);
 	void drawButtons(sf::RenderWindow& window);
+	int isAction(sf::RenderWindow& window);
 
 	// Créations des menus
-	int loadHomeMenu(sf::RenderWindow& window);
-	int loadSettingsMenu(sf::RenderWindow& window);
-	int loadHowToPlayMenu(sf::RenderWindow& window);
-	int loadStartMenu(sf::RenderWindow& window);
-	int loadScoreboardMenu(sf::RenderWindow& window);
-	int loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType);
+	bool loadHomeMenu(sf::RenderWindow& window);
+	void loadSettingsMenu(sf::RenderWindow& window);
+	void loadHowToPlayMenu(sf::RenderWindow& window);
+	void loadStartMenu(sf::RenderWindow& window);
+	void loadScoreboardMenu(sf::RenderWindow& window);
+	void loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType);
 
 	// Gestion des actions
 	int doButtonAction(sf::RenderWindow& window, int action);

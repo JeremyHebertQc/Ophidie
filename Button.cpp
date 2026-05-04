@@ -96,7 +96,7 @@ void Button::setButtonID(unsigned int buttonID)
 
 void Button::setAction(int action)
 {
-	assert(action >= 0 && action < NbAction);
+	assert(action >= 0 && action < NbAction - 1);
 
 	_action = action;
 }
@@ -196,7 +196,7 @@ int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 	return -1;*/
 }
 
-bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
+void Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 {
 	static bool loadedCursor = false;
 	static sf::Cursor cursorHand;
@@ -210,12 +210,7 @@ bool Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 	{
 		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 		if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
-		{
 			window.setMouseCursor(cursorHand);
-			return true;
-		}
-		else
-			return false;
 	}
 }
 

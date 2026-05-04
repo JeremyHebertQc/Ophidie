@@ -43,16 +43,11 @@ int Menu::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 	return -1;
 }
 
-int Menu::isButtonHover(sf::Event event, sf::RenderWindow& window)
+void Menu::isButtonHover(sf::Event event, sf::RenderWindow& window)
 {
 	if (_buttons.size() > 0)
 		for (int i = 0; i < _buttons.size(); i++)
-		{
-			if (_buttons[i]->isButtonHover(event, window))
-				return _buttons[i]->getButtonID();
-		}
-
-	return -1;
+			_buttons[i]->isButtonHover(event, window);
 }
 
 void Menu::drawButtons(sf::RenderWindow& window)
@@ -64,7 +59,47 @@ void Menu::drawButtons(sf::RenderWindow& window)
 	}
 }
 
-int Menu::loadHomeMenu(sf::RenderWindow& window)
+int Menu::isAction(sf::RenderWindow& window)
+{
+	static sf::Cursor cursorArrow;
+	if (!cursorArrow.loadFromSystem(sf::Cursor::Arrow))
+		printf("ERROR: Cursor doesn't load!\n"); //TODO: Transformer en SFML
+
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		int action;
+		switch (event.type)
+		{
+		case sf::Event::Closed:
+			return closeOphidie;
+
+		case sf::Event::MouseButtonPressed:
+		case sf::Event::MouseButtonReleased:
+			action = isButtonPressed(event, window);
+			window.clear();
+			if (action != -1)
+				return action;
+
+		case sf::Event::MouseMoved:
+			window.setMouseCursor(cursorArrow);
+			isButtonHover(event, window);
+			break;
+
+		case sf::Event::Resized:
+			window.clear();
+			window.display();
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	return -1;
+}
+
+bool Menu::loadHomeMenu(sf::RenderWindow& window)
 {
 	static bool isCreate = false;
 	if (isCreate == false)
@@ -77,68 +112,53 @@ int Menu::loadHomeMenu(sf::RenderWindow& window)
 		isCreate = true;
 	}
 
-	while (window.isOpen())
+	while (true)
 	{
 		window.clear();
 		drawButtons(window);
 		window.display();
 
-		static sf::Cursor cursorArrow;
-		if (!cursorArrow.loadFromSystem(sf::Cursor::Arrow))
-			printf("ERROR: Cursor doesn't load!\n"); //TODO: Transformer en SFML
-
-		sf::Event event;
-		while (window.pollEvent(event))
+		switch (isAction(window))
 		{
-			int action;
-			switch (event.type)
-			{
-			case sf::Event::Closed:
-				window.close();
-				break;
+		case startGame:
+			loadStartMenu(window);
+			return true;
 
-			case sf::Event::MouseButtonPressed:
-			case sf::Event::MouseButtonReleased:
-				action = isButtonPressed(event, window);
-				window.clear();
-				if (action == -1);
-				else
-				{
-					return action;
-				}
+		case closeOphidie:
+			return false;
+			
+		case openHTP:
+			loadHowToPlayMenu(window);
+			break;
 
-			case sf::Event::MouseMoved:
-				window.setMouseCursor(cursorArrow);
-				if (isButtonHover(event, window) == -1);
-				break;
+		case openScoreboard:
+			loadScoreboardMenu(window);
+			break;
+			
+		case openSettings:
+			loadSettingsMenu(window);
+			break;
 
-			case sf::Event::Resized:
-				window.clear();
-				window.display();
-				break;
-
-			default:
-				break;
-			}
+		default:
+		case -1:
+			break;
 		}
 	}
 }
 
-int Menu::loadSettingsMenu(sf::RenderWindow& window) //TODO: Build it
+void Menu::loadSettingsMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Settings Menu");
 	sf::sleep(sf::milliseconds(1000));
-	return homeMenu;
 }
 
-int Menu::loadScoreboardMenu(sf::RenderWindow& window) //TODO: Build it
+void Menu::loadScoreboardMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Scoreboard Menu");
 	sf::sleep(sf::milliseconds(1000));
-	return homeMenu;
 }
 
-int Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TODO: Build it
+void Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TODO: Build it
 {
 	switch (scoreboardType)
 	{
@@ -165,21 +185,18 @@ int Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TOD
 	default:
 		break;
 	}
-	return homeMenu;
 }
 
-int Menu::loadHowToPlayMenu(sf::RenderWindow& window) //TODO: Build it
+void Menu::loadHowToPlayMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("How to play");
 	sf::sleep(sf::milliseconds(1000));
-	return homeMenu;
 }
 
-int Menu::loadStartMenu(sf::RenderWindow& window) //TODO: Build it
+void Menu::loadStartMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Start menu. Choose somes options");
 	sf::sleep(sf::milliseconds(1000));
-	return homeMenu;
 }
 
 int Menu::doButtonAction(sf::RenderWindow& window, int action)

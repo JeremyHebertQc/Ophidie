@@ -90,6 +90,6 @@ public:
 	void playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath);
 	void draw(sf::RenderWindow& window);
 	int isButtonPressed(sf::Event event, sf::RenderWindow& window);
-	bool isButtonHover(sf::Event event, sf::RenderWindow& window);
+	void isButtonHover(sf::Event event, sf::RenderWindow& window);
 	void setButtonTexture(int buttonStyle);
 };

@@ -20,38 +20,9 @@ Game::~Game()
 void Game::play()
 {
     Menu menu;
-    bool playing;
-    do
+    while (_window.isOpen())
     {
-        playing = false;
-        switch (menu.doButtonAction(_window, menu.loadHomeMenu(_window)))
-        {
-        case openHomeMenu:
-        case NbAction + 1:
-            playing = true;
-            break;
-
-        case NbAction + 2:
-            printf("Goodbye!"); //TODO: Replace by SFML
-            system("pause>NUL"); //TODO: Replace by SFML
-            exit(0); //TODO: Replace by real exit code
-            break;
-
-        case OpenFile:
-            printf("OpenFile"); //TODO: Replace by real action
-            sf::sleep(sf::milliseconds(1000));
-            break;
-
-        case startGame:
-            printf("Game will start soon..."); //TODO: Replace by real action
-            system("pause>NUL");
-            break;
-
-        case -1:
-        default:
-            printf("ERROR"); //TODO: Replace by SFML
-            system("pause>NUL"); //TODO: Replace by SFML
-            exit(1); //TODO: Replace by real exit code
-        }
-    } while (playing == true);
+        if(!menu.loadHomeMenu(_window))
+            _window.close();
+    }
 }
