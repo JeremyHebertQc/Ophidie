@@ -21,17 +21,17 @@ enum ButtonAction
 	startGame,
 	closeOphidie,
 	openSettings,
-	openScoreboard,
 	openHTP,
-	openHomeMenu,
+	openScoreboard,
 	goToNormalSCR,
 	goToSurvivalSCR,
 	goToDeathTrapSCR,
 	goToSurviveHellSCR,
-	OpenFile,
 
 	NbAction // Nombre total d'action
 };
+
+
 
 class Button
 {

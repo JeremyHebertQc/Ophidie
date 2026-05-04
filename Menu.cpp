@@ -101,15 +101,16 @@ int Menu::isAction(sf::RenderWindow& window)
 
 bool Menu::loadHomeMenu(sf::RenderWindow& window)
 {
-	static bool isCreate = false;
-	if (isCreate == false)
+	static bool isCreated = false;
+	if (isCreated == false)
 	{
-		addButton(0, startGame, "Play", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 300.0f));
-		addButton(1, openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 450.0f));
-		addButton(2, openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 600.0f));
-		addButton(3, openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f - 130.0f, 750.0f));
-		addButton(4, closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f + 130.0f, 750.0f));
-		isCreate = true;
+		float centerPositionX = window.getSize().x;
+		addButton(0, startGame, "Play", bigButton, 0.5f, sf::Vector2f(centerPositionX / 2.0f, 300.0f));
+		addButton(1, openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(centerPositionX / 2.0f, 450.0f));
+		addButton(2, openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(centerPositionX / 2.0f, 600.0f));
+		addButton(3, openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(centerPositionX / 2.0f - 130.0f, 750.0f));
+		addButton(4, closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(centerPositionX / 2.0f + 130.0f, 750.0f));
+		isCreated = true;
 	}
 
 	while (true)
@@ -197,54 +198,4 @@ void Menu::loadStartMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Start menu. Choose somes options");
 	sf::sleep(sf::milliseconds(1000));
-}
-
-int Menu::doButtonAction(sf::RenderWindow& window, int action)
-{
-	switch (action)
-	{
-	case closeOphidie:
-		return NbAction + 2;
-
-	case startGame:
-		loadStartMenu(window);
-		return startGame;
-
-	case openSettings:
-		loadSettingsMenu(window);
-		return NbAction + 1;
-
-	case openScoreboard:
-		loadScoreboardMenu(window);
-		return NbAction + 1;
-
-	case openHTP:
-		loadHowToPlayMenu(window);
-		return NbAction + 1;
-
-	case openHomeMenu:
-		return openHomeMenu;
-
-	case goToNormalSCR:
-		loadScoreboardMenu(window, goToNormalSCR);
-		return NbAction + 1;
-
-	case goToSurvivalSCR:
-		loadScoreboardMenu(window, goToSurvivalSCR);
-		return NbAction + 1;
-
-	case goToDeathTrapSCR:
-		loadScoreboardMenu(window, goToDeathTrapSCR);
-		return NbAction + 1;
-
-	case goToSurviveHellSCR:
-		loadScoreboardMenu(window, goToSurvivalSCR);
-		return NbAction + 1;
-
-	case OpenFile:
-		return OpenFile;
-
-	default:
-		return -1;
-	}
 }

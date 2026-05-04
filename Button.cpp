@@ -172,28 +172,13 @@ int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 		return _action;
 	}
 
-	if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+	if (_button.getGlobalBounds().contains(mousePosition) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
 		_buttonPressed = true;
 		_button.setTexture(_pressedTexture);
 		updateButton(window);
 	}
 	return -1;
-
-	//NOTE: This code works 1 time out of 3 times... But works 100% of the time if you forgot that it doesn't send the action 2 times out of 3 ;)
-	/*sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-	if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	{
-		_button.setTexture(_pressedTexture);
-		updateButton(window);
-
-		if (sf::Event::MouseButtonReleased)
-		{
-			_button.setTexture(_texture);
-			return _action;
-		}
-	}
-	return -1;*/
 }
 
 void Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
@@ -209,7 +194,7 @@ void Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
 	if (event.type == sf::Event::MouseMoved)
 	{
 		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-		if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+		if (_button.getGlobalBounds().contains(mousePosition))
 			window.setMouseCursor(cursorHand);
 	}
 }

@@ -1,7 +1,7 @@
+#pragma once
+
 #include <vector>
 #include "Button.h"
-
-#pragma once
 
 enum MenuList
 {
@@ -35,7 +35,7 @@ private:
 
 public:
 	// Constructeurs
-	Menu(); //NOTE: Créer un enum des types de menu et inclure un switch case dedans afin d'appeller différent constructeur selon le menu.
+	Menu();
 
 	// Destructeur
 	~Menu();
@@ -57,8 +57,4 @@ public:
 	void loadStartMenu(sf::RenderWindow& window);
 	void loadScoreboardMenu(sf::RenderWindow& window);
 	void loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType);
-
-	// Gestion des actions
-	int doButtonAction(sf::RenderWindow& window, int action);
 };
-
