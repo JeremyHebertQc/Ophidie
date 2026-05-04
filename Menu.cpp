@@ -66,11 +66,16 @@ void Menu::drawButtons(sf::RenderWindow& window)
 
 int Menu::loadHomeMenu(sf::RenderWindow& window)
 {
-	addButton(0, startGame, "Play", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 300.0f));
-	addButton(1, openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 450.0f));
-	addButton(2, openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 600.0f));
-	addButton(3, openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f - 130.0f, 750.0f));
-	addButton(4, closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f + 130.0f, 750.0f));
+	static bool isCreate = false;
+	if (isCreate == false)
+	{
+		addButton(0, startGame, "Play", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 300.0f));
+		addButton(1, openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 450.0f));
+		addButton(2, openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f, 600.0f));
+		addButton(3, openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f - 130.0f, 750.0f));
+		addButton(4, closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(window.getSize().x / 2.0f + 130.0f, 750.0f));
+		isCreate = true;
+	}
 
 	while (window.isOpen())
 	{
@@ -95,16 +100,21 @@ int Menu::loadHomeMenu(sf::RenderWindow& window)
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::MouseButtonReleased:
 				action = isButtonPressed(event, window);
+				window.clear();
 				if (action == -1);
 				else
 				{
-					window.clear();
 					return action;
 				}
 
 			case sf::Event::MouseMoved:
 				window.setMouseCursor(cursorArrow);
 				if (isButtonHover(event, window) == -1);
+				break;
+
+			case sf::Event::Resized:
+				window.clear();
+				window.display();
 				break;
 
 			default:

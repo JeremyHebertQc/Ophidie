@@ -137,7 +137,6 @@ void Button::updateButton(sf::RenderWindow& window)
 {
 	window.draw(_button);
 	window.draw(_text);
-	window.clear();
 	window.display();
 	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav");
 	sf::sleep(sf::milliseconds(150));
