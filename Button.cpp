@@ -139,7 +139,7 @@ void Button::updateButton(sf::RenderWindow& window)
 	window.draw(_text);
 	window.display();
 	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav");
-	sf::sleep(sf::milliseconds(150));
+	sf::sleep(sf::milliseconds(250));
 }
 
 void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath)

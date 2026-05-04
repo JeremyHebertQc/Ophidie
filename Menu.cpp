@@ -150,13 +150,11 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 void Menu::loadSettingsMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Settings Menu");
-	sf::sleep(sf::milliseconds(1000));
 }
 
 void Menu::loadScoreboardMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Scoreboard Menu");
-	sf::sleep(sf::milliseconds(1000));
 }
 
 void Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TODO: Build it
@@ -165,22 +163,18 @@ void Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TO
 	{
 	case goToNormalSCR:
 		printf("Normal SCR");
-		sf::sleep(sf::milliseconds(1000));
 		break;
 
 	case goToSurvivalSCR:
 		printf("Survival SCR");
-		sf::sleep(sf::milliseconds(1000));
 		break;
 
 	case goToDeathTrapSCR:
 		printf("Death Trap SCR");
-		sf::sleep(sf::milliseconds(1000));
 		break;
 
 	case goToSurviveHellSCR:
 		printf("Survive Hell SCR");
-		sf::sleep(sf::milliseconds(1000));
 		break;
 
 	default:
@@ -191,11 +185,9 @@ void Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TO
 void Menu::loadHowToPlayMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("How to play");
-	sf::sleep(sf::milliseconds(1000));
 }
 
 void Menu::loadStartMenu(sf::RenderWindow& window) //TODO: Build it
 {
 	printf("Start menu. Choose somes options");
-	sf::sleep(sf::milliseconds(1000));
 }
