@@ -137,6 +137,7 @@ void Button::updateButton(sf::RenderWindow& window)
 {
 	window.draw(_button);
 	window.draw(_text);
+	window.clear();
 	window.display();
 	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav");
 	sf::sleep(sf::milliseconds(150));
@@ -163,8 +164,6 @@ void Button::draw(sf::RenderWindow& window)
 
 int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 {
-	window.display();
-
 	sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
 	if (_buttonPressed == true && (sf::Event::MouseButtonReleased))
@@ -182,7 +181,7 @@ int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 	}
 	return -1;
 
-
+	//NOTE: This code works 1 time out of 3 times... But works 100% of the time if you forgot that it doesn't send the action 2 times out of 3 ;)
 	/*sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 	if (_button.getGlobalBounds().contains(mousePosition.x, mousePosition.y) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
