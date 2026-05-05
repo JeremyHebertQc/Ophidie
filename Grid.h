@@ -16,26 +16,26 @@ enum TileType {
 class Grid
 {
 public:
-	Grid(); //genere stuff based on mode, create egg
+	Grid();
 	~Grid();
 
-
 	void createMap(int x, int y, GameMode mode, Difficulty difficulty);
-	TileType getTileAt(int x, int y);
+
+	TileType getTileAt(int x, int y) const;
+	void setTileAt(int x, int y, TileType tile);
+
 	void placeEggs(int eggsToPlace);
-	void renderGrid(sf::RenderWindow* window);
+	void renderGrid(sf::RenderWindow* window) const;
 
+	sf::Vector2i getGridOffset() const;
+private:
 
-//private:
-
-	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow* window, sf::Vector2f offsetInAbsolutePixels = {0,0});
+	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow* window, sf::Vector2f offsetInAbsolutePixels = {0,0}) const;
 	static const std::string filePaths[4];
 
 	sf::Texture textures[4];
 	sf::Sprite renderers[4];
 
-
-	Snake snake;
 	int width, height, numberOfEggs, numberOfTraps;
 	bool hasRandomWalls;
 	std::vector<std::vector<int>> board;

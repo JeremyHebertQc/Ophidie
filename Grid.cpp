@@ -24,6 +24,10 @@ Grid::Grid() {
 Grid::~Grid() {
 	width = height = numberOfTraps = numberOfEggs = 0;
 	hasRandomWalls = false;
+
+	free(textures);
+	free(renderers);
+	board.clear();
 }
 
 void Grid::placeEggs(int eggsToPlace) {
@@ -40,8 +44,7 @@ void Grid::placeEggs(int eggsToPlace) {
 		}
 	}
 }
-
-void Grid::renderGrid(sf::RenderWindow* window) {
+void Grid::renderGrid(sf::RenderWindow* window) const {
 	//masterAirTile.setScale(100,100);
 
 	for (int i = 0; i < width; i++) {
@@ -59,7 +62,10 @@ void Grid::renderGrid(sf::RenderWindow* window) {
 		}
 	}
 }
-
+sf::Vector2i Grid::getGridOffset() const {
+	sf::Vector2i boardSize = {height * GRID_CELL_SIZE, width * GRID_CELL_SIZE};
+	return {((int)WINDOW_WIDTH - boardSize.x) / 2, ((int)WINDOW_HEIGHT - boardSize.y) / 2};
+}
 void Grid::createMap(int x, int y, GameMode mode, Difficulty difficulty) {
 	width = x;
 	height = y;
@@ -162,20 +168,12 @@ void Grid::createMap(int x, int y, GameMode mode, Difficulty difficulty) {
 		std::cout << std::endl;
 		//std::cin.get();
 }
-
-TileType Grid::getTileAt(int x, int y) {
+TileType Grid::getTileAt(int x, int y) const {
 	return (TileType)board.at(x).at(y);
 }
-
-sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) {
-	//sf::Vector2u size = {window->getSize().x / WINDOW_WIDTH, window->getSize().y / WINDOW_HEIGHT};
-
-	sf::Vector2i boardSize = {height * GRID_CELL_SIZE, width * GRID_CELL_SIZE};
-
-	sf::Vector2i scaled = {cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE};
-	sf::Vector2i center = {((int)WINDOW_WIDTH - boardSize.x) / 2, ((int)WINDOW_HEIGHT - boardSize.y) / 2};
-
-	//return window->mapCoordsToPixel(offseted);
-	return scaled + center;
-
+void Grid::setTileAt(int x, int y, TileType tile) {
+	board.at(x).at(y) = tile;
+}
+sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) const {
+	return sf::Vector2i{cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE} + getGridOffset();
 }
