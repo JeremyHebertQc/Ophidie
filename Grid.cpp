@@ -51,9 +51,9 @@ void Grid::renderGrid(sf::RenderWindow* window) {
 			renderers[air].setPosition(pos.x,pos.y);
 			window->draw(renderers[air]);
 
-			if (board.at(i).at(j) != 0) {
-				renderers[board.at(i).at(j)].setPosition(pos.x,pos.y);
-				window->draw(renderers[board.at(i).at(j)]);
+			if (board.at(j).at(i) != 0) {
+				renderers[board.at(j).at(i)].setPosition(pos.x,pos.y);
+				window->draw(renderers[board.at(j).at(i)]);
 			}
 
 		}
@@ -120,16 +120,16 @@ void Grid::createMap(int x, int y, GameMode mode, Difficulty difficulty) {
 			exit(1);
 	}
 
-	for (int i = 0; i < width; i++) {
+	for (int i = 0; i < height; i++) {
 		board.emplace_back();
-		for (int j = 0; j < height; j++) {
+		for (int j = 0; j < width; j++) {
 			board.at(i).push_back(0); //init everything as air
 		}
 	}
 
 	board.at(0).at(0) = TileType::body;
-	board.at(0).at(1) = TileType::body;
-	board.at(0).at(2) = TileType::body;
+	board.at(1).at(0) = TileType::body;
+	board.at(2).at(0) = TileType::body;
 
 	if (hasRandomWalls) {
 		int randX, randY = 0;
@@ -155,7 +155,7 @@ void Grid::createMap(int x, int y, GameMode mode, Difficulty difficulty) {
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < height; j++) {
-			std::cout << board.at(i).at(j) << ' ';
+			std::cout << board.at(j).at(i) << ' ';
 		}
 		std::cout << '\n';
 	}
@@ -170,10 +170,10 @@ TileType Grid::getTileAt(int x, int y) {
 sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) {
 	//sf::Vector2u size = {window->getSize().x / WINDOW_WIDTH, window->getSize().y / WINDOW_HEIGHT};
 
-	sf::Vector2i boardSize = {width * GRID_CELL_SIZE, height * GRID_CELL_SIZE};
+	sf::Vector2i boardSize = {height * GRID_CELL_SIZE, width * GRID_CELL_SIZE};
 
 	sf::Vector2i scaled = {cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE};
-	sf::Vector2i center = {WINDOW_WIDTH/2 - boardSize.x / 2, WINDOW_HEIGHT/2 - boardSize.y / 2};
+	sf::Vector2i center = {((int)WINDOW_WIDTH - boardSize.x) / 2, ((int)WINDOW_HEIGHT - boardSize.y) / 2};
 
 	//return window->mapCoordsToPixel(offseted);
 	return scaled + center;

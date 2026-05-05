@@ -13,7 +13,7 @@ int main() {
     std::srand(time(NULL));
     std::cout << "Hello world!";
     Grid myGrid;
-    myGrid.createMap(10,10, (GameMode)2, Difficulty(2));
+    myGrid.createMap(3,15, (GameMode)2, Difficulty(2));
     //std::cout << myGrid.getTileAt(2,2) << std::endl;
 
     std::cout << system("pwd");
