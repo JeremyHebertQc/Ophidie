@@ -53,12 +53,12 @@ void Game::loadTutorialMenu()
 
 void Game::loadScoreboardMenu()
 {
-	_scoreboard.showMenu();T
+	_scoreboard.showMenu();
 }
 
 void Game::loadEndMenu(float score, GameMode mode)
 {
-	_scoreboard.showScore();
+	_scoreboard.showScore(mode);
 	if (_scoreboard.checkScore(score, mode)) {
 		if (bool userwantstosave = true) {
 			std::string playerName;
