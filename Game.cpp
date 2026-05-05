@@ -19,7 +19,7 @@ Game::~Game()
 // Methode
 void Game::play()
 {
-    Menu menu;
+    Menu menu(_window);
     while (_window.isOpen())
     {
         if(!menu.loadHomeMenu(_window))

@@ -6,7 +6,7 @@
 #include "utils.h"
 #include "Button.h"
 
-// Fonction privé
+// Méthode privé
 void Button::calculateTextPosition()
 {
 	float centerPositionX = _button.getGlobalBounds().width / 2.0,
