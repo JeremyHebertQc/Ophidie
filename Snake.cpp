@@ -5,13 +5,27 @@
 
 Snake::Snake()
 { 
-	setHeadPosition(1, 1);
+	setHeadPosition(2, 0);
 	setHeadDirection(RIGHT);
 	setBannedDirection(LEFT);
+	
 	_textureHead.loadFromFile("assets/images/snake_head.png");
 	_textureBody.loadFromFile("assets/images/snake_body.png");
-	_textureCurve.loadFromFile("assets/images/snake_curve.png");
+	_textureCurve.loadFromFile("assets/images/body_curve.png");
+	_textureTail.loadFromFile("assets/images/snake_tail.png");
+
 	_snake.push_back(sf::Sprite(_textureHead));
+	_snake.at(0).setOrigin(16, 16);
+
+	_snake.push_back(sf::Sprite(_textureBody));
+	_snake.at(1).setOrigin(16, 16);
+	_snake.at(1).setPosition(32 + 16, 16);
+	_snake.at(1).setRotation(_headDirection * 90);
+
+	_snake.push_back(sf::Sprite(_textureTail));
+	_snake.at(2).setOrigin(16, 16);
+	_snake.at(2).setPosition(16, 16);
+	_snake.at(2).setRotation(_headDirection * 90);
 }
 
 Snake::~Snake()
@@ -69,7 +83,6 @@ void Snake::setBannedDirection(Direction direction)
 void Snake::drawSnake(sf::RenderWindow& window)
 {
 	_snake.at(0).setPosition(_headPosition.x, _headPosition.y);
-	_snake.at(0).setOrigin(16, 16);
 	_snake.at(0).setRotation(_headDirection * 90);
 	
 	for (size_t i = 0; i < _snake.size(); i++)
