@@ -1,15 +1,15 @@
 #pragma once
 #include <vector>
-
+#include <SFML/Graphics.hpp>
 #include "const.h"
 #include "Settings.h"
 #include "Snake.h"
 
 enum TileType {
 	air = 0,
-	wall = 1,
+	trap = 1,
 	egg = 2,
-	snake = 3
+	body = 3
 };
 
 
@@ -22,12 +22,21 @@ public:
 
 	void createMap(int x, int y, GameMode mode, Difficulty difficulty);
 	TileType getTileAt(int x, int y);
+	void placeEggs(int eggsToPlace);
+	void renderGrid(sf::RenderWindow* window);
 
-	void placeEggs(int numberOfEggs);
 
-private:
+//private:
+
+	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow* window, sf::Vector2f offsetInAbsolutePixels = {0,0});
+	static const std::string filePaths[4];
+
+	sf::Texture textures[4];
+	sf::Sprite renderers[4];
+
+
 	Snake snake;
-	int width, height;
+	int width, height, numberOfEggs, numberOfTraps;
+	bool hasRandomWalls;
 	std::vector<std::vector<int>> board;
 };
-

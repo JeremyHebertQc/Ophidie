@@ -12,6 +12,8 @@ Projet : Ophidie
 #ifndef WIN32
 #include <cassert>
 #endif
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
 
 void sleepMs(int ms);
 
