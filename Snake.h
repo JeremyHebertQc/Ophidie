@@ -19,9 +19,9 @@ class Snake
 	sf::Texture _textureBody;
 	sf::Texture _textureTail;
 	sf::Texture _textureCurve;
-	sf::Vector2i _headPosition;
 
 	Direction _headDirection;
+	Direction _lastDirection;
 	Direction _bannedDirection;
 
   public:
@@ -35,15 +35,18 @@ class Snake
 	size_t getSnakeSize();
 	Direction getHeadDirection();
 	sf::Vector2i getHeadCoord();
-	sf::Vector2i getHeadPosition();
 	std::vector<sf::Vector2i> getSnakeCoords();
+	sf::Vector2i getDestinationCoord();
 
 	void setHeadDirection(Direction direction);
-	void setHeadPosition(int x, int y);
 	void setBannedDirection(Direction direction);
 
 	void drawSnake(sf::RenderWindow& window);
 
 	void moveForward(bool eggEaten);
-	void eatingEgg();
+	void addNeck();
+	void updateLastDirection();
+	void moveBody();
+	void moveHead();
+	void moveTail();
 };
