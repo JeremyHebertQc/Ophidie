@@ -56,3 +56,6 @@ const std::string BUTTON_SOUND_PATH = "assets/soundEffects/";
 const std::string FONT_PATH = "assets/fonts/PressStart2P.ttf";
 const std::string BUTTON_TEXTURE_PATH = "assets/buttons/";
 const int FONT_SIZE = 20;
+
+// Constantes pour snake.cpp
+const int CONVERT_DEGREE = 90;
