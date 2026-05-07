@@ -25,8 +25,6 @@ Grid::~Grid() {
 	width = height = numberOfTraps = numberOfEggs = 0;
 	hasRandomWalls = false;
 
-	free(textures);
-	free(renderers);
 	board.clear();
 }
 
@@ -66,9 +64,9 @@ sf::Vector2i Grid::getGridOffset() const {
 	sf::Vector2i boardSize = {height * GRID_CELL_SIZE, width * GRID_CELL_SIZE};
 	return {((int)WINDOW_WIDTH - boardSize.x) / 2, ((int)WINDOW_HEIGHT - boardSize.y) / 2};
 }
-void Grid::createMap(int x, int y, GameMode mode, Difficulty difficulty) {
+void Grid::createMap(int x, int heigth, GameMode mode, Difficulty difficulty) {
 	width = x;
-	height = y;
+	height = heigth;
 
 	board.reserve(width);
 	for (std::vector<int>& temp : board) {
@@ -168,11 +166,11 @@ void Grid::createMap(int x, int y, GameMode mode, Difficulty difficulty) {
 		std::cout << std::endl;
 		//std::cin.get();
 }
-TileType Grid::getTileAt(int x, int y) const {
-	return (TileType)board.at(x).at(y);
+TileType Grid::getTileAt(sf::Vector2i coords) const {
+	return (TileType)board.at(coords.x).at(coords.y);
 }
-void Grid::setTileAt(int x, int y, TileType tile) {
-	board.at(x).at(y) = tile;
+void Grid::setTileAt(sf::Vector2i coords, TileType tile) {
+	board.at(coords.x).at(coords.y) = tile;
 }
 sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) const {
 	return sf::Vector2i{cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE} + getGridOffset();

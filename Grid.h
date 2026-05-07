@@ -19,10 +19,11 @@ public:
 	Grid();
 	~Grid();
 
-	void createMap(int x, int y, GameMode mode, Difficulty difficulty);
+	void createMap(int width, int heigth, GameMode mode, Difficulty difficulty);
 
-	TileType getTileAt(int x, int y) const;
-	void setTileAt(int x, int y, TileType tile);
+
+	TileType getTileAt(sf::Vector2i coords) const;
+	void setTileAt(sf::Vector2i coords, TileType tile);
 
 	void placeEggs(int eggsToPlace);
 	void renderGrid(sf::RenderWindow* window) const;
@@ -33,8 +34,8 @@ private:
 	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow* window, sf::Vector2f offsetInAbsolutePixels = {0,0}) const;
 	static const std::string filePaths[4];
 
-	sf::Texture textures[4];
-	sf::Sprite renderers[4];
+	mutable sf::Texture textures[4];
+	mutable sf::Sprite renderers[4];
 
 	int width, height, numberOfEggs, numberOfTraps;
 	bool hasRandomWalls;
