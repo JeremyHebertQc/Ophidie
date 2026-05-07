@@ -198,6 +198,6 @@ void Settings::saveSettings()
     openFile(output, SETTINGS_FILE_NAME, false);
 
     output << std::setw(2) << settings;
-    
+
     closeFile(output);
 }

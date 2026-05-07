@@ -9,18 +9,6 @@ Projet : Ophidie
 
 #include "const.h"
 
-enum Difficulty
-{
-	BABY,
-	EZ,
-	MEDIUM_RARE,
-	MEDIUM,
-	HARD,
-	HARDER,
-	TOO_HARD,
-	HARDCORE
-};
-
 class Settings
 {
 private:
