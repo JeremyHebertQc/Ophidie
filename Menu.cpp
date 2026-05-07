@@ -20,7 +20,7 @@ Menu::~Menu()
 {
 	for (Button* b : _buttons)
 		delete b;
-		
+
 	_buttons.clear();
 	_sprites.clear();
 	_textures.clear();
@@ -125,7 +125,8 @@ void Menu::playMusic(std::string soundFileName)
 
 	_musicSound.setBuffer(_musicBuffer);
 	_musicSound.setLoop(true);
-	_musicSound.setVolume(50); //TODO: Utiliser les settings des paramètres
+	Settings musicSettings;
+	_musicSound.setVolume(musicSettings.getMusic());
 	_musicSound.play();
 }
 
@@ -273,7 +274,7 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 		case closeOphidie:
 			stopMusic();
 			return false;
-			
+
 		case openHTP:
 			loadHowToPlayMenu(window);
 			break;
@@ -281,7 +282,7 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 		case openScoreboard:
 			loadScoreboardMenu(window);
 			break;
-			
+
 		case openSettings:
 			loadSettingsMenu(window);
 			break;
@@ -293,7 +294,7 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 	}
 }
 
-void Menu::loadSettingsMenu(sf::RenderWindow& window) 
+void Menu::loadSettingsMenu(sf::RenderWindow& window)
 {
 	addSprite(1.0f, sf::Vector2f(getCenterPositionX(window), getCenterPositionY(window)), "assets/menu/menuBackground.png");
 

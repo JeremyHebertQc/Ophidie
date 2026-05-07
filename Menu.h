@@ -3,13 +3,8 @@
 #include <vector>
 #include <string>
 #include "Button.h"
-
-const std::string SOUND_PATH = "assets/soundEffects/"; //TODO: Déplacer dans const
-const int TEXT_FONT_SIZE = 12; //TODO: Déplacer dans const
-const int EMPTY = 0; // TODO: Déplacer dans const
-const std::string LOGO_PATH = "assets/menu/logo.png"; // TODO: Déplacer dans const
-const std::string WALLPAPER_PATH = "assets/menu/wallpaper.png"; // TODO: Déplacer dans const
-const std::string MENU_ASSET_PATH = "assets/menu/"; // TODO: Déplacer dans const
+#include "const.h"
+#include "Settings.h"
 
 class Menu
 {

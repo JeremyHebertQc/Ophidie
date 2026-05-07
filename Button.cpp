@@ -5,6 +5,7 @@
 #include "const.h"
 #include "utils.h"
 #include "Button.h"
+#include "Settings.h"
 
 // Private method
 void Button::calculateTextPosition()
@@ -128,7 +129,9 @@ void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soun
 
 	soundEffect.setBuffer(soundEffectBuffer);
 	soundEffect.setLoop(false);
-	soundEffect.setVolume(BUTTON_VOLUME); //TODO: Utiliser les settings des paramètres
+
+	Settings soundSettings;
+	soundEffect.setVolume(soundSettings.getMenu()); //TODO: Utiliser les settings des paramètres
 	soundEffect.play();
 }
 

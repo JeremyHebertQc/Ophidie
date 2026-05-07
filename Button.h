@@ -1,11 +1,5 @@
 #pragma once
 
-const std::string BUTTON_SOUND_PATH = "assets/soundEffects/"; //TODO: Déplacer dans const
-const std::string FONT_PATH = "assets/fonts/PressStart2P.ttf"; //TODO: Déplacer dans const
-const std::string BUTTON_TEXTURE_PATH = "assets/buttons/"; //TODO: Déplacer dans const
-const int FONT_SIZE = 20; //TODO: Déplacer dans const
-const int BUTTON_VOLUME = 25; //DELETE: Retirer post-merge
-
 enum ButtonStyle
 {
 	bigButton,
