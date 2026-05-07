@@ -8,12 +8,23 @@ Projet : Ophidie
 
 #include "utils.h"
 
-const std::string Scoreboard::filePaths[] =
+const std::string Scoreboard::gamemodesPaths[] =
 {
-	SCOREBOARD_FILEPATH + "NORMAL_SCOREBOARD",
-	SCOREBOARD_FILEPATH + "SURVIVAL_SCOREBOARD",
-	SCOREBOARD_FILEPATH + "DEATH_TRAP_SCOREBOARD",
-	SCOREBOARD_FILEPATH + "SURVIVE_HELL_SCOREBOARD"
+	SCOREBOARD_FILEPATH + "NORMAL",
+	SCOREBOARD_FILEPATH + "SURVIVAL",
+	SCOREBOARD_FILEPATH + "DEATH_TRAP",
+	SCOREBOARD_FILEPATH + "SURVIVE_HELL"
+};
+const std::string Scoreboard::difficultyPath[] =
+{
+	"BABY.txt",
+	"EZ.txt",
+	"MEDIUM_RARE.txt",
+	"MEDIUM.txt",
+	"HARD.txt",
+	"HARDER.txt",
+	"TOO_HARD.txt",
+	"HARDCORE.txt"
 };
 
 // Constructeur
@@ -31,65 +42,99 @@ Scoreboard::~Scoreboard()
 void Scoreboard::loadData()
 {
 	std::fstream file;
-	int j = 0;
+	std::string path;
 
-	for (const auto & filePath : filePaths)
+	for (int i = 0; i < 4; i++)
 	{
-		openFile(file, filePath, true);
-		for (int i = 0; i < NUMBER_OF_SCORES; i++)
-		{
-			if (file.eof())
-				break;
-			file >> _scoreboardData[j][i];
+		for (int j = 0; j < 8; j++) {
+
+			path.clear();
+
+			path.append(gamemodesPaths[i]);
+#ifdef WIN32
+path.append("\\");
+#else
+path.append("/");
+#endif
+			path.append(difficultyPath[j]);
+
+			//std::cout << "opened : "<< path << std::endl;
+
+			openFile(file, path, true);
+			for (int k = 0; k < NUMBER_OF_SCORES; k++)
+			{
+				if (file.eof())
+					break;
+				file >> _scoreboardData[i][j][k];
+			}
+			file.close();
 		}
-		j++;
 	}
-	file.close();
 }
 
 void Scoreboard::writeData() const
 {
-	std::fstream file;
-	int j = 0;
+std::fstream file;
+	std::string path;
 
-	for (const auto & filePath : filePaths)
+	for (int i = 0; i < 4; i++)
 	{
-		openFile(file, filePath, false);
-		for (int i = 0; i < NUMBER_OF_SCORES; i++)
-		{
-			file << _scoreboardData[j][i];
+		for (int j = 0; j < 8; j++) {
+
+			path.clear();
+
+			path.append(gamemodesPaths[i]);
+#ifdef WIN32
+path.append("\\");
+#else
+path.append("/");
+#endif
+			path.append(difficultyPath[j]);
+
+			//std::cout << "opened : "<< path << std::endl;
+
+			openFile(file, path, false);
+
+			for (int k = 0; k < NUMBER_OF_SCORES; k++)
+			{
+				file << _scoreboardData[i][j][k];
+			}
+			file.close();
 		}
-		j++;
-		file.close();
 	}
 }
 
 // Gestion du score
-bool Scoreboard::checkScore(float score, GameMode mode) const
+bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) const
 {
 	assert(score >= 0);
 	assert(mode >= 0 || mode < total);
 
-	if (score > _scoreboardData[mode][9]._score)
+	if (score > _scoreboardData[mode][difficulty][9]._score)
 		return true;
 	return false;
 }
 
-void Scoreboard::addScore(float score, std::string name, GameMode mode)
+void Scoreboard::addScore(float score, std::string name, GameMode mode, Difficulty difficulty)
 {
+<<<<<<< felix-game
+	assert(mode >= 0 || mode < GameModeTotal);
+	assert(score >= _scoreboardData[mode][difficulty][9]._score);
+=======
 	assert(mode >= 0 || mode < total);
 	assert(score >= _scoreboardData[mode][9]._score);
+>>>>>>> main
 
 	std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c) { return std::toupper(c); });
 
-	_scoreboardData[mode][9] = {std::move(name), score};
+	_scoreboardData[mode][difficulty][9] = {std::move(name), score};
 
 
 	//bubble sort
 	for (size_t i = 0; i < NUMBER_OF_SCORES - 1; i++)
 		for (size_t j = i + 1; j < NUMBER_OF_SCORES; j++)
-			if (_scoreboardData[mode][i]._score < _scoreboardData[mode][j]._score)
-				std::swap(_scoreboardData[mode][i], _scoreboardData[mode][j]);
+			if (_scoreboardData[mode][difficulty][i]._score < _scoreboardData[mode][difficulty][j]._score)
+				std::swap(_scoreboardData[mode][difficulty][i], _scoreboardData[mode][difficulty][j]);
 }
 
 // Affichage
@@ -98,7 +143,7 @@ void Scoreboard::showMenu()
 	// TODO: showMenu using a menu
 }
 
-void Scoreboard::showScore(GameMode mode)
+void Scoreboard::showScore(GameMode mode, Difficulty difficulty)
 {
 	// TODO: showScore using a menu
 }

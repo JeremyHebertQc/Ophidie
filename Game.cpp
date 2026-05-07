@@ -6,6 +6,28 @@
 // Constructor
 Game::Game()
 {
+<<<<<<< felix-game
+}
+
+Game::~Game()
+{
+}
+
+void Game::loadMainMenu()
+{
+	bool exit = false;
+	while (!exit) {
+		/*
+		 * handle input
+		 * render
+		 * call other util functions
+		 */
+
+	}
+}
+
+
+=======
     _window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
     _window.setActive(true);
     _window.setFramerateLimit(60);
@@ -16,6 +38,7 @@ Game::Game()
 		_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	}
 }
+>>>>>>> main
 
 // Destructor
 Game::~Game()
@@ -34,6 +57,24 @@ void Game::play()
     }
 }
 
+<<<<<<< felix-game
+void Game::loadEndMenu(float score, GameMode mode, Difficulty difficulty)
+{
+	//_scoreboard.showScore(mode);
+	if (_scoreboard.checkScore(score, mode, difficulty)) {
+		if (bool userwantstosave = true) {
+			std::string playerName;
+			std::cin >> playerName;
+			_scoreboard.addScore(score, playerName, mode, difficulty);
+			_scoreboard.writeData();
+			/*
+			 * do fancy menus and stuff
+			 *
+			 */
+		}
+	}
+}
+=======
 //void Game::showEndScreen() {
 //
 //}
@@ -41,3 +82,4 @@ void Game::play()
 //void Game::savePlayerScore(Player player, GameMode mode) {
 //
 //}
+>>>>>>> main
