@@ -1,26 +1,26 @@
 #pragma once
-<<<<<<< felix-game
 #include <map>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-=======
->>>>>>> main
 
-#include <SFML/Graphics.hpp>
+#include "Grid.h"
+#include "Scoreboard.h"
 
 class Game
 {
-private:
-	sf::RenderWindow _window;
-
 public:
-	// Constructor
 	Game();
-
-	// Destructor
 	~Game();
 
-<<<<<<< felix-game
+	void loadMainMenu();
+
+	void playGame(GameMode mode);
+	Action loadPauseMenu();
+
+	void loadSettingsMenu();
+	void loadTutorialMenu();
+	void loadScoreboardMenu();
+
 	void loadEndMenu(float score, GameMode mode, Difficulty difficulty);
 private:
 	Menu _mainMenu;
@@ -29,11 +29,8 @@ private:
 	Menu _tutorialMenu;
 	Scoreboard _scoreboard;
 	Grid _grid;
-=======
-	// Method
-	void play();
-	//void showEndScreen();
-	//void savePlayerScore(Player player, GameMode mode);
->>>>>>> main
 };
+
+
+
 

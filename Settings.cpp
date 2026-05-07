@@ -39,11 +39,6 @@ unsigned int Settings::getMusic() const
     return _volMusic;
 }
 
-int Settings::getMenu() const
-{
-	return _volMenu;
-}
-
 unsigned int Settings::getWidth() const
 {
     return _gridW;
@@ -80,82 +75,74 @@ bool Settings::getDeaf() const
 }
 
 // Setteurs
-void Settings::setSound(const unsigned int volSound)
+void Settings::setSound(unsigned int volSound)
 {
     assert(volSound >= MIN_VOLUME && volSound <= MAX_VOLUME);
 
     _volSound = volSound;
 }
 
-void Settings::setMusic(const unsigned int volMusic)
+void Settings::setMusic(unsigned int volMusic)
 {
     assert(volMusic >= MIN_VOLUME && volMusic <= MAX_VOLUME);
 
     _volMusic = volMusic;
 }
 
-void Settings::setMenuVolume(const unsigned int volMenu)
-{
-	assert(volMenu >= MIN_VOLUME && volMenu <= MAX_VOLUME);
-
-	_volMenu = volMenu;
-}
-
-void Settings::setWidth(const unsigned int gridW)
+void Settings::setWidth(unsigned int gridW)
 {
     assert(gridW >= MIN_GRID_SIZE && gridW <= MAX_GRID_SIZE);
 
     _gridW = gridW;
 }
 
-void Settings::setHeight(const unsigned int gridH)
+void Settings::setHeight(unsigned int gridH)
 {
     assert(gridH >= MIN_GRID_SIZE && gridH <= MAX_GRID_SIZE);
 
     _gridH = gridH;
 }
 
-void Settings::setDifficulty(const Difficulty difficulty)
+void Settings::setDifficulty(Difficulty difficulty)
 {
     assert(difficulty >= BABY && difficulty <= HARDCORE);
 
     _difficulty = difficulty;
 }
 
-void Settings::setMode(const GameMode mode)
+void Settings::setMode(GameMode mode)
 {
     assert(mode >= NORMAL && mode <= SURVIVE_HELL);
 
     _mode = mode;
 }
 
-void Settings::setFullScr(const bool fullScr)
+void Settings::setFullScr(bool fullScr)
 {
     _fullScr = fullScr;
 }
 
-void Settings::setArrow(const bool usingArrow)
+void Settings::setArrow(bool usingArrow)
 {
     _usingArrowKeys = usingArrow;
 }
 
-void Settings::setDeaf(const bool deafMode)
+void Settings::setDeaf(bool deafMode)
 {
     _deafMode = deafMode;
 }
 
 // Setteurs complexes
-void Settings::setGrid(const int gridW, const int gridH)
+void Settings::setGrid(int gridW, int gridH)
 {
     setWidth(gridW);
     setHeight(gridH);
 }
 
-void Settings::setVolume(const int volSound, const int volMusic, const int volMenu)
+void Settings::setVolume(int volSound, int volMusic)
 {
     setSound(volSound);
     setMusic(volMusic);
-	setMenuVolume(volMenu);
 }
 
 // Lecture/Écriture de la BD
@@ -170,11 +157,11 @@ void Settings::readFile()
     setDifficulty(Difficulty(settings["Difficulty"]));
     setMode(GameMode(settings["Mode"]));
     setGrid(settings["Width"], settings["Height"]);
-	setVolume(settings["Sound"], settings["Music"], settings["Menu"]);
+    setVolume(settings["Sound"], settings["Music"]);
     setFullScr(settings["FullScreen"]);
     setArrow(settings["Arrow"]);
     setDeaf(settings["Deaf"]);
-
+    
     closeFile(input);
 }
 
@@ -190,7 +177,6 @@ void Settings::saveSettings()
     settings["Height"] = _gridH;
     settings["Sound"] = _volSound;
     settings["Music"] = _volMusic;
-	settings["Menu"] = _volMenu;
     settings["FullScreen"] = _fullScr;
     settings["Arrow"] = _usingArrowKeys;
     settings["Deaf"] = _deafMode;

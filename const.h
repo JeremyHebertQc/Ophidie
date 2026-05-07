@@ -17,7 +17,7 @@ enum GameMode
 	DEATH_TRAP,
 	SURVIVE_HELL,
 
-	total // Leave last
+	GameModeTotal // Leave last
 };
 enum Difficulty
 {
@@ -33,11 +33,21 @@ enum Difficulty
 	DifficultyTotal
 };
 
+enum Action
+{
+	Resume,
+	Exit,
+	Save,
+	ExitSave,
+
+	ActionTotal // Leave last
+};
+
+
 enum ErrorCode
 {
 	SUCCESS,
-	FILE_NOT_OPENED,
-	NOT_VALID_DIRECTION
+	FILE_NOT_OPENED
 };
 
 // Constantes pour les settings
@@ -55,30 +65,4 @@ constexpr unsigned int
 // Chemins
 const std::string SCOREBOARD_FILEPATH = "data/scoreboards/";
 const std::string SETTINGS_FILE_NAME = "data/settings.json";
-<<<<<<< felix-game
 const std::string IMAGES_FILEPATH = "assets/images/";
-=======
-
-enum Direction
-{
-	UP,
-	RIGHT,
-	DOWN,
-	LEFT
-};
-
-// Constantes pour les menus et boutons
-const std::string SOUND_PATH = "assets/soundEffects/";
-const int TEXT_FONT_SIZE = 12;
-const int EMPTY = 0;
-const std::string LOGO_PATH = "assets/menu/logo.png";
-const std::string WALLPAPER_PATH = "assets/menu/wallpaper.png";
-const std::string MENU_ASSET_PATH = "assets/menu/";
-const std::string BUTTON_SOUND_PATH = "assets/soundEffects/";
-const std::string FONT_PATH = "assets/fonts/PressStart2P.ttf";
-const std::string BUTTON_TEXTURE_PATH = "assets/buttons/";
-const int FONT_SIZE = 20;
-
-// Constantes pour snake.cpp
-const int CONVERT_DEGREE = 90;
->>>>>>> main

@@ -1,12 +1,9 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include "Menu.h"
 #include "Game.h"
 
-// Constructor
+#include <iostream>
+
 Game::Game()
 {
-<<<<<<< felix-game
 }
 
 Game::~Game()
@@ -27,37 +24,23 @@ void Game::loadMainMenu()
 }
 
 
-=======
-    _window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
-    _window.setActive(true);
-    _window.setFramerateLimit(60);
 
-    sf::Image icon;
-	if (icon.loadFromFile("assets/favicon/ophidie.png"))
-	{
-		_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-	}
+Action Game::loadPauseMenu() {
 }
->>>>>>> main
 
-// Destructor
-Game::~Game()
+void Game::loadSettingsMenu()
 {
-    _window.close();
 }
 
-// Method
-void Game::play()
+void Game::loadTutorialMenu()
 {
-    Menu menu(_window);
-    while (_window.isOpen())
-    {
-        if(!menu.loadHomeMenu(_window))
-            _window.close();
-    }
 }
 
-<<<<<<< felix-game
+void Game::loadScoreboardMenu()
+{
+	_scoreboard.showMenu();
+}
+
 void Game::loadEndMenu(float score, GameMode mode, Difficulty difficulty)
 {
 	//_scoreboard.showScore(mode);
@@ -74,12 +57,3 @@ void Game::loadEndMenu(float score, GameMode mode, Difficulty difficulty)
 		}
 	}
 }
-=======
-//void Game::showEndScreen() {
-//
-//}
-//
-//void Game::savePlayerScore(Player player, GameMode mode) {
-//
-//}
->>>>>>> main
