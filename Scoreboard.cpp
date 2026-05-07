@@ -108,7 +108,7 @@ path.append("/");
 bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) const
 {
 	assert(score >= 0);
-	assert(mode >= 0 || mode < GameModeTotal);
+	assert(mode >= 0 || mode < total);
 
 	if (score > _scoreboardData[mode][difficulty][9]._score)
 		return true;
@@ -117,8 +117,13 @@ bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) c
 
 void Scoreboard::addScore(float score, std::string name, GameMode mode, Difficulty difficulty)
 {
+<<<<<<< felix-game
 	assert(mode >= 0 || mode < GameModeTotal);
 	assert(score >= _scoreboardData[mode][difficulty][9]._score);
+=======
+	assert(mode >= 0 || mode < total);
+	assert(score >= _scoreboardData[mode][9]._score);
+>>>>>>> main
 
 	std::transform(name.begin(), name.end(), name.begin(), [](unsigned char c) { return std::toupper(c); });
 

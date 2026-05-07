@@ -1,4 +1,5 @@
 #include "Grid.h"
+<<<<<<< felix-game
 #include <iostream>
 #include "utils.h"
 
@@ -175,3 +176,5 @@ void Grid::setTileAt(sf::Vector2i coords, TileType tile) {
 sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) const {
 	return sf::Vector2i{cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE} + getGridOffset();
 }
+=======
+>>>>>>> main

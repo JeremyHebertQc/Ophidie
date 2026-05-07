@@ -31,6 +31,9 @@
     <Filter Include="Fichiers de ressources\data\scoreboards">
       <UniqueIdentifier>{2c751d79-4e0f-4603-8f5d-2f259cfc982c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Fichiers de ressources\assets\favicon">
+      <UniqueIdentifier>{e7718b70-92c6-46d3-92fd-4fbfcc7818bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -68,7 +71,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="data\save.json">
       <Filter>Fichiers de ressources\data</Filter>
     </None>
@@ -87,6 +89,7 @@
     <None Include="data\scoreboards\SURVIVE_HELL_SCOREBOARD">
       <Filter>Fichiers de ressources\data\scoreboards</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -127,5 +130,15 @@
     <Font Include="assets\fonts\PressStart2P.ttf">
       <Filter>Fichiers de ressources\assets\fonts</Filter>
     </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\soundEffects\button.wav">
+      <Filter>Fichiers de ressources</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="icon.rc">
+      <Filter>Fichiers de ressources\assets\favicon</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

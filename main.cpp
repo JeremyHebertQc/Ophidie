@@ -1,11 +1,10 @@
 /*====================================
-Auteurs : J�r�my H�bert, Vincent Gagnon et F�lix-Antoine Lacroix
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
 
-#include <iostream>
-
 #include "const.h"
+<<<<<<< felix-game
 #include "Grid.h"
 #include "Scoreboard.h"
 
@@ -20,6 +19,13 @@ int main() {
 	Grid myGrid;
 	myGrid.createMap(15,15, (GameMode)2, Difficulty(1));
 	//std::cout << myGrid.getTileAt(2,2) << std::endl;
+=======
+#include "Game.h"
+
+int main() {
+    Game game;
+    game.play();
+>>>>>>> main
 
 	std::cout << system("pwd");
 

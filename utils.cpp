@@ -46,7 +46,7 @@ void isFileOpen(std::fstream& stream)
 {
 	if (!stream)
 	{
-		std::cerr << "Error: file could not be opened"; // TODO: Switch to SFML
+		std::cerr << "Error: file could not be opened"; //TODO: Switch to SFML
 #ifdef WIN32
 		system("pause>NUL");
 #else
