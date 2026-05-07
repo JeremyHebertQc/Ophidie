@@ -160,6 +160,9 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
+    <Media Include="assets\soundEffects\button.wav" />
+  </ItemGroup>
+  <ItemGroup>
     <Font Include="assets\fonts\PressStart2P.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
