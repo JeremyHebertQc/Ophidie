@@ -4,8 +4,6 @@ Projet : Ophidie
 ====================================*/
 
 #include <fstream>
-#include <functional>
-#include <iostream>
 
 #ifdef _WIN32
 #include <cassert>
@@ -56,9 +54,3 @@ void isFileOpen(std::fstream& stream)
 		exit(FILE_NOT_OPENED);
 	}
 }
-
-int getRandIntInRange(int min, int max) {
-	return rand() % (max - min +1) + min;
-}
-
-
