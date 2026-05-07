@@ -1,3 +1,4 @@
+#pragma comment(linker, "/ENTRY:mainCRTStartup")
 /*====================================
 Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
