@@ -6,6 +6,10 @@
 
 const std::string SOUND_PATH = "assets/soundEffects/"; //TODO: Déplacer dans const
 const int TEXT_FONT_SIZE = 12; //TODO: Déplacer dans const
+const int EMPTY = 0; // TODO: Déplacer dans const
+const std::string LOGO_PATH = "assets/menu/logo.png"; // TODO: Déplacer dans const
+const std::string WALLPAPER_PATH = "assets/menu/wallpaper.png"; // TODO: Déplacer dans const
+const std::string MENU_ASSET_PATH = "assets/menu/"; // TODO: Déplacer dans const
 
 class Menu
 {
@@ -38,6 +42,10 @@ public:
 	// Destructor
 	~Menu();
 
+	// Getters
+	float getCenterPositionX(sf::RenderWindow& window) const;
+	float getCenterPositionY(sf::RenderWindow& window) const;
+
 	// Setter
 	void setTextColor(int r, int g, int b, sf::Text& text);
 
@@ -47,12 +55,12 @@ public:
 	int isAction(sf::RenderWindow& window);
 
 	// Music management
-	void playMusic(std::string soundPath);
+	void playMusic(std::string soundFileName);
 	void stopMusic();
 
 	// Vectors management
 	void addButton(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position);
-	void addText(const std::string text, const sf::Vector2f position, const int fontSize, int r, int g, int b);
+	void addText(const int fontSize, const std::string text, const sf::Vector2f position, int r, int g, int b);
 	void addTexture(const std::string texture);
 	void addSprite(const float scale, const sf::Vector2f position, const std::string texture);
 

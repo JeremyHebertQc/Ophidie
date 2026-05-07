@@ -11,7 +11,7 @@ Game::Game()
     _window.setFramerateLimit(60);
 }
 
-// Constructor
+// Destructor
 Game::~Game()
 {
     _window.close();
