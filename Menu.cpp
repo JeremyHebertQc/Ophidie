@@ -85,6 +85,10 @@ int Menu::isAction(sf::RenderWindow& window)
 		case sf::Event::Closed:
 			return closeOphidie;
 
+		case sf::Event::KeyReleased:
+			if (event.key.code == sf::Keyboard::Escape)
+				return closeOphidie;
+
 		case sf::Event::MouseButtonPressed:
 		case sf::Event::MouseButtonReleased:
 			action = isButtonPressed(event, window);
@@ -203,9 +207,10 @@ void Menu::drawSprite(sf::RenderWindow& window, sf::Sprite* sprite)
 void Menu::draw(sf::RenderWindow& window)
 {
 	window.draw(_wallpaper);
+	
 	drawButtons(window);
-	drawTexts(window);
 	drawSprites(window);
+	drawTexts(window);
 }
 
 // Menu initiation
