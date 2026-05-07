@@ -5,7 +5,6 @@ Projet : Ophidie
 
 #pragma once
 #include <string>
-#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
 #include "const.h"
@@ -20,8 +19,9 @@ struct Player
 class Scoreboard
 {
 private:
-	static const std::string filePaths[4];
-	Player _scoreboardData[4][NUMBER_OF_SCORES];
+	static const std::string gamemodesPaths[4];
+	static const std::string difficultyPath[8];
+	Player _scoreboardData[GameModeTotal][DifficultyTotal][NUMBER_OF_SCORES];
 
 public:
 	// Constructeur
@@ -35,12 +35,12 @@ public:
 	void writeData() const;
 
 	// Gestion du score
-	bool checkScore(float score, GameMode mode) const; // Returns true if score is at least in top 10
-	void addScore(float score, std::string name, GameMode mode); // Adds the score to the scoreboards
+	bool checkScore(float score, GameMode mode, Difficulty difficulty) const; // Returns true if score is at least in top 10
+	void addScore(float score, std::string name, GameMode mode, Difficulty difficulty); // Adds the score to the scoreboards
 
 	// Affichage
 	void showMenu(); // Show the menu when selected in main menu
-	void showScore(GameMode mode); // Shows the selected mode
+	void showScore(GameMode mode, Difficulty difficulty); // Shows the selected mode
 };
 
 // Surcharge des opérateurs

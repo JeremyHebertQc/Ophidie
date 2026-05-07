@@ -12,6 +12,8 @@ Projet : Ophidie
 #ifndef WIN32
 #include <cassert>
 #endif
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics.hpp>
 
 void sleepMs(int ms);
 
@@ -19,3 +21,4 @@ void sleepMs(int ms);
 void openFile(std::fstream& stream, const std::string& fileName, bool read);
 void closeFile(std::fstream& stream);
 void isFileOpen(std::fstream& stream);
+int getRandIntInRange(int min, int max);
