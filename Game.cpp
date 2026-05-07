@@ -3,20 +3,21 @@
 #include "Menu.h"
 #include "Game.h"
 
+// Constructor
 Game::Game()
 {
-    // VideoMode mode, const String& title, Uint32 style = Style::Default, const ContextSettings& settings = ContextSettings()
     _window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
     _window.setActive(true);
     _window.setFramerateLimit(60);
 }
 
+// Constructor
 Game::~Game()
 {
     _window.close();
 }
 
-// Methode
+// Method
 void Game::play()
 {
     Menu menu(_window);

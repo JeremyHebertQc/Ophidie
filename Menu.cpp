@@ -6,47 +6,43 @@
 #include "Menu.h"
 #include "Button.h"
 
-// Constructeurs
+// Constructor
 Menu::Menu(sf::RenderWindow& window)
 {
 	_wallpaper.setScale(window.getSize().x, window.getSize().y);
 	_wallpaper.setScale(1.9f, 1.15f);
-	_texture.loadFromFile("assets/menu/menuBackground.png");
-	_wallpaper.setTexture(_texture);
+	addTexture("assets/menu/wallpaper.png");
+	_wallpaper.setTexture(*_textures.back());
 }
 
-// Destructeur
+// Destructor
 Menu::~Menu()
 {
-	// Destruction des boutons
 	for (Button* b : _buttons)
 		delete b;
 		
 	_buttons.clear();
-
+	_sprites.clear();
+	_textures.clear();
 	_texts.clear();
 }
 
-// Getters
-std::vector<Button*> Menu::getButtons()
+// Setter
+void Menu::setTextColor(int r, int g, int b, sf::Text& text)
 {
-	return _buttons;
+	assert((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255));
+
+	_textColor.r = r;
+	_textColor.g = g;
+	_textColor.b = b;
+
+	text.setFillColor(_textColor);
 }
 
-std::vector<sf::Text> Menu::getTexts()
-{
-	return _texts;
-}
-
-// Méthodes
-void Menu::addButton(const unsigned int buttonID, const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
-{
-	_buttons.push_back(new Button(buttonID, action, text, buttonStyle, scale, position));
-}
-
+// Event management
 int Menu::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 {
-	if(_buttons.size() > 0)
+	if (_buttons.size() > 0)
 		for (int i = 0; i < _buttons.size(); i++)
 		{
 			if (_buttons[i]->isButtonPressed(event, window) != -1)
@@ -61,41 +57,6 @@ void Menu::isButtonHover(sf::Event event, sf::RenderWindow& window)
 	if (_buttons.size() > 0)
 		for (int i = 0; i < _buttons.size(); i++)
 			_buttons[i]->isButtonHover(event, window);
-}
-
-void Menu::drawButtons(sf::RenderWindow& window)
-{
-	
-	for (int i = 0; i < _buttons.size(); i++)
-	{
-		_buttons[i]->draw(window);
-	}
-}
-
-void Menu::drawTexts(sf::RenderWindow& window)
-{
-	for (int i = 0; i < _texts.size(); i++)
-	{
-		drawText(window, _texts.at(i));
-	}
-}
-
-void Menu::drawSprites(sf::RenderWindow& window)
-{
-	for (int i = 0; i < _sprites.size(); i++)
-	{
-		drawSprite(window, _sprites.at(i));
-	}
-}
-
-void Menu::drawText(sf::RenderWindow& window, sf::Text text)
-{
-	window.draw(text);
-}
-
-void Menu::drawSprite(sf::RenderWindow& window, sf::Sprite* sprite)
-{
-	window.draw(*sprite);
 }
 
 int Menu::isAction(sf::RenderWindow& window)
@@ -138,28 +99,147 @@ int Menu::isAction(sf::RenderWindow& window)
 	return -1;
 }
 
-bool Menu::initHomMenu(sf::RenderWindow& window)
+// Music management
+void Menu::playMusic(std::string soundPath)
+{
+	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundPath))
+	{
+		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
+		return;
+	}
+
+	_musicSound.setBuffer(_musicBuffer);
+	_musicSound.setLoop(true);
+	_musicSound.setVolume(50); //TODO: Utiliser les settings des paramètres
+	_musicSound.play();
+}
+
+void Menu::stopMusic()
+{
+	_musicSound.stop();
+}
+
+// Vectors management
+void Menu::addButton(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
+{
+	_buttons.push_back(new Button(action, text, buttonStyle, scale, position));
+}
+
+void Menu::addText(const std::string text, const sf::Vector2f position, const int fontSize, int r, int g, int b)
+{
+	if (!_font.loadFromFile(FONT_PATH))
+		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
+
+	_texts.push_back(sf::Text(text, _font, fontSize));
+
+	_texts.back().setStyle(sf::Text::Regular);
+	setTextColor(r, g, b, _texts.back());
+	_texts.back().setPosition(position);
+}
+
+void Menu::addTexture(const std::string texture)
+{
+	_texture.loadFromFile(texture);
+	_textures.push_back(new sf::Texture(_texture));
+}
+
+void Menu::addSprite(const float scale, const sf::Vector2f position, const std::string texture)
+{
+	addTexture(texture);
+	_sprites.push_back(new sf::Sprite(*_textures.back()));
+
+	_sprites.back()->setScale(sf::Vector2f(scale, scale));
+	_sprites.back()->setOrigin(_textures.back()->getSize().x / 2.f, _textures.back()->getSize().y / 2.f);
+	_sprites.back()->setPosition(position);
+}
+
+// Drawing management
+void Menu::drawButtons(sf::RenderWindow& window)
+{
+
+	for (int i = 0; i < _buttons.size(); i++)
+	{
+		_buttons[i]->draw(window);
+	}
+}
+
+void Menu::drawTexts(sf::RenderWindow& window)
+{
+	for (int i = 0; i < _texts.size(); i++)
+	{
+		drawText(window, _texts.at(i));
+	}
+}
+
+void Menu::drawText(sf::RenderWindow& window, sf::Text text)
+{
+	window.draw(text);
+}
+
+void Menu::drawSprites(sf::RenderWindow& window)
+{
+	for (int i = 0; i < _sprites.size(); i++)
+	{
+		drawSprite(window, _sprites.at(i));
+	}
+}
+
+void Menu::drawSprite(sf::RenderWindow& window, sf::Sprite* sprite)
+{
+	window.draw(*sprite);
+}
+
+void Menu::draw(sf::RenderWindow& window)
+{
+	window.draw(_wallpaper);
+	drawButtons(window);
+	drawTexts(window);
+	drawSprites(window);
+}
+
+// Menu initiation
+void Menu::initHomeMenu(sf::RenderWindow& window)
+{
+	float centerPositionX = window.getSize().x / 2.0f;
+	//addSprite(1.0f, sf::Vector2f(centerPositionX, window.getSize().y / 2.0f), "assets/menu/wallpaper.png");
+	addButton(startGame, "Play", bigButton, 0.5f, sf::Vector2f(centerPositionX, 300.0f));
+	addButton(openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(centerPositionX, 450.0f));
+	addButton(openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(centerPositionX, 600.0f));
+	addButton(openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(centerPositionX - 130.0f, 750.0f));
+	addButton(closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(centerPositionX + 130.0f, 750.0f));
+	addText("Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix", sf::Vector2f(25.0f, window.getSize().y - 50.0f), 12, 61, 24, 79);
+	addSprite(1.f, sf::Vector2f(centerPositionX, 100.0f), "assets/menu/logo.png");
+}
+
+void Menu::initSettingsMenu(sf::RenderWindow& window)
+{
+	//TODO: Build it
+}
+
+void Menu::initHowToPlayMenu(sf::RenderWindow& window)
+{
+	//TODO: Build it
+}
+
+void Menu::initStartMenu(sf::RenderWindow& window)
+{
+	//TODO: Build it
+}
+
+void Menu::initScoreboardMenu(sf::RenderWindow& window)
+{
+	//TODO: Build it
+}
+
+// Menu loading
+bool Menu::loadHomeMenu(sf::RenderWindow& window)
 {
 	static bool isCreated = false;
 	if (isCreated == false)
 	{
-		float centerPositionX = window.getSize().x / 2.0f;
-		addButton(0, startGame, "Play", bigButton, 0.5f, sf::Vector2f(centerPositionX, 300.0f));
-		addButton(1, openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(centerPositionX, 450.0f));
-		addButton(2, openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(centerPositionX, 600.0f));
-		addButton(3, openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(centerPositionX - 130.0f, 750.0f));
-		addButton(4, closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(centerPositionX + 130.0f, 750.0f));
-		addText("Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix", sf::Vector2f(25.0f, window.getSize().y - 50.0f), 12, 61, 24, 79);
-		addSprite(0.5f, sf::Vector2f(centerPositionX, 100.0f), "assets/menu/menuBackground.png");
+		initHomeMenu(window);
 		isCreated = true;
 	}
-	return 1;
-}
-
-bool Menu::loadHomeMenu(sf::RenderWindow& window)
-{
-	if (!initHomMenu(window))
-		exit(1); //TODO: Add error code
 
 	playMusic("menuMusic.wav");
 
@@ -199,122 +279,47 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 	}
 }
 
-void Menu::loadSettingsMenu(sf::RenderWindow& window) //TODO: Build it
+void Menu::loadSettingsMenu(sf::RenderWindow& window) 
 {
-	printf("Settings Menu");
+	//TODO: Build it
 }
 
-void Menu::loadScoreboardMenu(sf::RenderWindow& window) //TODO: Build it
+void Menu::loadHowToPlayMenu(sf::RenderWindow& window)
 {
-	printf("Scoreboard Menu");
+	//TODO: Build it
 }
 
-void Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType) //TODO: Build it
+void Menu::loadStartMenu(sf::RenderWindow& window)
+{
+	//TODO: Build it
+}
+
+void Menu::loadScoreboardMenu(sf::RenderWindow& window)
+{
+	//TODO: Build it
+}
+
+void Menu::loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType)
 {
 	switch (scoreboardType)
 	{
 	case goToNormalSCR:
-		printf("Normal SCR");
+		//TODO: Build it
 		break;
 
 	case goToSurvivalSCR:
-		printf("Survival SCR");
+		//TODO: Build it
 		break;
 
 	case goToDeathTrapSCR:
-		printf("Death Trap SCR");
+		//TODO: Build it
 		break;
 
 	case goToSurviveHellSCR:
-		printf("Survive Hell SCR");
+		//TODO: Build it
 		break;
 
 	default:
 		break;
 	}
-}
-
-void Menu::loadHowToPlayMenu(sf::RenderWindow& window) //TODO: Build it
-{
-	printf("How to play");
-}
-
-void Menu::loadStartMenu(sf::RenderWindow& window) //TODO: Build it
-{
-	printf("Start menu. Choose somes options");
-}
-
-void Menu::playMusic(std::string soundPath)
-{
-	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundPath))
-	{
-		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
-		return;
-	}
-
-	_musicSound.setBuffer(_musicBuffer);
-	_musicSound.setLoop(true);
-	_musicSound.play();
-}
-
-void Menu::stopMusic()
-{
-	_musicSound.stop();
-}
-
-void Menu::addText(const std::string text, const sf::Vector2f position, const int fontSize, int r, int g, int b)
-{
-	if (!_font.loadFromFile(FONT_PATH))
-		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
-
-	_texts.push_back(sf::Text(text, _font, fontSize));
-
-	_texts.back().setStyle(sf::Text::Regular);
-	setTextColor(r, g, b, _texts.back());
-	_texts.back().setPosition(position);
-}
-
-void Menu::addSprite(const float scale, const sf::Vector2f position, const std::string texture)
-{
-	_sprites.push_back(new sf::Sprite(_sprite));
-
-	_texture.loadFromFile(texture);
-	_sprites.back()->setScale(sf::Vector2f(scale, scale));
-	_sprites.back()->setOrigin(_texture.getSize().x / 2.f, _texture.getSize().y / 2.f);
-	_sprites.back()->setPosition(position);
-}
-
-void Menu::setPosition(sf::Vector2f position)
-{
-	_position = position;
-}
-
-void Menu::setText(const sf::Text& text)
-{
-	_text = text;
-}
-
-void Menu::setTextColor(int r, int g, int b, sf::Text& text)
-{
-	assert((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255));
-
-	_textColor.r = r;
-	_textColor.g = g;
-	_textColor.b = b;
-
-	text.setFillColor(_textColor);
-}
-
-void Menu::setScale(sf::Vector2f scale)
-{
-	_scale = scale;
-}
-
-
-void Menu::draw(sf::RenderWindow& window)
-{
-	window.draw(_wallpaper);
-	drawButtons(window);
-	drawTexts(window);
-	drawSprites(window);
 }

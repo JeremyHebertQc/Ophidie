@@ -8,13 +8,13 @@ private:
 	sf::RenderWindow _window;
 
 public:
-	// Constructeur
+	// Constructor
 	Game();
 
-	// Destructeur
+	// Destructor
 	~Game();
 
-	// Méthodes
+	// Method
 	void play();
 };
 
