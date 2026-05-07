@@ -19,6 +19,19 @@ enum GameMode
 
 	GameModeTotal // Leave last
 };
+enum Difficulty
+{
+	BABY,
+	EZ,
+	MEDIUM_RARE,
+	MEDIUM,
+	HARD,
+	HARDER,
+	TOO_HARD,
+	HARDCORE,
+
+	DifficultyTotal
+};
 
 enum Action
 {

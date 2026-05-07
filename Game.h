@@ -21,7 +21,7 @@ public:
 	void loadTutorialMenu();
 	void loadScoreboardMenu();
 
-	void loadEndMenu(float score, GameMode mode);
+	void loadEndMenu(float score, GameMode mode, Difficulty difficulty);
 private:
 	Menu _mainMenu;
 	Menu _pauseMenu;

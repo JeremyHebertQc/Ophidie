@@ -23,22 +23,7 @@ void Game::loadMainMenu()
 	}
 }
 
-void Game::playGame(GameMode mode)
-{
-	bool notDead = true;
-	float score = 0;
-	while (notDead) {
-		/*
-		 * grid.play(); or smth
-		 * handle the game loop here
-		 *
-		 */
 
-		score += mode; // insane score scalling by difficulty
-
-	}
-	loadEndMenu(score, mode);
-}
 
 Action Game::loadPauseMenu() {
 }
@@ -56,14 +41,14 @@ void Game::loadScoreboardMenu()
 	_scoreboard.showMenu();
 }
 
-void Game::loadEndMenu(float score, GameMode mode)
+void Game::loadEndMenu(float score, GameMode mode, Difficulty difficulty)
 {
-	_scoreboard.showScore(mode);
-	if (_scoreboard.checkScore(score, mode)) {
+	//_scoreboard.showScore(mode);
+	if (_scoreboard.checkScore(score, mode, difficulty)) {
 		if (bool userwantstosave = true) {
 			std::string playerName;
 			std::cin >> playerName;
-			_scoreboard.addScore(score, playerName, mode);
+			_scoreboard.addScore(score, playerName, mode, difficulty);
 			_scoreboard.writeData();
 			/*
 			 * do fancy menus and stuff
