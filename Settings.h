@@ -9,7 +9,17 @@ Projet : Ophidie
 
 #include "const.h"
 
-
+enum Difficulty
+{
+	BABY,
+	EZ,
+	MEDIUM_RARE,
+	MEDIUM,
+	HARD,
+	HARDER,
+	TOO_HARD,
+	HARDCORE
+};
 
 class Settings
 {
@@ -63,7 +73,7 @@ public:
 	void setGrid(const int gridW, const int gridH);
 	void setVolume(const int volSound, const int volMusic, const int volMenu);
 
-	// Lecture/ï¿½criture de la BD
+	// Lecture/Écriture de la BD
 	void readFile();
 	void saveSettings();
 };
