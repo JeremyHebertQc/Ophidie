@@ -4,6 +4,7 @@ Projet : Ophidie
 ====================================*/
 
 #include "Game.h"
+#include "const.h"
 
 int main() {
     Game game;

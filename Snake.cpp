@@ -137,7 +137,7 @@ void Snake::moveForward(bool eggEaten)
 			printf("ERROR EXEPTION NOT ADLED");
 			system("pause>NUL");
 			exit(NOT_VALID_DIRECTION);
-			// TODO mettre en sfml
+			//TODO: mettre en sfml
 		}
 	}
 	else
@@ -180,7 +180,7 @@ void Snake::moveForward(bool eggEaten)
 			printf("ERROR EXEPTION NOT ADLED");
 			system("pause>NUL");
 			exit(NOT_VALID_DIRECTION);
-			// TODO mettre en sfml
+			//TODO: mettre en sfml
 		}
 	}
 }
@@ -193,4 +193,4 @@ void Snake::eatingEgg()
 	_snake.at(1).setRotation(_headDirection * 90);
 }
 
-// TODO: movement & update head position, getdestinationcoord
+//TODO: movement & update head position, getdestinationcoord

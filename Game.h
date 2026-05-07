@@ -16,7 +16,7 @@ public:
 
 	// Method
 	void play();
-	void showEndScreen();
-	void savePlayerScore(Player player, GameMode mode);
+	//void showEndScreen();
+	//void savePlayerScore(Player player, GameMode mode);
 };
 

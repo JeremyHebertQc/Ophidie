@@ -28,10 +28,10 @@ void Game::play()
     }
 }
 
-void Game::showEndScreen() {
-
-}
-
-void Game::savePlayerScore(Player player, GameMode mode) {
-
-}
+//void Game::showEndScreen() {
+//
+//}
+//
+//void Game::savePlayerScore(Player player, GameMode mode) {
+//
+//}
