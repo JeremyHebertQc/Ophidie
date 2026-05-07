@@ -4,6 +4,8 @@ Projet : Ophidie
 ====================================*/
 
 #include <fstream>
+#include <functional>
+#include <iostream>
 
 #ifdef _WIN32
 #include <cassert>
@@ -13,8 +15,8 @@ Projet : Ophidie
 #include <unistd.h>
 #endif
 
-#include "utils.h"
 #include "const.h"
+#include "utils.h"
 
 void sleepMs(int ms)
 {
@@ -26,7 +28,7 @@ void sleepMs(int ms)
 }
 
 // Gestion des fichiers
-void openFile(std::fstream &stream, const std::string &fileName, bool read)
+void openFile(std::fstream& stream, const std::string& fileName, bool read)
 {
 	if (read)
 		stream.open(fileName, std::ios::in);
@@ -35,7 +37,7 @@ void openFile(std::fstream &stream, const std::string &fileName, bool read)
 	isFileOpen(stream);
 }
 
-void closeFile(std::fstream &stream)
+void closeFile(std::fstream& stream)
 {
 	stream.close();
 }
@@ -44,7 +46,7 @@ void isFileOpen(std::fstream& stream)
 {
 	if (!stream)
 	{
-		std::cerr << "Error: file could not be opened"; //TODO: Switch to SFML
+		std::cerr << "Error: file could not be opened"; // TODO: Switch to SFML
 #ifdef WIN32
 		system("pause>NUL");
 #else
@@ -53,4 +55,9 @@ void isFileOpen(std::fstream& stream)
 
 		exit(FILE_NOT_OPENED);
 	}
+}
+
+int getRandIntInRange(int min, int max)
+{
+	return rand() % (max - min + 1) + min;
 }

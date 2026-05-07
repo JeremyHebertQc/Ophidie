@@ -19,3 +19,4 @@ void sleepMs(int ms);
 void openFile(std::fstream& stream, const std::string& fileName, bool read);
 void closeFile(std::fstream& stream);
 void isFileOpen(std::fstream& stream);
+int getRandIntInRange(int min, int max);
