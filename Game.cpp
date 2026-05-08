@@ -43,7 +43,7 @@ void Game::play()
 bool Game::startGame()
 {
 	Grid map;
-	map.createMap(10, 10, SURVIVAL, BABY);
+	map.createMap(_settings.getWidth(), _settings.getHeight(), _settings.getMode(), _settings.getDifficulty());
 
     sf::Clock moveCooldown;
 
