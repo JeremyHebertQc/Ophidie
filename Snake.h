@@ -25,7 +25,8 @@ class Snake
 	Direction _bannedDirection;
 
   public:
-	Snake();
+	Snake() = delete;
+	Snake(sf::Vector2i offset);
 
 	~Snake();
 

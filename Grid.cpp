@@ -16,7 +16,7 @@ Grid::Grid()
 	width = height = numberOfTraps = numberOfEggs = 0;
 	hasRandomWalls = false;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		if (!textures[i].loadFromFile(filePaths[i]))
 			exit(1);

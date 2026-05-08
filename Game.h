@@ -18,5 +18,6 @@ public:
 	void play();
 	//void showEndScreen();
 	//void savePlayerScore(Player player, GameMode mode);
+	bool startGame();
 };
 

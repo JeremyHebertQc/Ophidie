@@ -3,7 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
 
-Snake::Snake()
+Snake::Snake(sf::Vector2i offset)
 {
 	_textureHead.loadFromFile("assets/images/snake_head.png");
 	_textureBody.loadFromFile("assets/images/snake_body.png");
@@ -12,19 +12,19 @@ Snake::Snake()
 
 	_snake.push_back(sf::Sprite(_textureHead));
 	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(_snake.back().getTexture()->getSize().x * 2 + _snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
+	_snake.back().setPosition(offset.x + _snake.back().getTexture()->getSize().x * 2 + _snake.back().getTexture()->getSize().x / 2, offset.y + _snake.back().getTexture()->getSize().y / 2);
 	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
 
 	setHeadDirection(RIGHT);
 
 	_snake.push_back(sf::Sprite(_textureBody));
 	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(_snake.back().getTexture()->getSize().x + _snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
+	_snake.back().setPosition(offset.x + _snake.back().getTexture()->getSize().x + _snake.back().getTexture()->getSize().x / 2, offset.y + _snake.back().getTexture()->getSize().y / 2);
 	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
 
 	_snake.push_back(sf::Sprite(_textureTail));
 	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
+	_snake.back().setPosition(offset.x + _snake.back().getTexture()->getSize().x / 2, offset.y + _snake.back().getTexture()->getSize().y / 2);
 	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
 
 	setBannedDirection(LEFT);
