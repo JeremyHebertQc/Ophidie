@@ -34,9 +34,9 @@ public:
 	~Settings();
 
 	// Getteurs
-	unsigned int getSound() const;
-	unsigned int getMusic() const;
-	int getMenu() const;
+	float getSound() const;
+	float getMusic() const;
+	float getMenu() const;
 	unsigned int getWidth() const;
 	unsigned int getHeight() const;
 	Difficulty getDifficulty() const;
@@ -46,9 +46,9 @@ public:
 	bool getDeaf() const;
 
 	// Setteurs
-	void setSound(const unsigned int volSound);
-	void setMusic(const unsigned int volMusic);
-	void setMenuVolume(const unsigned int volMenu);
+	void setSound(const float volSound);
+	void setMusic(const float volMusic);
+	void setMenuVolume(const float volMenu);
 	void setWidth(const unsigned int gridW);
 	void setHeight(const unsigned int gridH);
 	void setDifficulty(const Difficulty difficulty);
@@ -59,7 +59,7 @@ public:
 
 	// Setteurs complexes
 	void setGrid(const int gridW, const int gridH);
-	void setVolume(const int volSound, const int volMusic, const int volMenu);
+	void setVolume(const float volSound, const float volMusic, const float volMenu);
 
 	// Lecture/Écriture de la BD
 	void readFile();

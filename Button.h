@@ -1,31 +1,5 @@
 #pragma once
 
-enum ButtonStyle
-{
-	bigButton,
-	mediumButton,
-	littleButton,
-	yesButton,
-	noButton,
-
-	nbStyle // Number of style
-};
-
-enum ButtonAction
-{
-	startGame,
-	closeOphidie,
-	openSettings,
-	openHTP,
-	openScoreboard,
-	goToNormalSCR,
-	goToSurvivalSCR,
-	goToDeathTrapSCR,
-	goToSurviveHellSCR,
-
-	nbAction // Number of action
-};
-
 class Button
 {
 private:
