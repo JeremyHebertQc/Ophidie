@@ -5,6 +5,7 @@ Projet : Ophidie
 
 #pragma once
 #include <string>
+#include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
 #include "const.h"
