@@ -24,6 +24,7 @@ class Grid
 
 	TileType getTileAt(sf::Vector2i coords) const;
 	void setTileAt(sf::Vector2i coords, TileType tile);
+	void updateSnakePosition(std::vector<sf::Vector2i> bodyParts);
 
 	void placeEggs(int eggsToPlace);
 	void renderGrid(sf::RenderWindow *window) const;
