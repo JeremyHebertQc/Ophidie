@@ -97,7 +97,6 @@ bool Game::startGame()
 					if (!_settings.getArrow())
 						snake.setHeadDirection(DOWN);
 					break;
-
 				case sf::Keyboard::Space: // REMOVE BEFORE HANDING IN
 					if (eat)
 						eat = false;
