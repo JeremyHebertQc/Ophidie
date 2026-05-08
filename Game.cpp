@@ -29,7 +29,6 @@ Game::~Game()
 void Game::play()
 {
     Menu menu(_window);
-	Settings settings;
 
     while (_window.isOpen())
     {
@@ -66,7 +65,6 @@ bool Game::startGame()
 			case sf::Event::KeyReleased:
 				switch (event.key.code)
 				{
-
 				case sf::Keyboard::Left:
 					if (_settings.getArrow())
 						snake.setHeadDirection(LEFT);
@@ -106,7 +104,7 @@ bool Game::startGame()
 					else
 						eat = true;
 					break;
-				case sf::Keyboard::Delete: // quitout midgame
+				case sf::Keyboard::Delete: //  quitout midgame
 					snake.setLiving(false);
 					break;
 				}
@@ -118,7 +116,7 @@ bool Game::startGame()
 		{
 			moveCooldown.restart();
 			
-			if (map.getTileAt(snake.getDestinationCoord()) == 2)
+			if (map.getTileAt(snake.getDestinationCoord()) == trap)
 				snake.setLiving(false);
 
 			snake.moveForward(eat);

@@ -16,7 +16,10 @@ private:
 		_volMusic,
 		_volMenu,
 		_gridW,
-		_gridH;
+		_gridH,
+		_savedSound,
+		_savedMusic,
+		_savedMenu;
 
 	Difficulty _difficulty;
 	
@@ -60,6 +63,7 @@ public:
 	// Setteurs complexes
 	void setGrid(const int gridW, const int gridH);
 	void setVolume(const int volSound, const int volMusic, const int volMenu);
+	void saveVolume(const int volSound, const int volMusic, const int volMenu);
 
 	// Lecture/Écriture de la BD
 	void readFile();
