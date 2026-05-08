@@ -58,46 +58,68 @@ bool Game::startGame()
 		sf::Event event;
 		while (_window.pollEvent(event))
 		{
-			if (event.type == sf::Event::Closed)
-				_window.close();
-			else if (event.type == sf::Event::KeyReleased)
+			switch (event.type)
 			{
+			case sf::Event::Closed:
+				_window.close();
+			case sf::Event::KeyPressed:
+			case sf::Event::KeyReleased:
 				switch (event.key.code)
 				{
+
+				case sf::Keyboard::Left:
+					if (_settings.getArrow())
+						snake.setHeadDirection(LEFT);
+					break;
 				case sf::Keyboard::A:
-					snake.setHeadDirection(LEFT);
+					if (!_settings.getArrow())
+						snake.setHeadDirection(LEFT);
+					break;
+				case sf::Keyboard::Right:
+					if (_settings.getArrow())
+						snake.setHeadDirection(RIGHT);
 					break;
 				case sf::Keyboard::D:
-					snake.setHeadDirection(RIGHT);
+					if (!_settings.getArrow())
+						snake.setHeadDirection(RIGHT);
+					break;
+				case sf::Keyboard::Up:
+					if (_settings.getArrow())
+						snake.setHeadDirection(UP);
 					break;
 				case sf::Keyboard::W:
-					snake.setHeadDirection(UP);
+					if (!_settings.getArrow())
+						snake.setHeadDirection(UP);
+					break;
+				case sf::Keyboard::Down:
+					if (_settings.getArrow())
+						snake.setHeadDirection(DOWN);
 					break;
 				case sf::Keyboard::S:
-					snake.setHeadDirection(DOWN);
+					if (!_settings.getArrow())
+						snake.setHeadDirection(DOWN);
 					break;
-				case sf::Keyboard::Space:
+
+				case sf::Keyboard::Space: // REMOVE BEFORE HANDING IN
 					if (eat)
 						eat = false;
 					else
 						eat = true;
 					break;
-				case sf::Keyboard::Enter:
-					if (chain)
-						chain = false;
-					else
-						chain = true;
+				case sf::Keyboard::Delete: // quitout midgame
+					snake.setLiving(false);
 					break;
 				}
+				break;
 			}
 		}
 
 		if (moveCooldown.getElapsedTime().asMilliseconds() > 250)
 		{
+			moveCooldown.restart();
 			
 			if (map.getTileAt(snake.getDestinationCoord()) == 2)
 				snake.setLiving(false);
-			moveCooldown.restart();
 
 			snake.moveForward(eat);
 		}
