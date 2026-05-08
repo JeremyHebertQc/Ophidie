@@ -35,7 +35,8 @@ void Game::play()
     {
         if(!menu.loadHomeMenu(_window))
             _window.close();
-		startGame();
+		else
+			startGame();
     }
 }
 
@@ -52,7 +53,7 @@ bool Game::startGame()
 	bool chain = true;
 
 	
-	while (_window.isOpen()) //TODO: modify snack to have isAlive
+	while (snake.isLiving())
 	{
 		sf::Event event;
 		while (_window.pollEvent(event))
@@ -93,9 +94,9 @@ bool Game::startGame()
 
 		if (moveCooldown.getElapsedTime().asMilliseconds() > 250)
 		{
-			if (chain)
-				if (snake.getDestinationCoord() == sf::Vector2i(13, 6) || snake.getDestinationCoord() == sf::Vector2i(12, -1) || snake.getDestinationCoord() == sf::Vector2i(5, 0) || snake.getDestinationCoord() == sf::Vector2i(6, 7))
-					snake.setHeadDirection(Direction(snake.getHeadDirection() - 1));
+			
+			if (map.getTileAt(snake.getDestinationCoord()) == 2)
+				snake.setLiving(false);
 			moveCooldown.restart();
 
 			snake.moveForward(eat);

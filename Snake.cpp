@@ -10,23 +10,26 @@ Snake::Snake(sf::Vector2i offset)
 	_textureCurve.loadFromFile("assets/images/body_curve.png");
 	_textureTail.loadFromFile("assets/images/snake_tail.png");
 
+	setOffset(offset);
+
 	_snake.push_back(sf::Sprite(_textureHead));
 	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(offset.x + _snake.back().getTexture()->getSize().x * 2 + _snake.back().getTexture()->getSize().x / 2, offset.y + _snake.back().getTexture()->getSize().y / 2);
+	_snake.back().setPosition(_offset.x + _snake.back().getTexture()->getSize().x * 2 + _snake.back().getTexture()->getSize().x / 2, _offset.y + _snake.back().getTexture()->getSize().y / 2);
 	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
 
 	setHeadDirection(RIGHT);
 
 	_snake.push_back(sf::Sprite(_textureBody));
 	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(offset.x + _snake.back().getTexture()->getSize().x + _snake.back().getTexture()->getSize().x / 2, offset.y + _snake.back().getTexture()->getSize().y / 2);
+	_snake.back().setPosition(_offset.x + _snake.back().getTexture()->getSize().x + _snake.back().getTexture()->getSize().x / 2, _offset.y + _snake.back().getTexture()->getSize().y / 2);
 	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
 
 	_snake.push_back(sf::Sprite(_textureTail));
 	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(offset.x + _snake.back().getTexture()->getSize().x / 2, offset.y + _snake.back().getTexture()->getSize().y / 2);
+	_snake.back().setPosition(_offset.x + _snake.back().getTexture()->getSize().x / 2, _offset.y + _snake.back().getTexture()->getSize().y / 2);
 	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
 
+	setLiving(true);
 	setBannedDirection(LEFT);
 	updateLastDirection();
 }
@@ -39,12 +42,12 @@ Snake::~Snake()
 
 int Snake::getHeadCoordX()
 {
-	return (_snake.front().getPosition().x - _snake.front().getTexture()->getSize().x / 2) / _snake.front().getTexture()->getSize().x;
+	return (_snake.front().getPosition().x - _snake.front().getTexture()->getSize().x / 2 - _offset.x) / _snake.front().getTexture()->getSize().x;
 }
 
 int Snake::getHeadCoordY()
 {
-	return (_snake.front().getPosition().y - _snake.front().getTexture()->getSize().y / 2) / _snake.front().getTexture()->getSize().y;
+	return (_snake.front().getPosition().y - _snake.front().getTexture()->getSize().y / 2 - _offset.y) / _snake.front().getTexture()->getSize().y;
 }
 
 Direction Snake::getBannedDirection()
@@ -64,7 +67,7 @@ Direction Snake::getHeadDirection()
 
 sf::Vector2i Snake::getHeadCoord()
 {
-	return sf::Vector2i((_snake.front().getPosition().x - _snake.front().getTexture()->getSize().x / 2) / _snake.front().getTexture()->getSize().x, (_snake.front().getPosition().y - _snake.front().getTexture()->getSize().y / 2) / _snake.front().getTexture()->getSize().y);
+	return sf::Vector2i((_snake.front().getPosition().x - _snake.front().getTexture()->getSize().x / 2 - _offset.x) / _snake.front().getTexture()->getSize().x, (_snake.front().getPosition().y - _snake.front().getTexture()->getSize().y / 2 - _offset.y) / _snake.front().getTexture()->getSize().y);
 }
 
 std::vector<sf::Vector2i> Snake::getSnakeCoords()
@@ -72,7 +75,7 @@ std::vector<sf::Vector2i> Snake::getSnakeCoords()
 	std::vector<sf::Vector2i> liste;
 
 	for (size_t i = 0; i < _snake.size(); i++)
-		liste.push_back(sf::Vector2i((_snake.at(i).getPosition().x - _snake.at(i).getTexture()->getSize().x / 2) / _snake.at(i).getTexture()->getSize().x, (_snake.at(i).getPosition().y - _snake.at(i).getTexture()->getSize().y / 2) / _snake.at(i).getTexture()->getSize().y));
+		liste.push_back(sf::Vector2i((_snake.at(i).getPosition().x - _snake.at(i).getTexture()->getSize().x / 2 - _offset.x) / _snake.at(i).getTexture()->getSize().x, (_snake.at(i).getPosition().y - _snake.at(i).getTexture()->getSize().y / 2 - _offset.y) / _snake.at(i).getTexture()->getSize().y));
 
 	return liste;
 }
@@ -101,6 +104,11 @@ sf::Vector2i Snake::getDestinationCoord()
 
 }
 
+bool Snake::isLiving() const
+{
+	return _isAlive;
+}
+
 void Snake::setHeadDirection(Direction direction)
 {
 	assert(direction <= 4 && direction >= -1);
@@ -119,6 +127,16 @@ void Snake::setBannedDirection(Direction direction)
 	assert(direction >= UP && direction <= LEFT);
 
 	_bannedDirection = direction;
+}
+
+void Snake::setLiving(bool isAlive)
+{
+	_isAlive = isAlive;
+}
+
+void Snake::setOffset(sf::Vector2i offset)
+{
+	_offset = offset;
 }
 
 void Snake::drawSnake(sf::RenderWindow& window)
