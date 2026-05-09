@@ -6,7 +6,6 @@ class Game
 {
 private:
 	sf::RenderWindow _window;
-
 public:
 	// Constructor
 	Game();

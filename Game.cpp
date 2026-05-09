@@ -3,6 +3,8 @@
 #include "Menu.h"
 #include "Game.h"
 
+#include "Grid.h"
+
 // Constructor
 Game::Game()
 {

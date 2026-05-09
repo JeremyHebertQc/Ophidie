@@ -143,7 +143,7 @@ void Snake::addNeck()
 	if (_lastDirection != _headDirection)
 	{
 		_snake.insert(_snake.begin() + 1, sf::Sprite(_textureCurve));
-		_snake.at(1).setOrigin(_snake.at(1).getTexture()->getSize().x / 2, std::trunc(_snake.at(1).getTexture()->getSize().y) / 2);
+		_snake.at(1).setOrigin(_snake.at(1).getTexture()->getSize().x / 2, (int)(_snake.at(1).getTexture()->getSize().y) / 2);
 		_snake.at(1).setPosition(_snake.front().getPosition().x, _snake.front().getPosition().y);
 
 		if (_headDirection - _lastDirection == 1 || _headDirection - _lastDirection == -3)
