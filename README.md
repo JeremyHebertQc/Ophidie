@@ -23,6 +23,7 @@ Bienvenue sur le dépôt de Ophidie. Ophidie est un Snake créé dans le cadre d
 - [ ] Retourner au home menu lorsque l'utiliseur quitte l'écran de fin de partie
 - [ ] Sauvegarder le score dans le scoreboard
 - [ ] Affichage du menu Scoreboard
+- [ ] Ajouter les méthodes manquantes de Grid
 
 ### Jérémy
 - [ ] Terminer de corriger le merge (URGENT)
