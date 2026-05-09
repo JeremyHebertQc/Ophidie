@@ -12,6 +12,7 @@ Bienvenue sur le dépôt de Ophidie. Ophidie est un Snake créé dans le cadre d
 ## TODO par personne pour completer les exigences minimales
 ### Vincent
 - [ ] Handle collision
+- [ ] Terminer game
 - [ ] Affichage du menu settings
 - [ ] Save les paramètres et vérifier qu'ils s'appliques
 - [ ] Ajout d'un menu de pause durant la partie (Améliorer le bouton delete XD)
