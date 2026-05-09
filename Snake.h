@@ -49,4 +49,11 @@ class Snake
 	void moveBody();
 	void moveHead();
 	void moveTail();
+
+	// Other method
+	int getSnakeTextureSizeX() const;
+	int getSnakeTextureSizeY() const;
+	int getSnakeTextureCenterPositionX() const;
+	int getSnakeTextureCenterPositionY() const;
+	sf::Vector2f getSnakeTextureCenterPosition() const;
 };

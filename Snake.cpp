@@ -11,21 +11,21 @@ Snake::Snake()
 	_textureTail.loadFromFile("assets/images/snake_tail.png");
 
 	_snake.push_back(sf::Sprite(_textureHead));
-	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(_snake.back().getTexture()->getSize().x * 2 + _snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
+	_snake.back().setOrigin(getSnakeTextureCenterPosition());
+	_snake.back().setPosition(getSnakeTextureSizeX() * 2.f + getSnakeTextureCenterPositionX(), static_cast<float>(getSnakeTextureCenterPositionY()));
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	setHeadDirection(RIGHT);
 
 	_snake.push_back(sf::Sprite(_textureBody));
-	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(_snake.back().getTexture()->getSize().x + _snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
+	_snake.back().setOrigin(getSnakeTextureCenterPosition());
+	_snake.back().setPosition(static_cast<float>(getSnakeTextureSizeX() + getSnakeTextureCenterPositionX()), static_cast<float>(getSnakeTextureCenterPositionY()));
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	_snake.push_back(sf::Sprite(_textureTail));
-	_snake.back().setOrigin(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setPosition(_snake.back().getTexture()->getSize().x / 2, _snake.back().getTexture()->getSize().y / 2);
-	_snake.back().setRotation(_headDirection * CONVERT_DEGREE);
+	_snake.back().setOrigin(getSnakeTextureCenterPosition());
+	_snake.back().setPosition(static_cast<float>(getSnakeTextureCenterPositionX()), static_cast<float>(getSnakeTextureCenterPositionY()));
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	setBannedDirection(LEFT);
 	updateLastDirection();
@@ -143,7 +143,7 @@ void Snake::addNeck()
 	if (_lastDirection != _headDirection)
 	{
 		_snake.insert(_snake.begin() + 1, sf::Sprite(_textureCurve));
-		_snake.at(1).setOrigin(_snake.at(1).getTexture()->getSize().x / 2, std::trunc(_snake.at(1).getTexture()->getSize().y) / 2);
+		_snake.at(1).setOrigin(_snake.at(1).getTexture()->getSize().x / 2, (int)(_snake.at(1).getTexture()->getSize().y) / 2);
 		_snake.at(1).setPosition(_snake.front().getPosition().x, _snake.front().getPosition().y);
 
 		if (_headDirection - _lastDirection == 1 || _headDirection - _lastDirection == -3)
@@ -213,4 +213,30 @@ void Snake::moveTail()
 			_snake.back().setRotation(_snake.back().getRotation() - CONVERT_DEGREE);
 
 	_snake.erase(_snake.end() - 2);
+}
+
+// Other method
+int Snake::getSnakeTextureSizeX() const
+{
+	return _snake.back().getTexture()->getSize().x;
+}
+
+int Snake::getSnakeTextureSizeY() const
+{
+	return _snake.back().getTexture()->getSize().y;
+}
+
+int Snake::getSnakeTextureCenterPositionX() const
+{
+	return getSnakeTextureSizeX() / 2;
+}
+
+int Snake::getSnakeTextureCenterPositionY() const
+{
+	return getSnakeTextureSizeY() / 2;
+}
+
+sf::Vector2f Snake::getSnakeTextureCenterPosition() const
+{
+	return sf::Vector2f(getSnakeTextureCenterPositionX(), getSnakeTextureCenterPositionY());
 }
