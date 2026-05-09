@@ -34,16 +34,6 @@ enum Difficulty
 	DifficultyTotal
 };
 
-enum Action
-{
-	Resume,
-	Exit,
-	Save,
-	ExitSave,
-
-	ActionTotal // Leave last
-};
-
 enum ErrorCode
 {
 	SUCCESS,
@@ -87,6 +77,32 @@ const std::string BUTTON_SOUND_PATH = "assets/soundEffects/";
 const std::string FONT_PATH = "assets/fonts/PressStart2P.ttf";
 const std::string BUTTON_TEXTURE_PATH = "assets/buttons/";
 const int FONT_SIZE = 20;
+
+enum ButtonStyle
+{
+	bigButton,
+	mediumButton,
+	littleButton,
+	yesButton,
+	noButton,
+
+	nbStyle // Number of style
+};
+
+enum ButtonAction
+{
+	startGame,
+	closeOphidie,
+	openSettings,
+	openHTP,
+	openScoreboard,
+	goToNormalSCR,
+	goToSurvivalSCR,
+	goToDeathTrapSCR,
+	goToSurviveHellSCR,
+
+	nbAction // Number of action
+};
 
 // Constantes pour snake.cpp
 const int CONVERT_DEGREE = 90;

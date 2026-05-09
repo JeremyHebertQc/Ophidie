@@ -10,9 +10,9 @@
 // Private method
 void Button::calculateTextPosition()
 {
-	float centerPositionX = _button.getGlobalBounds().width / 2.0,
-		centerPositionY = _button.getGlobalBounds().height / 2.0;
-	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2));
+	float centerPositionX = _button.getGlobalBounds().width / 2.f,
+		centerPositionY = _button.getGlobalBounds().height / 2.f;
+	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2.f), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2.f));
 }
 
 // Constructors

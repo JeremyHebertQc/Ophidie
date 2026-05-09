@@ -9,7 +9,7 @@
 // Constructor
 Menu::Menu(sf::RenderWindow& window)
 {
-	_wallpaper.setScale(window.getSize().x, window.getSize().y);
+	_wallpaper.setScale(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	_wallpaper.setScale(5.f, 5.f);
 	addTexture(WALLPAPER_PATH);
 	_wallpaper.setTexture(*_textures.back());
@@ -208,7 +208,7 @@ void Menu::drawSprite(sf::RenderWindow& window, sf::Sprite* sprite)
 void Menu::draw(sf::RenderWindow& window)
 {
 	window.draw(_wallpaper);
-	
+
 	drawButtons(window);
 	drawSprites(window);
 	drawTexts(window);
@@ -222,7 +222,7 @@ void Menu::initHomeMenu(sf::RenderWindow& window)
 	addButton(openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(getCenterPositionX(window), 600.f));
 	addButton(openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(getCenterPositionX(window) - 130.f, 750.f));
 	addButton(closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(getCenterPositionX(window) + 130.f, 750.f));
-	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix", sf::Vector2f(25.f, window.getSize().y - 50.f), 61, 24, 79);
+	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(25.f, window.getSize().y - 50.f), 61, 24, 79);
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(window), 100.f), LOGO_PATH);
 }
 
