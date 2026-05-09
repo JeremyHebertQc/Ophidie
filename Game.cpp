@@ -97,12 +97,6 @@ bool Game::startGame()
 					if (!_settings.getArrow())
 						snake.setHeadDirection(DOWN);
 					break;
-				case sf::Keyboard::Space: // REMOVE BEFORE HANDING IN
-					if (eat)
-						eat = false;
-					else
-						eat = true;
-					break;
 				case sf::Keyboard::Delete: //  quitout midgame
 					snake.setLiving(false);
 					break;
@@ -111,14 +105,28 @@ bool Game::startGame()
 			}
 		}
 
-		if (moveCooldown.getElapsedTime().asMilliseconds() > 250)
+		if (moveCooldown.getElapsedTime().asMilliseconds() > 500 / ((_settings.getDifficulty() % 4) + 1))
 		{
 			moveCooldown.restart();
 			
-			if (map.getTileAt(snake.getDestinationCoord()) == trap)
+			switch (map.getTileAt(snake.getDestinationCoord()))
+			{
+			case air:
+				snake.moveForward(false);
+				for (size_t i = 0; i < snake.getSnakeSize(); i++)
+					map.setTileAt(snake.getSnakeCoords().at(i), body);
+				break;
+			case egg:
+				snake.moveForward(true);
+				for (size_t i = 0; i < snake.getSnakeSize(); i++)
+					map.setTileAt(snake.getSnakeCoords().at(i), body);
+				map.placeEggs(1);
+				break;
+			case body:
+			case trap:
 				snake.setLiving(false);
-
-			snake.moveForward(eat);
+				break;
+			}
 		}
 
 		_window.clear();
