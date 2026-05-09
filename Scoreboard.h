@@ -21,7 +21,7 @@ class Scoreboard
 private:
 	static const std::string gamemodesPaths[4];
 	static const std::string difficultyPath[8];
-	Player _scoreboardData[GameModeTotal][DifficultyTotal][NUMBER_OF_SCORES];
+	Player _scoreboardData[GameModeTotal][DifficultyTotal][NUMBER_OF_SCORES]; //TODO: Optimized it
 
 public:
 	// Constructeur

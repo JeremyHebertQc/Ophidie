@@ -14,7 +14,11 @@ Grid::Grid() {
 	hasRandomWalls = false;
 
 	for (int i = 0; i < 3; i++) {
-		if (!textures[i].loadFromFile(filePaths[i])) exit(1);
+		if (!textures[i].loadFromFile(filePaths[i]))
+		{
+			system("pause"); //TODO: Replace by SFML
+			exit(1);
+		}
 		renderers[i].setTexture(textures[i]);
 	}
 
