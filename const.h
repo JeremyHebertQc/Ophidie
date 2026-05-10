@@ -38,7 +38,11 @@ enum ErrorCode
 {
 	SUCCESS,
 	FILE_NOT_OPENED,
-	NOT_VALID_DIRECTION
+	NOT_VALID_DIRECTION,
+	INVALID_DIFFICULTY,
+	INVALID_GAMEMODE,
+
+	NB_ERROR // Total number of error
 };
 
 // Constantes pour les settings

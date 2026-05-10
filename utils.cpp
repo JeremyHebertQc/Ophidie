@@ -6,6 +6,8 @@ Projet : Ophidie
 #include <fstream>
 #include <functional>
 #include <iostream>
+#include <SFML/Graphics.hpp>
+#include <string>
 
 #ifdef _WIN32
 #include <cassert>
@@ -53,11 +55,50 @@ void isFileOpen(std::fstream& stream)
 		std::cin.get();
 #endif
 
-		exit(FILE_NOT_OPENED);
+		sendFatalError(FILE_NOT_OPENED);
 	}
 }
 
 int getRandIntInRange(int min, int max)
 {
 	return rand() % (max - min + 1) + min;
+}
+
+void sendFatalError(const int errorCode)
+{
+	std::string errorCodeName = getErrorCodeName(errorCode);
+	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\nPress any key to close the game..."; //TODO: Transform in SFML if we have time
+
+	system("pause>NUL");
+	exit(errorCode);
+}
+
+void sendError(const int errorCode)
+{
+	std::string errorCodeName = getErrorCodeName(errorCode);
+	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\n"; //TODO: Transform in SFML if we have time
+}
+
+const std::string getErrorCodeName(const int errorCode)
+{
+	switch (errorCode)
+	{
+	case SUCCESS:
+		return "SUCCESS - Success, no error found.";
+
+	case FILE_NOT_OPENED:
+		return "FILE_NOT_OPENED - A file could not be loaded.";
+
+	case NOT_VALID_DIRECTION:
+		return "NOT_VALID_DIRECTION - Head direction is invalid.";
+
+	case INVALID_DIFFICULTY:
+		return "INVALID_DIFFICULTY - The difficulty of the settings is incorrect.";
+
+	case INVALID_GAMEMODE:
+		return "INVALID_GAMEMODE - The gamemode of the settings is incorrect.";
+
+	default:
+		return "Undefined error.";
+	}
 }

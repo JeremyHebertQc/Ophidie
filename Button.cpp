@@ -36,7 +36,7 @@ Button::Button(const int action, const std::string text, const int buttonStyle, 
 
 	// Text management
 	if (!_font.loadFromFile(FONT_PATH))
-		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
+		sendError(FILE_NOT_OPENED);
 
 	_text.setFont(_font);
 	_text.setCharacterSize(FONT_SIZE);
@@ -103,7 +103,7 @@ void Button::setButtonTexture(const int buttonStyle)
 		break;
 
 	default:
-		exit(1); // TODO: Lors du merge, créer une erreur texture couldn't load.
+		sendFatalError(FILE_NOT_OPENED);
 	}
 
 	_button.setTexture(_texture);
@@ -123,7 +123,7 @@ void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soun
 {
 	if (!soundEffectBuffer.loadFromFile(soundPath))
 	{
-		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
+		sendError(FILE_NOT_OPENED);
 		return;
 	}
 

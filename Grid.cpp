@@ -1,6 +1,7 @@
 #include "Grid.h"
 
 #include "utils.h"
+#include "Menu.h"
 
 #include <cassert>
 
@@ -25,11 +26,8 @@ Grid::Grid() {
 	for (int i = 0; i < 3; i++)
 	{
 		if (!_textures[i].loadFromFile(_filePaths[i]))
-		{
-			printf("ERROR: Texture doesn't load"); //TODO: Replace by SFML
-			system("pause>NUL");
-			exit(1);
-		}
+			sendFatalError(FILE_NOT_OPENED);
+
 		_renderers[i].setTexture(_textures[i]);
 	}
 
@@ -123,7 +121,7 @@ void Grid::configureGamemode(GameMode mode)
 		_hasRandomWalls = true;
 		break;
 	default:
-		exit(1); // TODO: UPDATE
+		sendFatalError(INVALID_GAMEMODE);
 	}
 }
 
@@ -164,7 +162,7 @@ void Grid::configureDifficulty(Difficulty difficulty)
 		_numberOfTraps = 0.35 * _width * _height;
 		break;
 	default:
-		exit(1); // TODO: UPDATE
+		sendFatalError(INVALID_DIFFICULTY);
 	}
 }
 

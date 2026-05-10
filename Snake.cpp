@@ -1,4 +1,5 @@
 #include "Snake.h"
+#include "utils.h"
 
 #include <SFML/Graphics.hpp>
 #include <cassert>
@@ -97,9 +98,7 @@ sf::Vector2i Snake::getDestinationCoord()
 		return sf::Vector2i(getHeadCoordX() - 1, getHeadCoordY());
 		break;
 	default:
-		printf("ERROR EXEPTION NOT ADLED");
-		system("pause>NUL");
-		exit(NOT_VALID_DIRECTION);
+		sendFatalError(NOT_VALID_DIRECTION);
 	}
 
 }
@@ -214,9 +213,7 @@ void Snake::moveHead()
 		setBannedDirection(RIGHT);
 		break;
 	default:
-		printf("ERROR EXEPTION NOT ADLED"); //TODO: Switch to SFML
-		system("pause>NUL");
-		exit(NOT_VALID_DIRECTION);
+		sendFatalError(NOT_VALID_DIRECTION);
 	}
 }
 

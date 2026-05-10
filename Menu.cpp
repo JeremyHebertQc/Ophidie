@@ -5,6 +5,7 @@
 
 #include "Menu.h"
 #include "Button.h"
+#include "utils.h"
 
 // Constructor
 Menu::Menu(sf::RenderWindow& window)
@@ -119,7 +120,8 @@ void Menu::playMusic(std::string soundFileName, float volume)
 {
 	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundFileName))
 	{
-		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
+		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas 
+		, c'est juste de la musique...
 		return;
 	}
 
@@ -143,7 +145,7 @@ void Menu::addButton(const int action, const std::string text, const int buttonS
 void Menu::addText(const int fontSize, const std::string text, const sf::Vector2f position, int r, int g, int b)
 {
 	if (!_font.loadFromFile(FONT_PATH))
-		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
+		sendError(FILE_NOT_OPENED);
 
 	_texts.push_back(sf::Text(text, _font, fontSize));
 

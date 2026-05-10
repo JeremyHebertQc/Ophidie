@@ -1,13 +1,14 @@
+#pragma once
 /*====================================
 Auteur : Jérémy Hébert
 Projet : Ophidie
 ====================================*/
 
-#pragma once
-
+#include <SFML/Graphics.hpp>
 #include <algorithm>
 #include <string>
 #include <fstream>
+#include <string>
 
 #ifndef WIN32
 #include <cassert>
@@ -20,3 +21,8 @@ void openFile(std::fstream& stream, const std::string& fileName, bool read);
 void closeFile(std::fstream& stream);
 void isFileOpen(std::fstream& stream);
 int getRandIntInRange(int min, int max);
+
+// Error management
+void sendFatalError(const int errorCode);
+void sendError(const int errorCode);
+const std::string getErrorCodeName(const int errorCode);
