@@ -15,6 +15,7 @@ const std::string Scoreboard::gamemodesPaths[] =
 	SCOREBOARD_FILEPATH + "DEATH_TRAP",
 	SCOREBOARD_FILEPATH + "SURVIVE_HELL"
 };
+
 const std::string Scoreboard::difficultyPath[] =
 {
 	"BABY.txt",
@@ -36,6 +37,7 @@ Scoreboard::Scoreboard()
 // Destructeur
 Scoreboard::~Scoreboard()
 {
+
 }
 
 // Gestion des data
@@ -45,8 +47,8 @@ void Scoreboard::loadData()
 	std::string path;
 
 	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 8; j++) {
+		for (int j = 0; j < 8; j++)
+		{
 
 			path.clear();
 
@@ -69,17 +71,16 @@ path.append("/");
 			}
 			file.close();
 		}
-	}
 }
 
 void Scoreboard::writeData() const
 {
-std::fstream file;
+	std::fstream file;
 	std::string path;
 
 	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 8; j++) {
+		for (int j = 0; j < 8; j++)
+		{
 
 			path.clear();
 
@@ -101,7 +102,6 @@ path.append("/");
 			}
 			file.close();
 		}
-	}
 }
 
 // Gestion du score
@@ -112,6 +112,7 @@ bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) c
 
 	if (score > _scoreboardData[mode][difficulty][9]._score)
 		return true;
+
 	return false;
 }
 

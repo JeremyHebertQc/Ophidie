@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include "Settings.h"
 
 class Button
 {
@@ -39,9 +40,9 @@ public:
 	void setButtonTexture(const int buttonStyle);
 
 	// Event management
-	void updateButton(sf::RenderWindow& window);
-	void playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath);
-	int isButtonPressed(sf::Event event, sf::RenderWindow& window);
+	void updateButton(sf::RenderWindow& window, Settings& settings);
+	void playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath, float volume);
+	int isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings);
 	void isButtonHover(sf::Event event, sf::RenderWindow& window);
 
 	// Drawing management

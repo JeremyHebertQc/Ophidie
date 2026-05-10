@@ -17,6 +17,7 @@ Projet : Ophidie
 // Constructeur
 Settings::Settings()
 {
+	saveVolume(0, 0, 0);
     readFile();
 }
 
@@ -141,7 +142,17 @@ void Settings::setArrow(const bool usingArrow)
 
 void Settings::setDeaf(const bool deafMode)
 {
-    _deafMode = deafMode;
+	if (deafMode)
+	{
+		_deafMode = deafMode;
+		saveVolume(_volSound, _volMusic, _volMenu);
+		setVolume(0, 0, 0);
+	}
+    else
+    {
+		_deafMode = deafMode;
+	    setVolume(_savedSound, _savedMusic, _savedMenu);
+    }
 }
 
 // Setteurs complexes
@@ -158,6 +169,13 @@ void Settings::setVolume(const float volSound, const float volMusic, const float
 	setMenuVolume(volMenu);
 }
 
+void Settings::saveVolume(const int volSound, const int volMusic, const int volMenu)
+{
+	_savedSound = volSound;
+	_savedMusic = volMusic;
+	_savedMenu = volMenu;
+}
+
 // Lecture/Écriture de la BD
 void Settings::readFile()
 {
@@ -170,10 +188,18 @@ void Settings::readFile()
     setDifficulty(Difficulty(settings["Difficulty"]));
     setMode(GameMode(settings["Mode"]));
     setGrid(settings["Width"], settings["Height"]);
-	setVolume(settings["Sound"], settings["Music"], settings["Menu"]);
+    
+    setDeaf(settings["Deaf"]);
+    if (_deafMode)
+    {
+		saveVolume(settings["Sound"], settings["Music"], settings["Menu"]);
+		setVolume(0, 0, 0);
+    }
+	else
+	    setVolume(settings["Sound"], settings["Music"], settings["Menu"]);
+
     setFullScr(settings["FullScreen"]);
     setArrow(settings["Arrow"]);
-    setDeaf(settings["Deaf"]);
 
     closeFile(input);
 }
@@ -188,12 +214,22 @@ void Settings::saveSettings()
     settings["Mode"] = _mode;
     settings["Width"] = _gridW;
     settings["Height"] = _gridH;
-    settings["Sound"] = _volSound;
-    settings["Music"] = _volMusic;
-	settings["Menu"] = _volMenu;
     settings["FullScreen"] = _fullScr;
     settings["Arrow"] = _usingArrowKeys;
+    
     settings["Deaf"] = _deafMode;
+	if (_deafMode)
+	{
+		settings["Sound"] = _savedSound;
+		settings["Music"] = _savedMusic;
+		settings["Menu"] = _savedMenu;
+	}
+    else
+    {
+		settings["Sound"] = _volSound;
+		settings["Music"] = _volMusic;
+		settings["Menu"] = _volMenu;
+    }
 
     openFile(output, SETTINGS_FILE_NAME, false);
 

@@ -15,6 +15,8 @@ class Snake
   private:
 	std::vector<sf::Sprite> _snake;
 
+	sf::Vector2i _offset;
+
 	sf::Texture _textureHead;
 	sf::Texture _textureBody;
 	sf::Texture _textureTail;
@@ -24,8 +26,11 @@ class Snake
 	Direction _lastDirection;
 	Direction _bannedDirection;
 
+	bool _isAlive;
+
   public:
-	Snake();
+	Snake() = delete;
+	Snake(sf::Vector2i offset);
 
 	~Snake();
 
@@ -37,9 +42,13 @@ class Snake
 	sf::Vector2i getHeadCoord();
 	std::vector<sf::Vector2i> getSnakeCoords();
 	sf::Vector2i getDestinationCoord();
+	
+	bool isLiving() const;
 
 	void setHeadDirection(Direction direction);
 	void setBannedDirection(Direction direction);
+	void setLiving(bool isAlive);
+	void setOffset(sf::Vector2i offset);
 
 	void drawSnake(sf::RenderWindow& window);
 

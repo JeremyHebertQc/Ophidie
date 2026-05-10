@@ -1,18 +1,16 @@
 #pragma once
 
+#include "Settings.h"
+
 #include <SFML/Graphics.hpp>
-#include "Scoreboard.h"
-#include "Grid.h"
 
 class Game
 {
-private:
+  private:
 	sf::RenderWindow _window;
+	Settings _settings;
 
-  Scoreboard _scoreboard;
-  Grid _grid;
-
-public:
+  public:
 	// Constructor
 	Game();
 
@@ -21,5 +19,7 @@ public:
 
 	// Method
 	void play();
+	// void showEndScreen();
+	// void savePlayerScore(Player player, GameMode mode);
+	bool startGame();
 };
-
