@@ -16,9 +16,7 @@ enum TileType
 class Grid
 {
 private:
-	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels = {0, 0}) const; // Private method
-
-	static const std::string _filePaths[3];
+	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::Vector2f offsetInAbsolutePixels = {0, 0}) const; // Private method
 
 	mutable sf::Texture _textures[3];
 	mutable sf::Sprite _renderers[3];
@@ -27,34 +25,38 @@ private:
 	bool _hasRandomWalls;
 	std::vector<std::vector<int>> _board;
 
+	// Use extern declarations
+	Settings* _settings;
+	sf::RenderWindow* _window;
+
 public:
 	// Constructor
-	Grid();
+	Grid(sf::RenderWindow* window, Settings* settings);
 
 	// Destructor
 	~Grid();
 
 	// Getters
 	TileType getTileAt(sf::Vector2i coords) const;
-	sf::Vector2i getGridOffset(sf::RenderWindow *window) const;
+	sf::Vector2i getGridOffset() const;
 
 	// Setters
 	void setTileAt(sf::Vector2i coords, TileType tile);
-	void setWidth(const int width);
-	void setHeight(const int height);
-	void setScale(const int width, const int height);
+	void setWidth(int width);
+	void setHeight(int height);
+	void setScale(int width, int height);
 
 	// Make map
-	void createMap(int width, int heigth, GameMode mode, Difficulty difficulty);
-	void configureGamemode(GameMode mode);
-	void configureDifficulty(Difficulty difficulty);
+	void createMap();
+	void configureGamemode();
+	void configureDifficulty();
 	void placeBorder();
 	void placeAir();
 	void bodyLocationReserve();
 	void placeTraps();
-	void placeEggs(int eggsToPlace);
+	void placeEgg();
 
 	// Methods
 	void updateSnakePosition(std::vector<sf::Vector2i> bodyParts);
-	void renderGrid(sf::RenderWindow* window) const;
+	void renderGrid() const;
 };

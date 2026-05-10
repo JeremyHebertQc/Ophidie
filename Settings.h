@@ -49,23 +49,23 @@ public:
 	bool getDeaf() const;
 
 	// Setteurs
-	void setSound(const float volSound);
-	void setMusic(const float volMusic);
-	void setMenuVolume(const float volMenu);
-	void setWidth(const unsigned int gridW);
-	void setHeight(const unsigned int gridH);
-	void setDifficulty(const Difficulty difficulty);
-	void setMode(const GameMode mode);
-	void setFullScr(const bool fullScr);
-	void setArrow(const bool usingArrow);
-	void setDeaf(const bool deafMode);
+	void setSound(float volSound);
+	void setMusic(float volMusic);
+	void setMenuVolume(float volMenu);
+	void setWidth(unsigned int gridW);
+	void setHeight(unsigned int gridH);
+	void setDifficulty(Difficulty difficulty);
+	void setMode(GameMode mode);
+	void setFullScr(bool fullScr);
+	void setArrow(bool usingArrow);
+	void setDeaf(bool deafMode);
 
 	// Setteurs complexes
-	void setGrid(const int gridW, const int gridH);
-	void saveVolume(const int volSound, const int volMusic, const int volMenu);
-	void setVolume(const float volSound, const float volMusic, const float volMenu);
+	void setGrid(int gridW, int gridH);
+	void saveVolume(int volSound, int volMusic, int volMenu);
+	void setVolume(float volSound, float volMusic, float volMenu);
 
 	// Lecture/Écriture de la BD
 	void readFile();
-	void saveSettings();
+	void saveSettings() const;
 };

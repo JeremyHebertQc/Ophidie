@@ -15,34 +15,32 @@ void Button::calculateTextPosition()
 	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2.f), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2.f));
 }
 
-// Constructors
-Button::Button()
+// Constructor
+Button::Button(sf::RenderWindow* window, Settings* settings, ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position)
 {
-	_action = -1;
-	_buttonPressed = false;
-}
+	// Extern variables initializations
+	_window = window;
+	_settings = settings;
 
-Button::Button(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
-{
 	// Button initializations
 	_action = action;
 	_buttonPressed = false;
 
 	// Display management
-	setButtonTexture(buttonStyle);
+	setButtonTexture(style);
 	_button.setScale(sf::Vector2f(scale, scale));
 	_button.setOrigin(_texture.getSize().x / 2.f, _texture.getSize().y / 2.f);
 	_button.setPosition(position);
 
 	// Text management
 	if (!_font.loadFromFile(FONT_PATH))
-		exit(1);  //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync
+		sendError(FileNotOpened);
 
 	_text.setFont(_font);
 	_text.setCharacterSize(FONT_SIZE);
 	_text.setString(text);
 	_text.setStyle(sf::Text::Bold);
-	setTextColor(61, 24, 79);
+	setTextColor(BUTTON_TEXT_COLOR_R, BUTTON_TEXT_COLOR_G, BUTTON_TEXT_COLOR_B);
 	calculateTextPosition();
 }
 
@@ -71,73 +69,73 @@ void Button::setTextColor(int r, int g, int b)
 	_text.setFillColor(_textColor);
 }
 
-void Button::setButtonTexture(const int buttonStyle)
+void Button::setButtonTexture(int buttonStyle)
 {
 	assert(buttonStyle >= 0 && buttonStyle <= nbStyle);
 
 	switch (buttonStyle)
 	{
-	case bigButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "bigButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedBigButton.png");
+	case BigButton:
+		_texture.loadFromFile(BUTTON_DIR + "BigButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedBigButton.png");
 		break;
 
-	case mediumButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "mediumButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedMediumButton.png");
+	case MediumButton:
+		_texture.loadFromFile(BUTTON_DIR + "MediumButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedMediumButton.png");
 		break;
 
-	case littleButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "littleButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedLittleButton.png");
+	case LittleButton:
+		_texture.loadFromFile(BUTTON_DIR + "LittleButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedLittleButton.png");
 		break;
 
-	case yesButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "yesButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedYesButton.png");
+	case YesButton:
+		_texture.loadFromFile(BUTTON_DIR + "YesButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
 		break;
 
-	case noButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "noButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedNoButton.png");
+	case NoButton:
+		_texture.loadFromFile(BUTTON_DIR + "NoButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedNoButton.png");
 		break;
 
 	default:
-		exit(1); // TODO: Lors du merge, créer une erreur texture couldn't load.
+		sendFatalError(FileNotOpened);
 	}
 
 	_button.setTexture(_texture);
 }
 
 // Event management
-void Button::updateButton(sf::RenderWindow& window, Settings& settings)
+void Button::updateButton()
 {
-	window.draw(_button);
-	window.draw(_text);
-	window.display();
-	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav", settings.getMenu());
+	_window->draw(_button);
+	_window->draw(_text);
+	_window->display();
+	playButtonSound(SOUND_DIR + "button.wav", _settings->getMenu());
 	sf::sleep(sf::milliseconds(250));
 }
 
-void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath, float volume)
+void Button::playButtonSound(const std::string& soundPath, float volume)
 {
-	if (!soundEffectBuffer.loadFromFile(soundPath))
+	if (!_soundEffectBuffer.loadFromFile(soundPath))
 	{
-		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas exit, c'est juste de la musique...
+		sendError(FileNotOpened);
 		return;
 	}
 
-	soundEffect.setBuffer(soundEffectBuffer);
-	soundEffect.setLoop(false);
-	soundEffect.setVolume(volume);
-	soundEffect.play();
+	_soundEffect.setBuffer(_soundEffectBuffer);
+	_soundEffect.setLoop(false);
+	_soundEffect.setVolume(volume);
+	_soundEffect.play();
 }
 
-int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings)
+int Button::isButtonPressed(const sf::Event& event)
 {
-	sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+	sf::Vector2f mousePosition = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
 
-	if (_buttonPressed == true && (sf::Event::MouseButtonReleased))
+	if (_buttonPressed && event.type == sf::Event::MouseButtonReleased)
 	{
 		_button.setTexture(_texture);
 		_buttonPressed = false;
@@ -148,32 +146,32 @@ int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings&
 	{
 		_buttonPressed = true;
 		_button.setTexture(_pressedTexture);
-		updateButton(window, settings);
+		updateButton();
 	}
 	return -1;
 }
 
-void Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
+void Button::isButtonHover(const sf::Event& event)
 {
 	static bool loadedCursor = false;
 	static sf::Cursor cursorHand;
 
 	if (!loadedCursor)
 		if (!cursorHand.loadFromSystem(sf::Cursor::Hand))
-			printf("ERROR: Cursor doesn't load!\n"); //TODO: Transformer en SFML
+			sendError(CursorFailedToLoad);
 
 
 	if (event.type == sf::Event::MouseMoved)
 	{
-		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+		sf::Vector2f mousePosition = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
 		if (_button.getGlobalBounds().contains(mousePosition))
-			window.setMouseCursor(cursorHand);
+			_window->setMouseCursor(cursorHand);
 	}
 }
 
 // Drawing management
-void Button::draw(sf::RenderWindow& window)
+void Button::draw()
 {
-	window.draw(_button);
-	window.draw(_text);
+	_window->draw(_button);
+	_window->draw(_text);
 }

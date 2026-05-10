@@ -32,55 +32,64 @@ private:
 	// Buttons declarations
 	std::vector<Button*> _buttons;
 
-public:
+	// Use extern declarations
+	Settings* _settings;
+	sf::RenderWindow* _window;
+
+	// Init checkup declaration
+	bool _isMenuInit;
+	bool _isSubmenuInit;
+
+  public:
 	// Constructor
-	Menu(sf::RenderWindow& window);
+	Menu(sf::RenderWindow* window, Settings* settings);
 
 	// Destructor
 	~Menu();
 
 	// Getters
-	float getCenterPositionX(sf::RenderWindow& window) const;
-	float getCenterPositionY(sf::RenderWindow& window) const;
+	float getCenterPositionX() const;
+	float getCenterPositionY() const;
 
 	// Setter
 	void setTextColor(int r, int g, int b, sf::Text& text);
+	void setAlignment(TextAlignment alignment);
 
 	// Event management
-	int isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings);
-	void isButtonHover(sf::Event event, sf::RenderWindow& window);
-	int isAction(sf::RenderWindow& window, Settings& settings);
+	int isButtonPressed(const sf::Event& event);
+	void isButtonHover(const sf::Event& event);
+	int isAction();
 
 	// Music management
-	void playMusic(std::string soundFileName, float volume);
+	void playMusic(const std::string& soundFileName, float volume);
 	void stopMusic();
 
 	// Vectors management
-	void addButton(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position);
-	void addText(const int fontSize, const std::string text, const sf::Vector2f position, int r, int g, int b);
-	void addTexture(const std::string texture);
-	void addSprite(const float scale, const sf::Vector2f position, const std::string texture);
+	void addButton(ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position);
+	void addText(int fontSize, const std::string& text, sf::Vector2f position, TextAlignment alignment, int r, int g, int b);
+	void addTexture(const std::string& texture);
+	void addSprite(float scale, sf::Vector2f position, const std::string& texture);
+	void clearVectors();
 
 	// Drawing management
-	void drawButtons(sf::RenderWindow& window);
-	void drawTexts(sf::RenderWindow& window);
-	void drawText(sf::RenderWindow& window, sf::Text text);
-	void drawSprites(sf::RenderWindow& window);
-	void drawSprite(sf::RenderWindow& window, sf::Sprite* sprite);
-	void draw(sf::RenderWindow& window);
+	void drawButtons();
+	void drawTexts();
+	void drawText(sf::Text text);
+	void drawSprites();
+	void drawSprite(sf::Sprite* sprite);
+	void draw();
 
 	// Menu initiation
-	void initHomeMenu(sf::RenderWindow& window);
-	void initSettingsMenu(sf::RenderWindow& window);
-	void initHowToPlayMenu(sf::RenderWindow& window);
-	void initStartMenu(sf::RenderWindow& window);
-	void initScoreboardMenu(sf::RenderWindow& window);
+	void initHomeMenu();
+	void initSettingsMenu();
+	void initHowToPlayMenu();
+	void initStartMenu();
+	void initScoreboardMenu();
 
 	// Menu loading
-	bool loadHomeMenu(sf::RenderWindow& window, Settings& settings);
-	void loadSettingsMenu(sf::RenderWindow& window);
-	void loadHowToPlayMenu(sf::RenderWindow& window);
-	void loadStartMenu(sf::RenderWindow& window);
-	void loadScoreboardMenu(sf::RenderWindow& window);
-	void loadScoreboardMenu(sf::RenderWindow& window, int scoreboardType);
+	bool loadHomeMenu();
+	bool loadSettingsMenu();
+	bool loadHowToPlayMenu();
+	bool loadStartMenu();
+	bool loadScoreboardMenu();
 };

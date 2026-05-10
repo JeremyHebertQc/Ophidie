@@ -19,7 +19,7 @@ class Game
 
 	// Method
 	void play();
+	bool StartGame();
 	// void showEndScreen();
 	// void savePlayerScore(Player player, GameMode mode);
-	bool startGame();
 };

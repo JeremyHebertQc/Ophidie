@@ -8,26 +8,6 @@ Projet : Ophidie
 
 #include "utils.h"
 
-const std::string Scoreboard::gamemodesPaths[] =
-{
-	SCOREBOARD_FILEPATH + "NORMAL",
-	SCOREBOARD_FILEPATH + "SURVIVAL",
-	SCOREBOARD_FILEPATH + "DEATH_TRAP",
-	SCOREBOARD_FILEPATH + "SURVIVE_HELL"
-};
-
-const std::string Scoreboard::difficultyPath[] =
-{
-	"BABY.txt",
-	"EZ.txt",
-	"MEDIUM_RARE.txt",
-	"MEDIUM.txt",
-	"HARD.txt",
-	"HARDER.txt",
-	"TOO_HARD.txt",
-	"HARDCORE.txt"
-};
-
 // Constructeur
 Scoreboard::Scoreboard()
 {
@@ -46,21 +26,18 @@ void Scoreboard::loadData()
 	std::fstream file;
 	std::string path;
 
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 8; j++)
+	for (int i = 0; i < GAMEMODES_PATH.size(); i++)
+		for (int j = 0; j < DIFFICULTY_PATH.size(); j++)
 		{
-
 			path.clear();
 
-			path.append(gamemodesPaths[i]);
+			path.append(GAMEMODES_PATH.at(i));
 #ifdef WIN32
 path.append("\\");
 #else
 path.append("/");
 #endif
-			path.append(difficultyPath[j]);
-
-			//std::cout << "opened : "<< path << std::endl;
+			path.append(DIFFICULTY_PATH.at(j));
 
 			openFile(file, path, true);
 			for (int k = 0; k < NUMBER_OF_SCORES; k++)
@@ -78,21 +55,19 @@ void Scoreboard::writeData() const
 	std::fstream file;
 	std::string path;
 
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 8; j++)
+	for (int i = 0; i < GAMEMODES_PATH.size(); i++)
+		for (int j = 0; j < DIFFICULTY_PATH.size(); j++)
 		{
 
 			path.clear();
 
-			path.append(gamemodesPaths[i]);
+			path.append(GAMEMODES_PATH.at(i));
 #ifdef WIN32
 path.append("\\");
 #else
 path.append("/");
 #endif
-			path.append(difficultyPath[j]);
-
-			//std::cout << "opened : "<< path << std::endl;
+			path.append(DIFFICULTY_PATH.at(j));
 
 			openFile(file, path, false);
 

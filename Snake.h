@@ -28,29 +28,41 @@ class Snake
 
 	bool _isAlive;
 
-  public:
-	Snake() = delete;
-	Snake(sf::Vector2i offset);
+	// Use extern declarations
+	sf::RenderWindow* _window;
 
+  public:
+	// Constructors
+	Snake() = delete;
+	Snake(sf::RenderWindow* window, sf::Vector2i offset);
+
+	// Destructor
 	~Snake();
 
+	// Getters
 	int getHeadCoordX();
 	int getHeadCoordY();
 	Direction getBannedDirection();
 	size_t getSnakeSize();
-	Direction getHeadDirection();
+	Direction getHeadDirection() const;
 	sf::Vector2i getHeadCoord();
 	std::vector<sf::Vector2i> getSnakeCoords();
 	sf::Vector2i getDestinationCoord();
-	
-	bool isLiving() const;
+	int getSnakeTextureSizeX() const;
+	int getSnakeTextureSizeY() const;
+	int getSnakeTextureCenterPositionX() const;
+	int getSnakeTextureCenterPositionY() const;
+	sf::Vector2f getSnakeTextureCenterPosition() const;
 
+	// Setters
 	void setHeadDirection(Direction direction);
 	void setBannedDirection(Direction direction);
 	void setLiving(bool isAlive);
 	void setOffset(sf::Vector2i offset);
 
-	void drawSnake(sf::RenderWindow& window);
+	// Methods
+	bool isLiving() const;
+	void drawSnake();
 
 	void moveForward(bool eggEaten);
 	void addNeck();
@@ -58,11 +70,4 @@ class Snake
 	void moveBody();
 	void moveHead();
 	void moveTail();
-
-	// Other method
-	int getSnakeTextureSizeX() const;
-	int getSnakeTextureSizeY() const;
-	int getSnakeTextureCenterPositionX() const;
-	int getSnakeTextureCenterPositionY() const;
-	sf::Vector2f getSnakeTextureCenterPosition() const;
 };

@@ -3,6 +3,9 @@
 #include "Grid.h"
 #include "Menu.h"
 #include "Settings.h"
+#ifdef _WIN32
+	#include "windows.h"
+#endif
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -11,6 +14,11 @@
 Game::Game()
 {
 	_window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
+
+#ifdef _WIN32
+	ShowWindow(_window.getSystemHandle(), SW_MAXIMIZE); //NOTE: Maximize the window if we are on Windows, otherwise just use the desktop resolution size
+#endif
+
 	_window.setActive(true);
 	_window.setFramerateLimit(60);
 
@@ -30,25 +38,25 @@ Game::~Game()
 // Method
 void Game::play()
 {
-	Menu menu(_window);
+	Menu menu(&_window, &_settings);
 
 	while (_window.isOpen())
 	{
-		if (!menu.loadHomeMenu(_window, _settings))
+		if (!menu.loadHomeMenu())
 			_window.close();
 		else
-			startGame();
+			StartGame();
 	}
 }
 
-bool Game::startGame()
+bool Game::StartGame()
 {
-	Grid map;
-	map.createMap(_settings.getWidth(), _settings.getHeight(), _settings.getMode(), _settings.getDifficulty());
+	Grid map(&_window, &_settings);
+	map.createMap();
 
 	sf::Clock moveCooldown;
 
-	Snake snake(map.getGridOffset(&_window));
+	Snake snake(&_window, map.getGridOffset());
 
 	bool eat = false;
 	bool chain = true;
@@ -68,35 +76,35 @@ bool Game::startGame()
 				{
 				case sf::Keyboard::Left:
 					if (_settings.getArrow())
-						snake.setHeadDirection(LEFT);
+						snake.setHeadDirection(Left);
 					break;
 				case sf::Keyboard::A:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(LEFT);
+						snake.setHeadDirection(Left);
 					break;
 				case sf::Keyboard::Right:
 					if (_settings.getArrow())
-						snake.setHeadDirection(RIGHT);
+						snake.setHeadDirection(Right);
 					break;
 				case sf::Keyboard::D:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(RIGHT);
+						snake.setHeadDirection(Right);
 					break;
 				case sf::Keyboard::Up:
 					if (_settings.getArrow())
-						snake.setHeadDirection(UP);
+						snake.setHeadDirection(Up);
 					break;
 				case sf::Keyboard::W:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(UP);
+						snake.setHeadDirection(Up);
 					break;
 				case sf::Keyboard::Down:
 					if (_settings.getArrow())
-						snake.setHeadDirection(DOWN);
+						snake.setHeadDirection(Down);
 					break;
 				case sf::Keyboard::S:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(DOWN);
+						snake.setHeadDirection(Down);
 					break;
 				case sf::Keyboard::Delete: //  quitout midgame
 					snake.setLiving(false);
@@ -114,14 +122,12 @@ bool Game::startGame()
 			{
 			case air:
 				snake.moveForward(false);
-				for (size_t i = 0; i < snake.getSnakeSize(); i++)
-					map.setTileAt(snake.getSnakeCoords().at(i), body);
+				map.updateSnakePosition(snake.getSnakeCoords());
 				break;
 			case egg:
 				snake.moveForward(true);
-				for (size_t i = 0; i < snake.getSnakeSize(); i++)
-					map.setTileAt(snake.getSnakeCoords().at(i), body);
-				map.placeEggs(1);
+				map.updateSnakePosition(snake.getSnakeCoords());
+				map.placeEgg();
 				break;
 			case body:
 			case trap:
@@ -131,18 +137,20 @@ bool Game::startGame()
 		}
 
 		_window.clear();
-		map.renderGrid(&_window);
-		snake.drawSnake(_window);
+		map.renderGrid();
+		snake.drawSnake();
 		_window.display();
 	}
 
 	return false;
 }
 
-// void Game::showEndScreen() {
+// void Game::showEndScreen()
+// {
 //
 // }
 //
-// void Game::savePlayerScore(Player player, GameMode mode) {
+// void Game::savePlayerScore(Player player, GameMode mode)
+// {
 //
 // }

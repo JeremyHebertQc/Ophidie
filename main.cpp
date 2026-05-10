@@ -10,5 +10,5 @@ int main() {
     Game game;
     game.play();
 
-    return SUCCESS;
+    return Success;
 }

@@ -126,12 +126,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="Egg.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Save.cpp" />
     <ClCompile Include="Scoreboard.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Snake.cpp" />
@@ -149,11 +147,9 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="const.h" />
-    <ClInclude Include="Egg.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Save.h" />
     <ClInclude Include="Scoreboard.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Snake.h" />
