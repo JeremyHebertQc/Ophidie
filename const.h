@@ -131,6 +131,13 @@ enum ButtonAction
 	nbAction // Number of action
 };
 
+enum TextAlignment
+{
+	ALIGNMENT_RIGHT,
+	ALIGNMENT_LEFT,
+	ALIGNMENT_CENTER
+};
+
 // Constantes pour snake.cpp
 const int CONVERT_DEGREE = 90;
 

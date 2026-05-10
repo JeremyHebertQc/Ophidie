@@ -55,6 +55,28 @@ void Menu::setTextColor(int r, int g, int b, sf::Text& text)
 	text.setFillColor(_textColor);
 }
 
+void Menu::setAlignment(const TextAlignment alignment)
+{
+	sf::FloatRect bounds = _texts.back().getLocalBounds();
+	switch (alignment)
+	{
+	case ALIGNMENT_RIGHT:
+		_texts.back().setOrigin(bounds.left + bounds.width, bounds.top + bounds.height / 2.f);
+		break;
+
+	case ALIGNMENT_LEFT:
+		_texts.back().setOrigin(bounds.left, bounds.top + bounds.height / 2.f);
+		break;
+
+	case ALIGNMENT_CENTER:
+		_texts.back().setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+		break;
+
+	default:
+		break;
+	}
+}
+
 // Event management
 int Menu::isButtonPressed(sf::Event event)
 {
@@ -120,7 +142,7 @@ int Menu::isAction()
 }
 
 // Music management
-void Menu::playMusic(std::string soundFileName, float volume)
+void Menu::playMusic(std::string soundFileName, const float volume)
 {
 	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundFileName))
 	{
@@ -145,7 +167,7 @@ void Menu::addButton(const int action, const std::string text, const int buttonS
 	_buttons.push_back(new Button(_window, _settings, action, text, buttonStyle, scale, position));
 }
 
-void Menu::addText(const int fontSize, const std::string text, const sf::Vector2f position, int r, int g, int b)
+void Menu::addText(const int fontSize, const std::string text, const sf::Vector2f position, const TextAlignment alignment, const int r, const int g,  const int b)
 {
 	if (!_font.loadFromFile(FONT_PATH))
 		sendError(FILE_NOT_OPENED);
@@ -154,6 +176,8 @@ void Menu::addText(const int fontSize, const std::string text, const sf::Vector2
 
 	_texts.back().setStyle(sf::Text::Regular);
 	setTextColor(r, g, b, _texts.back());
+	setAlignment(alignment);
+	//_texts.back().setOrigin(_texts.back().getLocalBounds().width / 2.f, _texts.back().getLocalBounds().height / 2.f);
 	_texts.back().setPosition(position);
 }
 
@@ -233,7 +257,7 @@ void Menu::initHomeMenu()
 	addButton(openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 600.f));
 	addButton(openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 130.f, 750.f));
 	addButton(closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(getCenterPositionX() + 130.f, 750.f));
-	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97*  _window->getSize().y, _window->getSize().y - 0.05*  _window->getSize().y), 61, 24, 79);
+	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), ALIGNMENT_LEFT, 61, 24, 79);
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), 100.f), LOGO_PATH);
 }
 
@@ -249,6 +273,9 @@ void Menu::initHowToPlayMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
 	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addText(12,
+		"Test msg xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+		sf::Vector2f(getCenterPositionX(), getCenterPositionY()), ALIGNMENT_CENTER, 255, 255, 255);
 
 	//TODO: Build it
 }
@@ -382,6 +409,7 @@ bool Menu::loadSettingsMenu()
 	{
 	case closeSubmenu:
 		return false;
+
 	default:
 		return true;
 	}
