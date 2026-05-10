@@ -120,8 +120,7 @@ void Menu::playMusic(std::string soundFileName, float volume)
 {
 	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundFileName))
 	{
-		printf("ERROR: Sound can't load !"); //NOTE: Postmerge, créer un tag pour le enum des codes d'erreur et le sync + ne pas 
-		, c'est juste de la musique...
+		sendError(FILE_NOT_OPENED);
 		return;
 	}
 

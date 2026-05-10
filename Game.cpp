@@ -3,6 +3,9 @@
 #include "Grid.h"
 #include "Menu.h"
 #include "Settings.h"
+#ifdef _WIN32
+	#include "windows.h"
+#endif
 
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
@@ -11,6 +14,11 @@
 Game::Game()
 {
 	_window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
+
+#ifdef _WIN32
+	ShowWindow(_window.getSystemHandle(), SW_MAXIMIZE); //NOTE: Maximize the window if we are on Windows, otherwise just use the desktop resolution size
+#endif
+
 	_window.setActive(true);
 	_window.setFramerateLimit(60);
 

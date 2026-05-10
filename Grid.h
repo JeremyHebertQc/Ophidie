@@ -18,8 +18,6 @@ class Grid
 private:
 	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels = {0, 0}) const; // Private method
 
-	static const std::string _filePaths[3];
-
 	mutable sf::Texture _textures[3];
 	mutable sf::Sprite _renderers[3];
 

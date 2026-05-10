@@ -5,6 +5,7 @@ Projet : Ophidie
 
 #pragma once
 #include <string>
+#include <vector>
 
 // Constantes pour le scoreboard
 constexpr int NUMBER_OF_SCORES = 10;
@@ -110,3 +111,18 @@ enum ButtonAction
 
 // Constantes pour snake.cpp
 const int CONVERT_DEGREE = 90;
+
+// Constants for the grid
+const int BORDER_SIZE = 2;
+const int AIR_SPACE = 2;
+const int AIR_SPACE_LOCATION[2] = {4, 5};
+const int FIRST_ROW_LOCATION = 1;
+const int BODY_SIZE_RESERVE = 6;
+const int START_GRID_LOCATION = 1;
+
+const std::vector<std::string> GRID_FILES_PATH =
+{
+	IMAGES_FILEPATH + "Background.png",
+	IMAGES_FILEPATH + "Traps.png",
+	IMAGES_FILEPATH + "egg.png"
+};

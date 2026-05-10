@@ -1,16 +1,10 @@
 #include "Grid.h"
 
 #include "utils.h"
+#include "const.h"
 #include "Menu.h"
 
 #include <cassert>
-
-const std::string Grid::_filePaths[] =
-{
-        IMAGES_FILEPATH + "Background.png",
-        IMAGES_FILEPATH + "Traps.png",
-        IMAGES_FILEPATH + "egg.png"
-};
 
 // Private method
 sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) const
@@ -23,9 +17,9 @@ Grid::Grid() {
 	_width = _height = _numberOfTraps = _numberOfEggs = 0;
 	_hasRandomWalls = false;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < GRID_FILES_PATH.size(); i++)
 	{
-		if (!_textures[i].loadFromFile(_filePaths[i]))
+		if (!_textures[i].loadFromFile(GRID_FILES_PATH.at(i)))
 			sendFatalError(FILE_NOT_OPENED);
 
 		_renderers[i].setTexture(_textures[i]);
@@ -50,7 +44,7 @@ TileType Grid::getTileAt(sf::Vector2i coords) const
 
 sf::Vector2i Grid::getGridOffset(sf::RenderWindow *window) const
 {
-	sf::Vector2i boardSize = {(_height + 2) * GRID_CELL_SIZE, (_width + 2) * GRID_CELL_SIZE};
+	sf::Vector2i boardSize = {(_height + BORDER_SIZE) * GRID_CELL_SIZE, (_width + BORDER_SIZE) * GRID_CELL_SIZE};
 	return {((int)window->getSize().x - boardSize.x) / 2, ((int)window->getSize().y - boardSize.y) / 2};
 }
 
@@ -86,9 +80,9 @@ void Grid::createMap(int width, int heigth, GameMode mode, Difficulty difficulty
 {
 	setScale(width, heigth);
 
-	_board.reserve(_width + 2);
-	for (std::vector<int>& temp : _board)
-		temp.reserve(_height + 2);
+	_board.reserve(_width + AIR_SPACE);
+	for (std::vector<int>& i : _board)
+		i.reserve(_height + AIR_SPACE);
 
 	configureGamemode(mode);
 	configureDifficulty(difficulty);
@@ -102,8 +96,8 @@ void Grid::createMap(int width, int heigth, GameMode mode, Difficulty difficulty
 
 	placeEggs(_numberOfEggs);
 
-	_board.at(4).at(1) = air;
-	_board.at(5).at(1) = air;
+	for (int i = 0; i < AIR_SPACE; i++)
+		_board.at(AIR_SPACE_LOCATION[i]).at(FIRST_ROW_LOCATION) = air;
 }
 
 void Grid::configureGamemode(GameMode mode)
@@ -112,14 +106,18 @@ void Grid::configureGamemode(GameMode mode)
 	{
 	case NORMAL:
 		break;
+
 	case SURVIVAL:
 		break;
+
 	case DEATH_TRAP:
 		_hasRandomWalls = true;
 		break;
+
 	case SURVIVE_HELL:
 		_hasRandomWalls = true;
 		break;
+
 	default:
 		sendFatalError(INVALID_GAMEMODE);
 	}
@@ -133,34 +131,42 @@ void Grid::configureDifficulty(Difficulty difficulty)
 		_numberOfEggs = 3;
 		_numberOfTraps = 0;
 		break;
+
 	case EZ:
 		_numberOfEggs = 3;
 		_numberOfTraps = 0.05 * _width * _height;
 		break;
+
 	case MEDIUM_RARE:
 		_numberOfEggs = 2;
 		_numberOfTraps = 0.10 * _width * _height;
 		break;
+
 	case MEDIUM:
 		_numberOfEggs = 1;
 		_numberOfTraps = 0.15 * _width * _height;
 		break;
+
 	case HARD:
 		_numberOfEggs = 1;
 		_numberOfTraps = 0.20 * _width * _height;
 		break;
+
 	case HARDER:
 		_numberOfEggs = 1;
 		_numberOfTraps = 0.25 * _width * _height;
 		break;
+
 	case TOO_HARD:
 		_numberOfEggs = 1;
 		_numberOfTraps = 0.30 * _width * _height;
 		break;
+
 	case HARDCORE:
 		_numberOfEggs = 1;
 		_numberOfTraps = 0.35 * _width * _height;
 		break;
+
 	default:
 		sendFatalError(INVALID_DIFFICULTY);
 	}
@@ -168,36 +174,36 @@ void Grid::configureDifficulty(Difficulty difficulty)
 
 void Grid::placeBorder()
 {
-	for (int i = 0; i < _height + 2; i++)
+	for (int i = 0; i < _height + BORDER_SIZE; i++)
 	{
 		_board.emplace_back();
-		for (int j = 0; j < _width + 2; j++)
+		for (int j = 0; j < _width + BORDER_SIZE; j++)
 			_board.at(i).push_back(trap);
 	}
 }
 
 void Grid::placeAir()
 {
-	for (int i = 1; i < _height + 1; i++)
+	for (int i = 1; i <= _height; i++)
 	{
 		_board.emplace_back();
-		for (int j = 1; j < _width + 1; j++)
+		for (int j = 1; j <= _width; j++)
 			setTileAt(sf::Vector2i(i, j), air);
 	}
 }
 
-void Grid::bodyLocationReserve()
+void Grid::bodyLocationReserve() //NOTE: On prend plus long que le serpent afin de laisser le temps au joueurs de bouger au demarrage du jeu.
 {
-	for (int i = 1; i < 6; i++)
-		_board.at(i).at(1) = body;
+	for (int i = 1; i < BODY_SIZE_RESERVE; i++)
+		_board.at(i).at(FIRST_ROW_LOCATION) = body;
 }
 
 void Grid::placeTraps()
 {
 	while (_numberOfTraps > 0)
 	{
-		int randX = getRandIntInRange(1, _width);
-		int randY = getRandIntInRange(1, _height);
+		int randX = getRandIntInRange(START_GRID_LOCATION, _width);
+		int randY = getRandIntInRange(START_GRID_LOCATION, _height);
 
 		if (_board.at(randY).at(randX) == air)
 		{
@@ -209,13 +215,10 @@ void Grid::placeTraps()
 
 void Grid::placeEggs(int eggsToPlace)
 {
-	int randX;
-	int randY;
-
 	while (eggsToPlace > 0)
 	{
-		randX = getRandIntInRange(1, _width);
-		randY = getRandIntInRange(1, _height);
+		int randX = getRandIntInRange(START_GRID_LOCATION, _width);
+		int randY = getRandIntInRange(START_GRID_LOCATION, _height);
 
 		if (_board.at(randY).at(randX) == air)
 		{
@@ -228,16 +231,14 @@ void Grid::placeEggs(int eggsToPlace)
 // Methods
 void Grid::renderGrid(sf::RenderWindow* window) const
 {
-	//masterAirTile.setScale(100,100);
-
-	for (int i = 0; i < _width + 2; i++)
-		for (int j = 0; j < _height + 2; j++)
+	for (int i = 0; i < _width + BORDER_SIZE; i++)
+		for (int j = 0; j < _height + BORDER_SIZE; j++)
 		{
 			auto pos = transformGridToPixels({j,i}, window);
 			_renderers[air].setPosition(pos.x,pos.y);
 			window->draw(_renderers[air]);
 
-			if (_board.at(j).at(i) != 0 && _board.at(j).at(i) != 3)
+			if (_board.at(j).at(i) != air && _board.at(j).at(i) != body)
 			{
 				_renderers[_board.at(j).at(i)].setPosition(pos.x,pos.y);
 				window->draw(_renderers[_board.at(j).at(i)]);
@@ -250,9 +251,9 @@ void Grid::updateSnakePosition(std::vector<sf::Vector2i> bodyParts)
 {
 	for (int i = 0; i < _width; i++)
 		for (int j = 0; j < _height; j++)
-			if (_board.at(j).at(i) == 3)
-				_board.at(j).at(i) = 0;
+			if (_board.at(j).at(i) == body)
+				_board.at(j).at(i) = air;
 
 	for (auto body_part : bodyParts)
-		_board.at(body_part.x).at(body_part.y) = 3;
+		_board.at(body_part.x).at(body_part.y) = body;
 }
