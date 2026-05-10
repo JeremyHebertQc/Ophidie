@@ -9,7 +9,7 @@
 // Private method
 sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::Vector2f offsetInAbsolutePixels) const
 {
-	return sf::Vector2i{cellLocation.x*  GRID_CELL_SIZE, cellLocation.y*  GRID_CELL_SIZE} + getGridOffset();
+	return sf::Vector2i{cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE} + getGridOffset();
 }
 
 // Constructor
@@ -21,10 +21,10 @@ Grid::Grid(sf::RenderWindow* window, Settings* settings)
 	_width = _height = _numberOfTraps = _numberOfEggs = 0;
 	_hasRandomWalls = false;
 
-	for (int i = 0; i < GRID_FILES_PATH.size(); i++)
+	for (int i = 0; i < GRID_PATH.size(); i++)
 	{
-		if (!_textures[i].loadFromFile(GRID_FILES_PATH.at(i)))
-			sendFatalError(FILE_NOT_OPENED);
+		if (!_textures[i].loadFromFile(GRID_PATH.at(i)))
+			sendFatalError(FileNotOpened);
 
 		_renderers[i].setTexture(_textures[i]);
 	}
@@ -47,7 +47,7 @@ TileType Grid::getTileAt(sf::Vector2i coords) const
 
 sf::Vector2i Grid::getGridOffset() const
 {
-	sf::Vector2i boardSize = {(_height + BORDER_SIZE)*  GRID_CELL_SIZE, (_width + BORDER_SIZE)*  GRID_CELL_SIZE};
+	sf::Vector2i boardSize = {(_height + BORDER_SIZE) * GRID_CELL_SIZE, (_width + BORDER_SIZE) * GRID_CELL_SIZE};
 	return {((int)_window->getSize().x - boardSize.x) / 2, ((int)_window->getSize().y - boardSize.y) / 2};
 }
 
@@ -57,21 +57,21 @@ void Grid::setTileAt(sf::Vector2i coords, TileType tile)
 	_board.at(coords.x).at(coords.y) = tile;
 }
 
-void Grid::setWidth(const int width)
+void Grid::setWidth(int width)
 {
 	assert(width > 0);
 
 	_width = width;
 }
 
-void Grid::setHeight(const int height)
+void Grid::setHeight(int height)
 {
 	assert(height > 0);
 
 	_height = height;
 }
 
-void Grid::setScale(const int width, const int height)
+void Grid::setScale(int width, int height)
 {
 	setWidth(width);
 	setHeight(height);
@@ -95,8 +95,8 @@ void Grid::createMap()
 
 	if (_hasRandomWalls)
 		placeTraps();
-
-	placeEggs(_numberOfEggs);
+	for (int i = 0; i < _numberOfEggs; i++)
+		placeEgg();
 
 	for (int i = 0; i < AIR_SPACE; i++)
 		_board.at(AIR_SPACE_LOCATION[i]).at(FIRST_ROW_LOCATION) = air;
@@ -106,22 +106,22 @@ void Grid::configureGamemode()
 {
 	switch (_settings->getMode())
 	{
-	case NORMAL:
+	case Normal:
 		break;
 
-	case SURVIVAL:
+	case Survival:
 		break;
 
-	case DEATH_TRAP:
+	case DeathTrap:
 		_hasRandomWalls = true;
 		break;
 
-	case SURVIVE_HELL:
+	case SurviveHell:
 		_hasRandomWalls = true;
 		break;
 
 	default:
-		sendFatalError(INVALID_GAMEMODE);
+		sendFatalError(InvalidGamemode);
 	}
 }
 
@@ -129,48 +129,48 @@ void Grid::configureDifficulty()
 {
 	switch (_settings->getDifficulty())
 	{
-	case BABY:
+	case Baby:
 		_numberOfEggs = 3;
 		_numberOfTraps = 0;
 		break;
 
-	case EZ:
+	case Ez:
 		_numberOfEggs = 3;
-		_numberOfTraps = 0.05*  _width*  _height;
+		_numberOfTraps = 0.05 * _width * _height;
 		break;
 
-	case MEDIUM_RARE:
+	case MediumRare:
 		_numberOfEggs = 2;
-		_numberOfTraps = 0.10*  _width*  _height;
+		_numberOfTraps = 0.10 * _width * _height;
 		break;
 
-	case MEDIUM:
+	case Medium:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.15*  _width*  _height;
+		_numberOfTraps = 0.15 * _width * _height;
 		break;
 
-	case HARD:
+	case Hard:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.20*  _width*  _height;
+		_numberOfTraps = 0.20 * _width * _height;
 		break;
 
-	case HARDER:
+	case Harder:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.25*  _width*  _height;
+		_numberOfTraps = 0.25 * _width * _height;
 		break;
 
-	case TOO_HARD:
+	case TooHard:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.30*  _width*  _height;
+		_numberOfTraps = 0.30 * _width * _height;
 		break;
 
-	case HARDCORE:
+	case Hardcore:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.35*  _width*  _height;
+		_numberOfTraps = 0.35 * _width * _height;
 		break;
 
 	default:
-		sendFatalError(INVALID_DIFFICULTY);
+		sendFatalError(InvalidDifficulty);
 	}
 }
 
@@ -215,9 +215,10 @@ void Grid::placeTraps()
 	}
 }
 
-void Grid::placeEggs(int eggsToPlace)
+void Grid::placeEgg()
 {
-	while (eggsToPlace > 0)
+	bool eggPlaced = true;
+	while (eggPlaced)
 	{
 		int randX = getRandIntInRange(START_GRID_LOCATION, _width);
 		int randY = getRandIntInRange(START_GRID_LOCATION, _height);
@@ -225,7 +226,7 @@ void Grid::placeEggs(int eggsToPlace)
 		if (_board.at(randY).at(randX) == air)
 		{
 			_board.at(randY).at(randX) = egg;
-			eggsToPlace--;
+			eggPlaced = false;
 		}
 	}
 }

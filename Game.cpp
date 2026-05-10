@@ -45,11 +45,11 @@ void Game::play()
 		if (!menu.loadHomeMenu())
 			_window.close();
 		else
-			startGame();
+			StartGame();
 	}
 }
 
-bool Game::startGame()
+bool Game::StartGame()
 {
 	Grid map(&_window, &_settings);
 	map.createMap();
@@ -76,35 +76,35 @@ bool Game::startGame()
 				{
 				case sf::Keyboard::Left:
 					if (_settings.getArrow())
-						snake.setHeadDirection(LEFT);
+						snake.setHeadDirection(Left);
 					break;
 				case sf::Keyboard::A:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(LEFT);
+						snake.setHeadDirection(Left);
 					break;
 				case sf::Keyboard::Right:
 					if (_settings.getArrow())
-						snake.setHeadDirection(RIGHT);
+						snake.setHeadDirection(Right);
 					break;
 				case sf::Keyboard::D:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(RIGHT);
+						snake.setHeadDirection(Right);
 					break;
 				case sf::Keyboard::Up:
 					if (_settings.getArrow())
-						snake.setHeadDirection(UP);
+						snake.setHeadDirection(Up);
 					break;
 				case sf::Keyboard::W:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(UP);
+						snake.setHeadDirection(Up);
 					break;
 				case sf::Keyboard::Down:
 					if (_settings.getArrow())
-						snake.setHeadDirection(DOWN);
+						snake.setHeadDirection(Down);
 					break;
 				case sf::Keyboard::S:
 					if (!_settings.getArrow())
-						snake.setHeadDirection(DOWN);
+						snake.setHeadDirection(Down);
 					break;
 				case sf::Keyboard::Delete: //  quitout midgame
 					snake.setLiving(false);
@@ -122,14 +122,12 @@ bool Game::startGame()
 			{
 			case air:
 				snake.moveForward(false);
-				for (size_t i = 0; i < snake.getSnakeSize(); i++)
-					map.setTileAt(snake.getSnakeCoords().at(i), body);
+				map.updateSnakePosition(snake.getSnakeCoords());
 				break;
 			case egg:
 				snake.moveForward(true);
-				for (size_t i = 0; i < snake.getSnakeSize(); i++)
-					map.setTileAt(snake.getSnakeCoords().at(i), body);
-				map.placeEggs(1);
+				map.updateSnakePosition(snake.getSnakeCoords());
+				map.placeEgg();
 				break;
 			case body:
 			case trap:
@@ -147,10 +145,12 @@ bool Game::startGame()
 	return false;
 }
 
-// void Game::showEndScreen() {
+// void Game::showEndScreen()
+// {
 //
 // }
 //
-// void Game::savePlayerScore(Player player, GameMode mode) {
+// void Game::savePlayerScore(Player player, GameMode mode)
+// {
 //
 // }

@@ -55,20 +55,20 @@ void Menu::setTextColor(int r, int g, int b, sf::Text& text)
 	text.setFillColor(_textColor);
 }
 
-void Menu::setAlignment(const TextAlignment alignment)
+void Menu::setAlignment(TextAlignment alignment)
 {
 	sf::FloatRect bounds = _texts.back().getLocalBounds();
 	switch (alignment)
 	{
-	case ALIGNMENT_RIGHT:
+	case AlignmentRight:
 		_texts.back().setOrigin(bounds.left + bounds.width, bounds.top + bounds.height / 2.f);
 		break;
 
-	case ALIGNMENT_LEFT:
+	case AlignmentLeft:
 		_texts.back().setOrigin(bounds.left, bounds.top + bounds.height / 2.f);
 		break;
 
-	case ALIGNMENT_CENTER:
+	case AlignmentCenter:
 		_texts.back().setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
 		break;
 
@@ -78,9 +78,9 @@ void Menu::setAlignment(const TextAlignment alignment)
 }
 
 // Event management
-int Menu::isButtonPressed(sf::Event event)
+int Menu::isButtonPressed(const sf::Event& event)
 {
-	if (_buttons.size() > EMPTY)
+	if (_buttons.size() > 0)
 		for (int i = 0; i < _buttons.size(); i++)
 		{
 			if (_buttons[i]->isButtonPressed(event) != -1)
@@ -90,9 +90,9 @@ int Menu::isButtonPressed(sf::Event event)
 	return -1;
 }
 
-void Menu::isButtonHover(sf::Event event)
+void Menu::isButtonHover(const sf::Event& event)
 {
-	if (_buttons.size() > EMPTY)
+	if (_buttons.size() > 0)
 		for (int i = 0; i < _buttons.size(); i++)
 			_buttons[i]->isButtonHover(event);
 }
@@ -101,7 +101,7 @@ int Menu::isAction()
 {
 	static sf::Cursor cursorArrow;
 	if (!cursorArrow.loadFromSystem(sf::Cursor::Arrow))
-		sendError(FILE_NOT_OPENED);
+		sendError(FileNotOpened);
 
 	sf::Event event;
 	while (_window->pollEvent(event))
@@ -110,11 +110,11 @@ int Menu::isAction()
 		switch (event.type)
 		{
 		case sf::Event::Closed:
-			return closeOphidie;
+			return CloseOphidie;
 
 		case sf::Event::KeyReleased:
 			if (event.key.code == sf::Keyboard::Escape)
-				return closeOphidie;
+				return CloseOphidie;
 
 		case sf::Event::MouseButtonPressed:
 		case sf::Event::MouseButtonReleased:
@@ -142,11 +142,11 @@ int Menu::isAction()
 }
 
 // Music management
-void Menu::playMusic(std::string soundFileName, const float volume)
+void Menu::playMusic(const std::string& soundFileName, float volume)
 {
-	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundFileName))
+	if (!_musicBuffer.loadFromFile(MUSIC_DIR + soundFileName))
 	{
-		sendError(FILE_NOT_OPENED);
+		sendError(FileNotOpened);
 		return;
 	}
 
@@ -162,15 +162,15 @@ void Menu::stopMusic()
 }
 
 // Vectors management
-void Menu::addButton(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
+void Menu::addButton(ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position)
 {
-	_buttons.push_back(new Button(_window, _settings, action, text, buttonStyle, scale, position));
+	_buttons.push_back(new Button(_window, _settings, action, text, style, scale, position));
 }
 
-void Menu::addText(const int fontSize, const std::string text, const sf::Vector2f position, const TextAlignment alignment, const int r, const int g,  const int b)
+void Menu::addText(int fontSize, const std::string& text, sf::Vector2f position, TextAlignment alignment, int r, int g, int b)
 {
 	if (!_font.loadFromFile(FONT_PATH))
-		sendError(FILE_NOT_OPENED);
+		sendError(FileNotOpened);
 
 	_texts.push_back(sf::Text(text, _font, fontSize));
 
@@ -181,13 +181,13 @@ void Menu::addText(const int fontSize, const std::string text, const sf::Vector2
 	_texts.back().setPosition(position);
 }
 
-void Menu::addTexture(const std::string texture)
+void Menu::addTexture(const std::string& texture)
 {
 	_texture.loadFromFile(texture);
 	_textures.push_back(new sf::Texture(_texture));
 }
 
-void Menu::addSprite(const float scale, const sf::Vector2f position, const std::string texture)
+void Menu::addSprite(float scale, sf::Vector2f position, const std::string& texture)
 {
 	addTexture(texture);
 	_sprites.push_back(new sf::Sprite(*_textures.back()));
@@ -252,19 +252,19 @@ void Menu::draw()
 // Menu initiation
 void Menu::initHomeMenu()
 {
-	addButton(startGame, "Play", bigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 300.f));
-	addButton(openHTP, "How to play?", bigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 450.f));
-	addButton(openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 600.f));
-	addButton(openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 130.f, 750.f));
-	addButton(closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(getCenterPositionX() + 130.f, 750.f));
-	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), ALIGNMENT_LEFT, 61, 24, 79);
+	addButton(StartGame, "Play", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 300.f));
+	addButton(OpenHowToPlay, "How to play?", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 450.f));
+	addButton(OpenScoreboard, "Scoreboard", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 600.f));
+	addButton(OpenSettings, "Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 130.f, 750.f));
+	addButton(CloseOphidie, "Quit", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() + 130.f, 750.f));
+	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), AlignmentLeft, 61, 24, 79);
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), 100.f), LOGO_PATH);
 }
 
 void Menu::initSettingsMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
 	//TODO: Build it
 }
@@ -272,10 +272,10 @@ void Menu::initSettingsMenu()
 void Menu::initHowToPlayMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 	addText(12,
 		"Test msg xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-		sf::Vector2f(getCenterPositionX(), getCenterPositionY()), ALIGNMENT_CENTER, 255, 255, 255);
+		sf::Vector2f(getCenterPositionX(), getCenterPositionY()), AlignmentCenter, 255, 255, 255);
 
 	//TODO: Build it
 }
@@ -283,7 +283,7 @@ void Menu::initHowToPlayMenu()
 void Menu::initStartMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(closeSubmenu, "", yesButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addButton(CloseSubmenu, "", YesButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
 	//TODO: Build it
 }
@@ -291,7 +291,7 @@ void Menu::initStartMenu()
 void Menu::initScoreboardMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
 	//TODO: Build it
 }
@@ -317,7 +317,7 @@ bool Menu::loadHomeMenu()
 
 		switch (isAction())
 		{
-		case startGame:
+		case StartGame:
 			clearVectors();
 
 			if (_isSubmenuInit == false)
@@ -334,11 +334,11 @@ bool Menu::loadHomeMenu()
 			stopMusic();
 			return true;
 
-		case closeOphidie:
+		case CloseOphidie:
 			stopMusic();
 			return false;
 
-		case openHTP:
+		case OpenHowToPlay:
 			clearVectors();
 
 			if (_isSubmenuInit == false)
@@ -356,7 +356,7 @@ bool Menu::loadHomeMenu()
 			clearVectors();
 			break;
 
-		case openScoreboard:
+		case OpenScoreboard:
 			clearVectors();
 
 			if (_isSubmenuInit == false)
@@ -374,7 +374,7 @@ bool Menu::loadHomeMenu()
 			clearVectors();
 			break;
 
-		case openSettings:
+		case OpenSettings:
 			clearVectors();
 
 			if (_isSubmenuInit == false)
@@ -407,7 +407,7 @@ bool Menu::loadSettingsMenu()
 
 	switch (isAction())
 	{
-	case closeSubmenu:
+	case CloseSubmenu:
 		return false;
 
 	default:
@@ -425,7 +425,7 @@ bool Menu::loadHowToPlayMenu()
 
 	switch (isAction())
 	{
-	case closeSubmenu:
+	case CloseSubmenu:
 		return false;
 	default:
 		return true;
@@ -442,7 +442,7 @@ bool Menu::loadStartMenu()
 
 	switch (isAction())
 	{
-	case closeSubmenu:
+	case CloseSubmenu:
 		return false;
 	default:
 		return true;
@@ -459,7 +459,7 @@ bool Menu::loadScoreboardMenu()
 
 	switch (isAction())
 	{
-	case closeSubmenu:
+	case CloseSubmenu:
 		return false;
 	default:
 		return true;

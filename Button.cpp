@@ -16,7 +16,7 @@ void Button::calculateTextPosition()
 }
 
 // Constructor
-Button::Button(sf::RenderWindow* window, Settings* settings, const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
+Button::Button(sf::RenderWindow* window, Settings* settings, ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position)
 {
 	// Extern variables initializations
 	_window = window;
@@ -27,20 +27,20 @@ Button::Button(sf::RenderWindow* window, Settings* settings, const int action, c
 	_buttonPressed = false;
 
 	// Display management
-	setButtonTexture(buttonStyle);
+	setButtonTexture(style);
 	_button.setScale(sf::Vector2f(scale, scale));
 	_button.setOrigin(_texture.getSize().x / 2.f, _texture.getSize().y / 2.f);
 	_button.setPosition(position);
 
 	// Text management
 	if (!_font.loadFromFile(FONT_PATH))
-		sendError(FILE_NOT_OPENED);
+		sendError(FileNotOpened);
 
 	_text.setFont(_font);
 	_text.setCharacterSize(FONT_SIZE);
 	_text.setString(text);
 	_text.setStyle(sf::Text::Bold);
-	setTextColor(61, 24, 79);
+	setTextColor(BUTTON_TEXT_COLOR_R, BUTTON_TEXT_COLOR_G, BUTTON_TEXT_COLOR_B);
 	calculateTextPosition();
 }
 
@@ -69,39 +69,39 @@ void Button::setTextColor(int r, int g, int b)
 	_text.setFillColor(_textColor);
 }
 
-void Button::setButtonTexture(const int buttonStyle)
+void Button::setButtonTexture(int buttonStyle)
 {
 	assert(buttonStyle >= 0 && buttonStyle <= nbStyle);
 
 	switch (buttonStyle)
 	{
-	case bigButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "bigButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedBigButton.png");
+	case BigButton:
+		_texture.loadFromFile(BUTTON_DIR + "BigButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedBigButton.png");
 		break;
 
-	case mediumButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "mediumButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedMediumButton.png");
+	case MediumButton:
+		_texture.loadFromFile(BUTTON_DIR + "MediumButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedMediumButton.png");
 		break;
 
-	case littleButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "littleButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedLittleButton.png");
+	case LittleButton:
+		_texture.loadFromFile(BUTTON_DIR + "LittleButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedLittleButton.png");
 		break;
 
-	case yesButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "yesButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedYesButton.png");
+	case YesButton:
+		_texture.loadFromFile(BUTTON_DIR + "YesButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
 		break;
 
-	case noButton:
-		_texture.loadFromFile(BUTTON_TEXTURE_PATH + "noButton.png");
-		_pressedTexture.loadFromFile(BUTTON_TEXTURE_PATH + "pressedNoButton.png");
+	case NoButton:
+		_texture.loadFromFile(BUTTON_DIR + "NoButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedNoButton.png");
 		break;
 
 	default:
-		sendFatalError(FILE_NOT_OPENED);
+		sendFatalError(FileNotOpened);
 	}
 
 	_button.setTexture(_texture);
@@ -113,15 +113,15 @@ void Button::updateButton()
 	_window->draw(_button);
 	_window->draw(_text);
 	_window->display();
-	playButtonSound(BUTTON_SOUND_PATH + "button.wav", _settings->getMenu());
+	playButtonSound(SOUND_DIR + "button.wav", _settings->getMenu());
 	sf::sleep(sf::milliseconds(250));
 }
 
-void Button::playButtonSound(std::string soundPath, float volume)
+void Button::playButtonSound(const std::string& soundPath, float volume)
 {
 	if (!_soundEffectBuffer.loadFromFile(soundPath))
 	{
-		sendError(FILE_NOT_OPENED);
+		sendError(FileNotOpened);
 		return;
 	}
 
@@ -131,11 +131,11 @@ void Button::playButtonSound(std::string soundPath, float volume)
 	_soundEffect.play();
 }
 
-int Button::isButtonPressed(sf::Event event)
+int Button::isButtonPressed(const sf::Event& event)
 {
 	sf::Vector2f mousePosition = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
 
-	if (_buttonPressed == true && (sf::Event::MouseButtonReleased))
+	if (_buttonPressed && event.type == sf::Event::MouseButtonReleased)
 	{
 		_button.setTexture(_texture);
 		_buttonPressed = false;
@@ -151,14 +151,14 @@ int Button::isButtonPressed(sf::Event event)
 	return -1;
 }
 
-void Button::isButtonHover(sf::Event event)
+void Button::isButtonHover(const sf::Event& event)
 {
 	static bool loadedCursor = false;
 	static sf::Cursor cursorHand;
 
 	if (!loadedCursor)
 		if (!cursorHand.loadFromSystem(sf::Cursor::Hand))
-			sendError(CURSOR_FAILED_TO_LOAD);
+			sendError(CursorFailedToLoad);
 
 
 	if (event.type == sf::Event::MouseMoved)

@@ -10,32 +10,30 @@ Snake::Snake(sf::RenderWindow* window, sf::Vector2i offset)
 {
 	_window = window;
 
-	_textureHead.loadFromFile("assets/images/snake_head.png");
-	_textureBody.loadFromFile("assets/images/snake_body.png");
-	_textureCurve.loadFromFile("assets/images/body_curve.png");
-	_textureTail.loadFromFile("assets/images/snake_tail.png");
+	if (!(_textureHead.loadFromFile(GAME_DIR + "snake/head.png") && _textureBody.loadFromFile(GAME_DIR + "snake/body.png") && _textureCurve.loadFromFile(GAME_DIR + "snake/body_curve.png") && _textureTail.loadFromFile(GAME_DIR + "snake/tail.png")))
+		sendFatalError(FileNotOpened);
 
 	setOffset(offset);
 
 	_snake.push_back(sf::Sprite(_textureHead));
-	setHeadDirection(RIGHT);
+	setHeadDirection(Right);
 	_snake.back().setOrigin(getSnakeTextureCenterPosition());
-	_snake.back().setPosition(getSnakeTextureSizeX()*  3.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	_snake.back().setRotation(_headDirection*  static_cast<float>(CONVERT_DEGREE));
+	_snake.back().setPosition(getSnakeTextureSizeX() * 3.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	_snake.push_back(sf::Sprite(_textureBody));
 	_snake.back().setOrigin(getSnakeTextureCenterPosition());
-	_snake.back().setPosition(getSnakeTextureSizeX()*  2.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	_snake.back().setRotation(_headDirection*  static_cast<float>(CONVERT_DEGREE));
+	_snake.back().setPosition(getSnakeTextureSizeX() * 2.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	_snake.push_back(sf::Sprite(_textureTail));
 	_snake.back().setOrigin(getSnakeTextureCenterPosition());
 	_snake.back().setPosition(static_cast<float>(getSnakeTextureSizeX() + getSnakeTextureCenterPositionX()) + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
 	//_snake.back().setPosition(static_cast<float>(getSnakeTextureCenterPositionX()) + _offset.x, static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	_snake.back().setRotation(_headDirection*  static_cast<float>(CONVERT_DEGREE));
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	setLiving(true);
-	setBannedDirection(LEFT);
+	setBannedDirection(Left);
 	updateLastDirection();
 }
 
@@ -43,7 +41,7 @@ Snake::Snake(sf::RenderWindow* window, sf::Vector2i offset)
 Snake::~Snake()
 {
 	_snake.clear();
-	_headDirection = UP;
+	_headDirection = Up;
 }
 
 // Getters
@@ -67,7 +65,7 @@ size_t Snake::getSnakeSize()
 	return _snake.size();
 }
 
-Direction Snake::getHeadDirection()
+Direction Snake::getHeadDirection() const
 {
 	return _headDirection;
 }
@@ -91,20 +89,20 @@ sf::Vector2i Snake::getDestinationCoord()
 {
 	switch (_headDirection)
 	{
-	case UP:
+	case Up:
 		return sf::Vector2i(getHeadCoordX(), getHeadCoordY() - 1);
 		break;
-	case RIGHT:
+	case Right:
 		return sf::Vector2i(getHeadCoordX() + 1, getHeadCoordY());
 		break;
-	case DOWN:
+	case Down:
 		return sf::Vector2i(getHeadCoordX(), getHeadCoordY() + 1);
 		break;
-	case LEFT:
+	case Left:
 		return sf::Vector2i(getHeadCoordX() - 1, getHeadCoordY());
 		break;
 	default:
-		sendFatalError(NOT_VALID_DIRECTION);
+		sendFatalError(InvalidDirection);
 	}
 }
 
@@ -140,16 +138,16 @@ void Snake::setHeadDirection(Direction direction)
 
 	if (direction != _bannedDirection)
 		if (direction == -1) // DELETE: Before hand in
-			_headDirection = LEFT;
+			_headDirection = Left;
 		else if (direction == 4)
-			_headDirection = UP;
+			_headDirection = Up;
 		else // DELETE: BEfore hand in
 			_headDirection = direction;
 }
 
 void Snake::setBannedDirection(Direction direction)
 {
-	assert(direction >= UP && direction <= LEFT);
+	assert(direction >= Up && direction <= Left);
 
 	_bannedDirection = direction;
 }
@@ -196,18 +194,18 @@ void Snake::addNeck()
 		_snake.at(1).setPosition(_snake.front().getPosition().x, _snake.front().getPosition().y);
 
 		if (_headDirection - _lastDirection == 1 || _headDirection - _lastDirection == -3)
-			_snake.at(1).setRotation(_headDirection*  CONVERT_DEGREE);
-		else if (_headDirection == UP || _headDirection == DOWN)
-			_snake.at(1).setRotation(((_headDirection + 1) % 4)*  -CONVERT_DEGREE);
+			_snake.at(1).setRotation(_headDirection * CONVERT_DEGREE);
+		else if (_headDirection == Up || _headDirection == Down)
+			_snake.at(1).setRotation(((_headDirection + 1) % 4) * -CONVERT_DEGREE);
 		else
-			_snake.at(1).setRotation(((_headDirection - 1) % 4)*  -CONVERT_DEGREE);
+			_snake.at(1).setRotation(((_headDirection - 1) % 4) * -CONVERT_DEGREE);
 	}
 	else
 	{
 		_snake.insert(_snake.begin() + 1, sf::Sprite(_textureBody));
 		_snake.at(1).setOrigin(_snake.at(1).getTexture()->getSize().x / 2, _snake.at(1).getTexture()->getSize().y / 2);
 		_snake.at(1).setPosition(_snake.front().getPosition().x, _snake.front().getPosition().y);
-		_snake.at(1).setRotation(_lastDirection*  CONVERT_DEGREE);
+		_snake.at(1).setRotation(_lastDirection * CONVERT_DEGREE);
 	}
 }
 
@@ -224,28 +222,28 @@ void Snake::moveBody()
 
 void Snake::moveHead()
 {
-	_snake.front().setRotation(_headDirection*  CONVERT_DEGREE);
+	_snake.front().setRotation(_headDirection * CONVERT_DEGREE);
 
 	switch (_headDirection)
 	{
-	case UP:
+	case Up:
 		_snake.front().setPosition(_snake.front().getPosition().x, _snake.front().getPosition().y - _snake.front().getTexture()->getSize().y);
-		setBannedDirection(DOWN);
+		setBannedDirection(Down);
 		break;
-	case RIGHT:
+	case Right:
 		_snake.front().setPosition(_snake.front().getPosition().x + _snake.front().getTexture()->getSize().x, _snake.front().getPosition().y);
-		setBannedDirection(LEFT);
+		setBannedDirection(Left);
 		break;
-	case DOWN:
+	case Down:
 		_snake.front().setPosition(_snake.front().getPosition().x, _snake.front().getPosition().y + _snake.front().getTexture()->getSize().y);
-		setBannedDirection(UP);
+		setBannedDirection(Up);
 		break;
-	case LEFT:
+	case Left:
 		_snake.front().setPosition(_snake.front().getPosition().x - _snake.front().getTexture()->getSize().x, _snake.front().getPosition().y);
-		setBannedDirection(RIGHT);
+		setBannedDirection(Right);
 		break;
 	default:
-		sendFatalError(NOT_VALID_DIRECTION);
+		sendFatalError(InvalidDirection);
 	}
 }
 

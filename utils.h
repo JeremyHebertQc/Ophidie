@@ -23,6 +23,6 @@ void isFileOpen(std::fstream& stream);
 int getRandIntInRange(int min, int max);
 
 // Error management
-void sendFatalError(const int errorCode);
-void sendError(const int errorCode);
-const std::string getErrorCodeName(const int errorCode);
+void sendFatalError(ErrorCode code);
+void sendError(ErrorCode code);
+const std::string getErrorCodeName(ErrorCode code);

@@ -53,22 +53,22 @@ private:
 
 	// Setter
 	void setTextColor(int r, int g, int b, sf::Text& text);
-	void setAlignment(const TextAlignment alignment);
+	void setAlignment(TextAlignment alignment);
 
 	// Event management
-	int isButtonPressed(sf::Event event);
-	void isButtonHover(sf::Event event);
+	int isButtonPressed(const sf::Event& event);
+	void isButtonHover(const sf::Event& event);
 	int isAction();
 
 	// Music management
-	void playMusic(std::string soundFileName, const float volume);
+	void playMusic(const std::string& soundFileName, float volume);
 	void stopMusic();
 
 	// Vectors management
-	void addButton(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position);
-	void addText(const int fontSize, const std::string text, const sf::Vector2f position, const TextAlignment alignment, const int r, const int g, const int b);
-	void addTexture(const std::string texture);
-	void addSprite(const float scale, const sf::Vector2f position, const std::string texture);
+	void addButton(ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position);
+	void addText(int fontSize, const std::string& text, sf::Vector2f position, TextAlignment alignment, int r, int g, int b);
+	void addTexture(const std::string& texture);
+	void addSprite(float scale, sf::Vector2f position, const std::string& texture);
 	void clearVectors();
 
 	// Drawing management

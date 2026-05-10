@@ -25,7 +25,7 @@ void sleepMs(int ms)
 #ifdef _WIN32
 	Sleep(ms);
 #else
-	usleep(ms*  1000);
+	usleep(ms * 1000);
 #endif
 }
 
@@ -55,7 +55,7 @@ void isFileOpen(std::fstream& stream)
 		std::cin.get();
 #endif
 
-		sendFatalError(FILE_NOT_OPENED);
+		sendFatalError(FileNotOpened);
 	}
 }
 
@@ -64,42 +64,42 @@ int getRandIntInRange(int min, int max)
 	return rand() % (max - min + 1) + min;
 }
 
-void sendFatalError(const int errorCode)
+void sendFatalError(ErrorCode code)
 {
-	std::string errorCodeName = getErrorCodeName(errorCode);
+	std::string errorCodeName = getErrorCodeName(code);
 	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\nPress any key to close the game..."; //TODO: Transform in SFML if we have time
 
 	system("pause>NUL");
-	exit(errorCode);
+	exit(code);
 }
 
-void sendError(const int errorCode)
+void sendError(ErrorCode code)
 {
-	std::string errorCodeName = getErrorCodeName(errorCode);
+	std::string errorCodeName = getErrorCodeName(code);
 	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\n"; //TODO: Transform in SFML if we have time
 }
 
-const std::string getErrorCodeName(const int errorCode)
+const std::string getErrorCodeName(ErrorCode code)
 {
-	switch (errorCode)
+	switch (code)
 	{
-	case SUCCESS:
-		return "SUCCESS - Success, no error found.";
+	case Success:
+		return "Success - Success, no error found.";
 
-	case FILE_NOT_OPENED:
-		return "FILE_NOT_OPENED - A file could not be loaded.";
+	case FileNotOpened:
+		return "FileNotOpened - A file could not be loaded.";
 
-	case NOT_VALID_DIRECTION:
-		return "NOT_VALID_DIRECTION - Head direction is invalid.";
+	case InvalidDirection:
+		return "InvalidDirection - Head direction is invalid.";
 
-	case INVALID_DIFFICULTY:
-		return "INVALID_DIFFICULTY - The difficulty of the settings is incorrect.";
+	case InvalidDifficulty:
+		return "InvalidDifficulty - The difficulty of the settings is incorrect.";
 
-	case INVALID_GAMEMODE:
-		return "INVALID_GAMEMODE - The gamemode of the settings is incorrect.";
+	case InvalidGamemode:
+		return "InvalidGamemode - The gamemode of the settings is incorrect.";
 
-	case CURSOR_FAILED_TO_LOAD:
-		return "CURSOR_FAILED_TO_LOAD - A cursor could not be loaded from the system.";
+	case CursorFailedToLoad:
+		return "CursorFailedToLoad - A cursor could not be loaded from the system.";
 
 	default:
 		return "Undefined error.";

@@ -44,7 +44,7 @@ class Snake
 	int getHeadCoordY();
 	Direction getBannedDirection();
 	size_t getSnakeSize();
-	Direction getHeadDirection();
+	Direction getHeadDirection() const;
 	sf::Vector2i getHeadCoord();
 	std::vector<sf::Vector2i> getSnakeCoords();
 	sf::Vector2i getDestinationCoord();

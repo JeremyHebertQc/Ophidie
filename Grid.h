@@ -42,9 +42,9 @@ public:
 
 	// Setters
 	void setTileAt(sf::Vector2i coords, TileType tile);
-	void setWidth(const int width);
-	void setHeight(const int height);
-	void setScale(const int width, const int height);
+	void setWidth(int width);
+	void setHeight(int height);
+	void setScale(int width, int height);
 
 	// Make map
 	void createMap();
@@ -54,7 +54,7 @@ public:
 	void placeAir();
 	void bodyLocationReserve();
 	void placeTraps();
-	void placeEggs(int eggsToPlace);
+	void placeEgg();
 
 	// Methods
 	void updateSnakePosition(std::vector<sf::Vector2i> bodyParts);
