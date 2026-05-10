@@ -1,18 +1,20 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include "Menu.h"
 #include "Game.h"
+
 #include "Grid.h"
+#include "Menu.h"
 #include "Settings.h"
+
+#include <SFML/Audio.hpp>
+#include <SFML/Graphics.hpp>
 
 // Constructor
 Game::Game()
 {
-    _window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
-    _window.setActive(true);
-    _window.setFramerateLimit(60);
+	_window.create(sf::VideoMode::getDesktopMode(), "Ophidie");
+	_window.setActive(true);
+	_window.setFramerateLimit(60);
 
-    sf::Image icon;
+	sf::Image icon;
 	if (icon.loadFromFile("assets/favicon/ophidie.png"))
 	{
 		_window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -22,21 +24,21 @@ Game::Game()
 // Destructor
 Game::~Game()
 {
-    _window.close();
+	_window.close();
 }
 
 // Method
 void Game::play()
 {
-    Menu menu(_window);
+	Menu menu(_window);
 
-    while (_window.isOpen())
-    {
-        if(!menu.loadHomeMenu(_window))
-            _window.close();
+	while (_window.isOpen())
+	{
+		if (!menu.loadHomeMenu(_window, _settings))
+			_window.close();
 		else
 			startGame();
-    }
+	}
 }
 
 bool Game::startGame()
@@ -44,14 +46,13 @@ bool Game::startGame()
 	Grid map;
 	map.createMap(_settings.getWidth(), _settings.getHeight(), _settings.getMode(), _settings.getDifficulty());
 
-    sf::Clock moveCooldown;
+	sf::Clock moveCooldown;
 
-	Snake snake(map.getGridOffset());
+	Snake snake(map.getGridOffset(&_window));
 
 	bool eat = false;
 	bool chain = true;
 
-	
 	while (snake.isLiving())
 	{
 		sf::Event event;
@@ -108,7 +109,7 @@ bool Game::startGame()
 		if (moveCooldown.getElapsedTime().asMilliseconds() > 500 / ((_settings.getDifficulty() % 4) + 1))
 		{
 			moveCooldown.restart();
-			
+
 			switch (map.getTileAt(snake.getDestinationCoord()))
 			{
 			case air:
@@ -138,10 +139,10 @@ bool Game::startGame()
 	return false;
 }
 
-//void Game::showEndScreen() {
+// void Game::showEndScreen() {
 //
-//}
+// }
 //
-//void Game::savePlayerScore(Player player, GameMode mode) {
+// void Game::savePlayerScore(Player player, GameMode mode) {
 //
-//}
+// }

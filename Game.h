@@ -1,15 +1,16 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include "Settings.h"
+
+#include <SFML/Graphics.hpp>
 
 class Game
 {
-private:
+  private:
 	sf::RenderWindow _window;
-  Settings _settings;
+	Settings _settings;
 
-public:
+  public:
 	// Constructor
 	Game();
 
@@ -18,8 +19,7 @@ public:
 
 	// Method
 	void play();
-	//void showEndScreen();
-	//void savePlayerScore(Player player, GameMode mode);
+	// void showEndScreen();
+	// void savePlayerScore(Player player, GameMode mode);
 	bool startGame();
 };
-

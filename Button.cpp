@@ -10,9 +10,9 @@
 // Private method
 void Button::calculateTextPosition()
 {
-	float centerPositionX = _button.getGlobalBounds().width / 2.0,
-		centerPositionY = _button.getGlobalBounds().height / 2.0;
-	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2));
+	float centerPositionX = _button.getGlobalBounds().width / 2.f,
+		centerPositionY = _button.getGlobalBounds().height / 2.f;
+	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2.f), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2.f));
 }
 
 // Constructors
@@ -110,16 +110,16 @@ void Button::setButtonTexture(const int buttonStyle)
 }
 
 // Event management
-void Button::updateButton(sf::RenderWindow& window)
+void Button::updateButton(sf::RenderWindow& window, Settings& settings)
 {
 	window.draw(_button);
 	window.draw(_text);
 	window.display();
-	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav");
+	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav", settings.getMenu());
 	sf::sleep(sf::milliseconds(250));
 }
 
-void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath)
+void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath, float volume)
 {
 	if (!soundEffectBuffer.loadFromFile(soundPath))
 	{
@@ -129,13 +129,11 @@ void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soun
 
 	soundEffect.setBuffer(soundEffectBuffer);
 	soundEffect.setLoop(false);
-
-	Settings soundSettings;
-	soundEffect.setVolume(soundSettings.getMenu()); //TODO: Utiliser les settings des paramètres
+	soundEffect.setVolume(volume);
 	soundEffect.play();
 }
 
-int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
+int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings)
 {
 	sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
 
@@ -150,7 +148,7 @@ int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window)
 	{
 		_buttonPressed = true;
 		_button.setTexture(_pressedTexture);
-		updateButton(window);
+		updateButton(window, settings);
 	}
 	return -1;
 }

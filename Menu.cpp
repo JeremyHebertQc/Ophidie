@@ -9,7 +9,7 @@
 // Constructor
 Menu::Menu(sf::RenderWindow& window)
 {
-	_wallpaper.setScale(window.getSize().x, window.getSize().y);
+	_wallpaper.setScale(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	_wallpaper.setScale(5.f, 5.f);
 	addTexture(WALLPAPER_PATH);
 	_wallpaper.setTexture(*_textures.back());
@@ -51,12 +51,12 @@ void Menu::setTextColor(int r, int g, int b, sf::Text& text)
 }
 
 // Event management
-int Menu::isButtonPressed(sf::Event event, sf::RenderWindow& window)
+int Menu::isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings)
 {
 	if (_buttons.size() > EMPTY)
 		for (int i = 0; i < _buttons.size(); i++)
 		{
-			if (_buttons[i]->isButtonPressed(event, window) != -1)
+			if (_buttons[i]->isButtonPressed(event, window, settings) != -1)
 				return _buttons[i]->getAction();
 		}
 
@@ -70,7 +70,7 @@ void Menu::isButtonHover(sf::Event event, sf::RenderWindow& window)
 			_buttons[i]->isButtonHover(event, window);
 }
 
-int Menu::isAction(sf::RenderWindow& window)
+int Menu::isAction(sf::RenderWindow& window, Settings& settings)
 {
 	static sf::Cursor cursorArrow;
 	if (!cursorArrow.loadFromSystem(sf::Cursor::Arrow))
@@ -91,7 +91,7 @@ int Menu::isAction(sf::RenderWindow& window)
 
 		case sf::Event::MouseButtonPressed:
 		case sf::Event::MouseButtonReleased:
-			action = isButtonPressed(event, window);
+			action = isButtonPressed(event, window, settings);
 			window.clear();
 			if (action != -1)
 				return action;
@@ -115,7 +115,7 @@ int Menu::isAction(sf::RenderWindow& window)
 }
 
 // Music management
-void Menu::playMusic(std::string soundFileName)
+void Menu::playMusic(std::string soundFileName, float volume)
 {
 	if (!_musicBuffer.loadFromFile(SOUND_PATH + soundFileName))
 	{
@@ -125,8 +125,7 @@ void Menu::playMusic(std::string soundFileName)
 
 	_musicSound.setBuffer(_musicBuffer);
 	_musicSound.setLoop(true);
-	Settings musicSettings;
-	_musicSound.setVolume(musicSettings.getMusic());
+	_musicSound.setVolume(volume);
 	_musicSound.play();
 }
 
@@ -208,7 +207,7 @@ void Menu::drawSprite(sf::RenderWindow& window, sf::Sprite* sprite)
 void Menu::draw(sf::RenderWindow& window)
 {
 	window.draw(_wallpaper);
-	
+
 	drawButtons(window);
 	drawSprites(window);
 	drawTexts(window);
@@ -222,7 +221,7 @@ void Menu::initHomeMenu(sf::RenderWindow& window)
 	addButton(openScoreboard, "Scoreboard", bigButton, 0.5f, sf::Vector2f(getCenterPositionX(window), 600.f));
 	addButton(openSettings, "Settings", littleButton, 0.5f, sf::Vector2f(getCenterPositionX(window) - 130.f, 750.f));
 	addButton(closeOphidie, "Quit", littleButton, 0.5f, sf::Vector2f(getCenterPositionX(window) + 130.f, 750.f));
-	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix", sf::Vector2f(25.f, window.getSize().y - 50.f), 61, 24, 79);
+	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(25.f, window.getSize().y - 50.f), 61, 24, 79);
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(window), 100.f), LOGO_PATH);
 }
 
@@ -247,7 +246,7 @@ void Menu::initScoreboardMenu(sf::RenderWindow& window)
 }
 
 // Menu loading
-bool Menu::loadHomeMenu(sf::RenderWindow& window)
+bool Menu::loadHomeMenu(sf::RenderWindow& window, Settings& settings)
 {
 	static bool isCreated = false;
 	if (isCreated == false)
@@ -256,7 +255,7 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 		isCreated = true;
 	}
 
-	playMusic("menuMusic.wav");
+	playMusic("menuMusic.wav", settings.getMusic());
 
 	while (true)
 	{
@@ -264,7 +263,7 @@ bool Menu::loadHomeMenu(sf::RenderWindow& window)
 		draw(window);
 		window.display();
 
-		switch (isAction(window))
+		switch (isAction(window, settings))
 		{
 		case startGame:
 			loadStartMenu(window);

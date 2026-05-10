@@ -30,17 +30,17 @@ Settings::~Settings()
 }
 
 // Getteurs
-unsigned int Settings::getSound() const
+float Settings::getSound() const
 {
     return _volSound;
 }
 
-unsigned int Settings::getMusic() const
+float Settings::getMusic() const
 {
     return _volMusic;
 }
 
-int Settings::getMenu() const
+float Settings::getMenu() const
 {
 	return _volMenu;
 }
@@ -81,21 +81,21 @@ bool Settings::getDeaf() const
 }
 
 // Setteurs
-void Settings::setSound(const unsigned int volSound)
+void Settings::setSound(const float volSound)
 {
     assert(volSound >= MIN_VOLUME && volSound <= MAX_VOLUME);
 
     _volSound = volSound;
 }
 
-void Settings::setMusic(const unsigned int volMusic)
+void Settings::setMusic(const float volMusic)
 {
     assert(volMusic >= MIN_VOLUME && volMusic <= MAX_VOLUME);
 
     _volMusic = volMusic;
 }
 
-void Settings::setMenuVolume(const unsigned int volMenu)
+void Settings::setMenuVolume(const float volMenu)
 {
 	assert(volMenu >= MIN_VOLUME && volMenu <= MAX_VOLUME);
 
@@ -162,7 +162,7 @@ void Settings::setGrid(const int gridW, const int gridH)
     setHeight(gridH);
 }
 
-void Settings::setVolume(const int volSound, const int volMusic, const int volMenu)
+void Settings::setVolume(const float volSound, const float volMusic, const float volMenu)
 {
     setSound(volSound);
     setMusic(volMusic);
