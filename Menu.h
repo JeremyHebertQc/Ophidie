@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
 #include <string>
 #include "Button.h"
@@ -45,12 +47,12 @@ public:
 	void setTextColor(int r, int g, int b, sf::Text& text);
 
 	// Event management
-	int isButtonPressed(sf::Event event, sf::RenderWindow& window);
+	int isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings);
 	void isButtonHover(sf::Event event, sf::RenderWindow& window);
-	int isAction(sf::RenderWindow& window);
+	int isAction(sf::RenderWindow& window, Settings& settings);
 
 	// Music management
-	void playMusic(std::string soundFileName);
+	void playMusic(std::string soundFileName, float volume);
 	void stopMusic();
 
 	// Vectors management
@@ -75,7 +77,7 @@ public:
 	void initScoreboardMenu(sf::RenderWindow& window);
 
 	// Menu loading
-	bool loadHomeMenu(sf::RenderWindow& window);
+	bool loadHomeMenu(sf::RenderWindow& window, Settings& settings);
 	void loadSettingsMenu(sf::RenderWindow& window);
 	void loadHowToPlayMenu(sf::RenderWindow& window);
 	void loadStartMenu(sf::RenderWindow& window);
