@@ -11,7 +11,7 @@ Projet : Ophidie
 constexpr int NUMBER_OF_SCORES = 10;
 
 const std::string SCOREBOARD_FILEPATH = "data/scoreboards/";
-static const std::vector<std::string> GAMEMODES_PATH =
+const std::vector<std::string> GAMEMODES_PATH =
 {
         SCOREBOARD_FILEPATH + "NORMAL",
         SCOREBOARD_FILEPATH + "SURVIVAL",

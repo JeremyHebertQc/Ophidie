@@ -91,5 +91,4 @@ private:
 	bool loadHowToPlayMenu();
 	bool loadStartMenu();
 	bool loadScoreboardMenu();
-	bool loadScoreboardMenu(int scoreboardType);
 };

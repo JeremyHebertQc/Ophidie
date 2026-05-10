@@ -240,6 +240,7 @@ void Menu::initHomeMenu()
 void Menu::initSettingsMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
+	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
 	//TODO: Build it
 }
@@ -247,6 +248,7 @@ void Menu::initSettingsMenu()
 void Menu::initHowToPlayMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
+	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
 	//TODO: Build it
 }
@@ -262,6 +264,7 @@ void Menu::initStartMenu()
 void Menu::initScoreboardMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
+	addButton(closeSubmenu, "", noButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
 	//TODO: Build it
 }
@@ -289,6 +292,7 @@ bool Menu::loadHomeMenu()
 		{
 		case startGame:
 			clearVectors();
+
 			if (_isSubmenuInit == false)
 			{
 				initStartMenu();
@@ -326,12 +330,38 @@ bool Menu::loadHomeMenu()
 			break;
 
 		case openScoreboard:
-			loadScoreboardMenu();
+			clearVectors();
+
+			if (_isSubmenuInit == false)
+			{
+				initScoreboardMenu();
+				_isSubmenuInit = true;
+			}
+
+			_isMenuInit = false;
+
+			while (loadScoreboardMenu())
+				;
+
+			_isSubmenuInit = false;
 			clearVectors();
 			break;
 
 		case openSettings:
-			loadSettingsMenu();
+			clearVectors();
+
+			if (_isSubmenuInit == false)
+			{
+				initSettingsMenu();
+				_isSubmenuInit = true;
+			}
+
+			_isMenuInit = false;
+
+			while (loadSettingsMenu())
+				;
+
+			_isSubmenuInit = false;
 			clearVectors();
 			break;
 
@@ -344,33 +374,40 @@ bool Menu::loadHomeMenu()
 
 bool Menu::loadSettingsMenu()
 {
-	initSettingsMenu();
+	_window->clear();
+	draw();
+	_window->display();
 
-	//TODO: Build it
+	switch (isAction())
+	{
+	case closeSubmenu:
+		return false;
+	default:
+		return true;
+	}
 
-	//switch (isAction(window))
-	//{
-	//case closeHTP:
-	//	return false;
-	//default:
-	//	return true;
-	//}
-	return true;
+	// TODO: Build it
 }
 
 bool Menu::loadHowToPlayMenu()
 {
-	initHowToPlayMenu();
+	_window->clear();
+	draw();
+	_window->display();
 
-	//TODO: Build it
+	switch (isAction())
+	{
+	case closeSubmenu:
+		return false;
+	default:
+		return true;
+	}
 
-	return true;
+	// TODO: Build it
 }
 
 bool Menu::loadStartMenu()
 {
-	initStartMenu();
-
 	_window->clear();
 	draw();
 	_window->display();
@@ -388,44 +425,17 @@ bool Menu::loadStartMenu()
 
 bool Menu::loadScoreboardMenu()
 {
-	initScoreboardMenu();
+	_window->clear();
+	draw();
+	_window->display();
 
-	//TODO: Build it
-
-	return true;
-}
-
-bool Menu::loadScoreboardMenu(int scoreboardType)
-{
-	switch (scoreboardType)
+	switch (isAction())
 	{
-	case goToNormalSCR:
-		initScoreboardMenu();
-
-		//TODO: Build it
-		break;
-
-	case goToSurvivalSCR:
-		initScoreboardMenu();
-
-		//TODO: Build it
-		break;
-
-	case goToDeathTrapSCR:
-		initScoreboardMenu();
-
-		//TODO: Build it
-		break;
-
-	case goToSurviveHellSCR:
-		initScoreboardMenu();
-
-		//TODO: Build it
-		break;
-
+	case closeSubmenu:
+		return false;
 	default:
-		break;
+		return true;
 	}
 
-	return true;
+	// TODO: Build it
 }
