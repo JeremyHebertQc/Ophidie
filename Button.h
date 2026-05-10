@@ -24,10 +24,14 @@ private:
 	sf::SoundBuffer _soundEffectBuffer;
 	sf::Sound _soundEffect;
 
+	// Use extern declarations
+	Settings* _settings;
+	sf::RenderWindow* _window;
+
 public:
 	// Constructors
-	Button();
-	Button(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position);
+	Button() = delete;
+    Button(sf::RenderWindow* window, Settings* settings, const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position);
 
 	// Destructor
 	~Button();
@@ -40,11 +44,11 @@ public:
 	void setButtonTexture(const int buttonStyle);
 
 	// Event management
-	void updateButton(sf::RenderWindow& window, Settings& settings);
-	void playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath, float volume);
-	int isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings);
-	void isButtonHover(sf::Event event, sf::RenderWindow& window);
+	void updateButton();
+	void playButtonSound(std::string soundPath, float volume);
+	int isButtonPressed(sf::Event event);
+	void isButtonHover(sf::Event event);
 
 	// Drawing management
-	void draw(sf::RenderWindow& window);
+	void draw();
 };

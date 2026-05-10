@@ -38,11 +38,11 @@ Game::~Game()
 // Method
 void Game::play()
 {
-	Menu menu(_window);
+	Menu menu(&_window, &_settings);
 
 	while (_window.isOpen())
 	{
-		if (!menu.loadHomeMenu(_window, _settings))
+		if (!menu.loadHomeMenu())
 			_window.close();
 		else
 			startGame();
@@ -51,12 +51,12 @@ void Game::play()
 
 bool Game::startGame()
 {
-	Grid map;
-	map.createMap(_settings.getWidth(), _settings.getHeight(), _settings.getMode(), _settings.getDifficulty());
+	Grid map(&_window, &_settings);
+	map.createMap();
 
 	sf::Clock moveCooldown;
 
-	Snake snake(map.getGridOffset(&_window));
+	Snake snake(&_window, map.getGridOffset());
 
 	bool eat = false;
 	bool chain = true;
@@ -139,8 +139,8 @@ bool Game::startGame()
 		}
 
 		_window.clear();
-		map.renderGrid(&_window);
-		snake.drawSnake(_window);
+		map.renderGrid();
+		snake.drawSnake();
 		_window.display();
 	}
 

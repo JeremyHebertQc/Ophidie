@@ -7,13 +7,17 @@
 #include <cassert>
 
 // Private method
-sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::RenderWindow *window, sf::Vector2f offsetInAbsolutePixels) const
+sf::Vector2i Grid::transformGridToPixels(sf::Vector2i cellLocation, sf::Vector2f offsetInAbsolutePixels) const
 {
-	return sf::Vector2i{cellLocation.x * GRID_CELL_SIZE, cellLocation.y * GRID_CELL_SIZE} + getGridOffset(window);
+	return sf::Vector2i{cellLocation.x*  GRID_CELL_SIZE, cellLocation.y*  GRID_CELL_SIZE} + getGridOffset();
 }
 
 // Constructor
-Grid::Grid() {
+Grid::Grid(sf::RenderWindow* window, Settings* settings)
+{
+	_window = window;
+	_settings = settings;
+
 	_width = _height = _numberOfTraps = _numberOfEggs = 0;
 	_hasRandomWalls = false;
 
@@ -24,7 +28,6 @@ Grid::Grid() {
 
 		_renderers[i].setTexture(_textures[i]);
 	}
-
 }
 
 // Destructor
@@ -42,14 +45,13 @@ TileType Grid::getTileAt(sf::Vector2i coords) const
 	return (TileType)_board.at(coords.x).at(coords.y);
 }
 
-sf::Vector2i Grid::getGridOffset(sf::RenderWindow *window) const
+sf::Vector2i Grid::getGridOffset() const
 {
-	sf::Vector2i boardSize = {(_height + BORDER_SIZE) * GRID_CELL_SIZE, (_width + BORDER_SIZE) * GRID_CELL_SIZE};
-	return {((int)window->getSize().x - boardSize.x) / 2, ((int)window->getSize().y - boardSize.y) / 2};
+	sf::Vector2i boardSize = {(_height + BORDER_SIZE)*  GRID_CELL_SIZE, (_width + BORDER_SIZE)*  GRID_CELL_SIZE};
+	return {((int)_window->getSize().x - boardSize.x) / 2, ((int)_window->getSize().y - boardSize.y) / 2};
 }
 
 // Setters
-
 void Grid::setTileAt(sf::Vector2i coords, TileType tile)
 {
 	_board.at(coords.x).at(coords.y) = tile;
@@ -76,16 +78,16 @@ void Grid::setScale(const int width, const int height)
 }
 
 // Make map
-void Grid::createMap(int width, int heigth, GameMode mode, Difficulty difficulty)
+void Grid::createMap()
 {
-	setScale(width, heigth);
+	setScale(_settings->getWidth(), _settings->getHeight());
 
 	_board.reserve(_width + AIR_SPACE);
 	for (std::vector<int>& i : _board)
 		i.reserve(_height + AIR_SPACE);
 
-	configureGamemode(mode);
-	configureDifficulty(difficulty);
+	configureGamemode();
+	configureDifficulty();
 
 	placeBorder();
 	placeAir();
@@ -100,9 +102,9 @@ void Grid::createMap(int width, int heigth, GameMode mode, Difficulty difficulty
 		_board.at(AIR_SPACE_LOCATION[i]).at(FIRST_ROW_LOCATION) = air;
 }
 
-void Grid::configureGamemode(GameMode mode)
+void Grid::configureGamemode()
 {
-	switch (mode)
+	switch (_settings->getMode())
 	{
 	case NORMAL:
 		break;
@@ -123,9 +125,9 @@ void Grid::configureGamemode(GameMode mode)
 	}
 }
 
-void Grid::configureDifficulty(Difficulty difficulty)
+void Grid::configureDifficulty()
 {
-	switch (difficulty)
+	switch (_settings->getDifficulty())
 	{
 	case BABY:
 		_numberOfEggs = 3;
@@ -134,37 +136,37 @@ void Grid::configureDifficulty(Difficulty difficulty)
 
 	case EZ:
 		_numberOfEggs = 3;
-		_numberOfTraps = 0.05 * _width * _height;
+		_numberOfTraps = 0.05*  _width*  _height;
 		break;
 
 	case MEDIUM_RARE:
 		_numberOfEggs = 2;
-		_numberOfTraps = 0.10 * _width * _height;
+		_numberOfTraps = 0.10*  _width*  _height;
 		break;
 
 	case MEDIUM:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.15 * _width * _height;
+		_numberOfTraps = 0.15*  _width*  _height;
 		break;
 
 	case HARD:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.20 * _width * _height;
+		_numberOfTraps = 0.20*  _width*  _height;
 		break;
 
 	case HARDER:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.25 * _width * _height;
+		_numberOfTraps = 0.25*  _width*  _height;
 		break;
 
 	case TOO_HARD:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.30 * _width * _height;
+		_numberOfTraps = 0.30*  _width*  _height;
 		break;
 
 	case HARDCORE:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.35 * _width * _height;
+		_numberOfTraps = 0.35*  _width*  _height;
 		break;
 
 	default:
@@ -229,19 +231,19 @@ void Grid::placeEggs(int eggsToPlace)
 }
 
 // Methods
-void Grid::renderGrid(sf::RenderWindow* window) const
+void Grid::renderGrid() const
 {
 	for (int i = 0; i < _width + BORDER_SIZE; i++)
 		for (int j = 0; j < _height + BORDER_SIZE; j++)
 		{
-			auto pos = transformGridToPixels({j,i}, window);
+			auto pos = transformGridToPixels({j,i});
 			_renderers[air].setPosition(pos.x,pos.y);
-			window->draw(_renderers[air]);
+			_window->draw(_renderers[air]);
 
 			if (_board.at(j).at(i) != air && _board.at(j).at(i) != body)
 			{
 				_renderers[_board.at(j).at(i)].setPosition(pos.x,pos.y);
-				window->draw(_renderers[_board.at(j).at(i)]);
+				_window->draw(_renderers[_board.at(j).at(i)]);
 			}
 
 		}

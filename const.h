@@ -10,6 +10,27 @@ Projet : Ophidie
 // Constantes pour le scoreboard
 constexpr int NUMBER_OF_SCORES = 10;
 
+const std::string SCOREBOARD_FILEPATH = "data/scoreboards/";
+static const std::vector<std::string> GAMEMODES_PATH =
+{
+        SCOREBOARD_FILEPATH + "NORMAL",
+        SCOREBOARD_FILEPATH + "SURVIVAL",
+        SCOREBOARD_FILEPATH + "DEATH_TRAP",
+        SCOREBOARD_FILEPATH + "SURVIVE_HELL"
+};
+
+const std::vector<std::string> DIFFICULTY_PATH =
+{
+        "BABY.txt",
+        "EZ.txt",
+        "MEDIUM_RARE.txt",
+        "MEDIUM.txt",
+        "HARD.txt",
+        "HARDER.txt",
+        "TOO_HARD.txt",
+        "HARDCORE.txt"
+};
+
 // Constantes pour l'ensemble de la solution
 enum GameMode
 {
@@ -42,6 +63,7 @@ enum ErrorCode
 	NOT_VALID_DIRECTION,
 	INVALID_DIFFICULTY,
 	INVALID_GAMEMODE,
+	CURSOR_FAILED_TO_LOAD,
 
 	NB_ERROR // Total number of error
 };
@@ -59,7 +81,6 @@ constexpr unsigned int
     WINDOW_HEIGHT = 600;
 
 // Chemins
-const std::string SCOREBOARD_FILEPATH = "data/scoreboards/";
 const std::string SETTINGS_FILE_NAME = "data/settings.json";
 const std::string IMAGES_FILEPATH = "assets/images/";
 
@@ -105,6 +126,7 @@ enum ButtonAction
 	goToSurvivalSCR,
 	goToDeathTrapSCR,
 	goToSurviveHellSCR,
+	closeSubmenu,
 
 	nbAction // Number of action
 };

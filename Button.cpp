@@ -15,15 +15,13 @@ void Button::calculateTextPosition()
 	_text.setPosition(_button.getGlobalBounds().left + centerPositionX - (_text.getGlobalBounds().width / 2.f), _button.getGlobalBounds().top + centerPositionY - (_text.getGlobalBounds().height / 2.f));
 }
 
-// Constructors
-Button::Button()
+// Constructor
+Button::Button(sf::RenderWindow* window, Settings* settings, const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
 {
-	_action = -1;
-	_buttonPressed = false;
-}
+	// Extern variables initializations
+	_window = window;
+	_settings = settings;
 
-Button::Button(const int action, const std::string text, const int buttonStyle, const float scale, const sf::Vector2f position)
-{
 	// Button initializations
 	_action = action;
 	_buttonPressed = false;
@@ -110,32 +108,32 @@ void Button::setButtonTexture(const int buttonStyle)
 }
 
 // Event management
-void Button::updateButton(sf::RenderWindow& window, Settings& settings)
+void Button::updateButton()
 {
-	window.draw(_button);
-	window.draw(_text);
-	window.display();
-	playButtonSound(_soundEffectBuffer, _soundEffect, BUTTON_SOUND_PATH + "button.wav", settings.getMenu());
+	_window->draw(_button);
+	_window->draw(_text);
+	_window->display();
+	playButtonSound(BUTTON_SOUND_PATH + "button.wav", _settings->getMenu());
 	sf::sleep(sf::milliseconds(250));
 }
 
-void Button::playButtonSound(sf::SoundBuffer& soundEffectBuffer, sf::Sound& soundEffect, std::string soundPath, float volume)
+void Button::playButtonSound(std::string soundPath, float volume)
 {
-	if (!soundEffectBuffer.loadFromFile(soundPath))
+	if (!_soundEffectBuffer.loadFromFile(soundPath))
 	{
 		sendError(FILE_NOT_OPENED);
 		return;
 	}
 
-	soundEffect.setBuffer(soundEffectBuffer);
-	soundEffect.setLoop(false);
-	soundEffect.setVolume(volume);
-	soundEffect.play();
+	_soundEffect.setBuffer(_soundEffectBuffer);
+	_soundEffect.setLoop(false);
+	_soundEffect.setVolume(volume);
+	_soundEffect.play();
 }
 
-int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings& settings)
+int Button::isButtonPressed(sf::Event event)
 {
-	sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+	sf::Vector2f mousePosition = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
 
 	if (_buttonPressed == true && (sf::Event::MouseButtonReleased))
 	{
@@ -148,32 +146,32 @@ int Button::isButtonPressed(sf::Event event, sf::RenderWindow& window, Settings&
 	{
 		_buttonPressed = true;
 		_button.setTexture(_pressedTexture);
-		updateButton(window, settings);
+		updateButton();
 	}
 	return -1;
 }
 
-void Button::isButtonHover(sf::Event event, sf::RenderWindow& window)
+void Button::isButtonHover(sf::Event event)
 {
 	static bool loadedCursor = false;
 	static sf::Cursor cursorHand;
 
 	if (!loadedCursor)
 		if (!cursorHand.loadFromSystem(sf::Cursor::Hand))
-			printf("ERROR: Cursor doesn't load!\n"); //TODO: Transformer en SFML
+			sendError(CURSOR_FAILED_TO_LOAD);
 
 
 	if (event.type == sf::Event::MouseMoved)
 	{
-		sf::Vector2f mousePosition = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+		sf::Vector2f mousePosition = _window->mapPixelToCoords(sf::Mouse::getPosition(*_window));
 		if (_button.getGlobalBounds().contains(mousePosition))
-			window.setMouseCursor(cursorHand);
+			_window->setMouseCursor(cursorHand);
 	}
 }
 
 // Drawing management
-void Button::draw(sf::RenderWindow& window)
+void Button::draw()
 {
-	window.draw(_button);
-	window.draw(_text);
+	_window->draw(_button);
+	_window->draw(_text);
 }

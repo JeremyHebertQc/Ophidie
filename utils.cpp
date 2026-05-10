@@ -25,7 +25,7 @@ void sleepMs(int ms)
 #ifdef _WIN32
 	Sleep(ms);
 #else
-	usleep(ms * 1000);
+	usleep(ms*  1000);
 #endif
 }
 
@@ -97,6 +97,9 @@ const std::string getErrorCodeName(const int errorCode)
 
 	case INVALID_GAMEMODE:
 		return "INVALID_GAMEMODE - The gamemode of the settings is incorrect.";
+
+	case CURSOR_FAILED_TO_LOAD:
+		return "CURSOR_FAILED_TO_LOAD - A cursor could not be loaded from the system.";
 
 	default:
 		return "Undefined error.";
