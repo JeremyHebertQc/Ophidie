@@ -86,8 +86,8 @@ enum Direction
 };
 
 // === Grid ===
-const int MIN_GRID_SIZE = 10;
-const int MAX_GRID_SIZE = 100;
+const int MIN_GRID_SIZE = 5;
+const int MAX_GRID_SIZE = 32;
 const int GRID_OFFSET = 100;
 const int GRID_CELL_SIZE = 32;
 const int BORDER_SIZE = 2;
@@ -154,3 +154,6 @@ const std::vector<std::string> GRID_PATH =
 	GAME_DIR + "Traps.png",
 	GAME_DIR + "egg.png"
 };
+
+const int GRID_SMALL_SIZE = 8;
+const int GRID_BIG_SIZE = 16;

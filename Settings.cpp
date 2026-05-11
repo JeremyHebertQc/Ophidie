@@ -186,8 +186,12 @@ void Settings::readFile()
     json settings = json::parse(input);
 
     setDifficulty(Difficulty(settings["Difficulty"]));
+	if (_difficulty / 4)
+		setGrid(GRID_SMALL_SIZE, GRID_SMALL_SIZE);
+	else
+		setGrid(GRID_BIG_SIZE, GRID_BIG_SIZE);
+
     setMode(GameMode(settings["Mode"]));
-    setGrid(settings["Width"], settings["Height"]);
 
     setDeaf(settings["Deaf"]);
     if (_deafMode)
@@ -212,8 +216,6 @@ void Settings::saveSettings() const
 
     settings["Difficulty"] = _difficulty;
     settings["Mode"] = _mode;
-    settings["Width"] = _gridW;
-    settings["Height"] = _gridH;
     settings["FullScreen"] = _fullScr;
     settings["Arrow"] = _usingArrowKeys;
 
