@@ -155,6 +155,7 @@ int Game::StartGame()
 					{
 						snake.moveHurting();
 						hunger += 50;
+						playSound("hungry.wav", _settings.getSound());
 					}
 					else
 						snake.setLiving(false);
