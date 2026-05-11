@@ -11,7 +11,6 @@ Bienvenue sur le dépôt de Ophidie. Ophidie est un Snake créé dans le cadre d
 ***
 ## TODO par personne pour completer les exigences minimales
 ### Vincent
-- [X] Handle collision
 - [ ] Terminer game
 - [ ] Affichage du menu settings
 - [ ] Save les paramètres et vérifier qu'ils s'appliques
@@ -19,18 +18,13 @@ Bienvenue sur le dépôt de Ophidie. Ophidie est un Snake créé dans le cadre d
 
 ### Félix-Antoine
 - [ ] Affichage score (durant la partie)
-- [ ] Écran de fin de partie (afficher les stats de la game)
-- [ ] Retourner au home menu lorsque l'utiliseur quitte l'écran de fin de partie
 - [ ] Sauvegarder le score dans le scoreboard
 - [ ] Affichage du menu Scoreboard
-- [X] Ajouter les méthodes manquantes de Grid (🚨**URGENT**🚨)
 
 ### Jérémy
-- [X] Terminer de corriger le merge (URGENT)
-- [X] Corriger le bug de menu
-- [X] Affichage du How to play
-- [X] Intégré des sons dans le jeu
-- [X] Ajout de musique dans le jeu
+- [ ] Écran de fin de partie (afficher les stats de la game)
+- [ ] Retourner au home menu lorsque l'utiliseur quitte l'écran de fin de partie
+
 ***
 ## Notes de Vincent
 CAN BE ADDED IN SETTINGS:
