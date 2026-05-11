@@ -31,7 +31,7 @@ void Scoreboard::loadData()
 		{
 			path.clear();
 
-			path.append(GAMEMODES_PATH.at(i));
+			path.append(SCOREBOARD_DIR + GAMEMODES_PATH.at(i));
 #ifdef WIN32
 path.append("\\");
 #else
@@ -61,7 +61,7 @@ void Scoreboard::writeData() const
 
 			path.clear();
 
-			path.append(GAMEMODES_PATH.at(i));
+			path.append(SCOREBOARD_DIR + GAMEMODES_PATH.at(i));
 #ifdef WIN32
 path.append("\\");
 #else
@@ -77,6 +77,12 @@ path.append("/");
 			}
 			file.close();
 		}
+}
+
+std::string Scoreboard::getScoreAt(int gamemode, int difficulty, int place) {
+	if (_scoreboardData[gamemode][difficulty][place]._name == "" || _scoreboardData[gamemode][difficulty][place]._name == "NULL")
+		return "";
+	return _scoreboardData[gamemode][difficulty][place]._name + " : " + std::to_string(_scoreboardData[gamemode][difficulty][place]._score);
 }
 
 // Gestion du score

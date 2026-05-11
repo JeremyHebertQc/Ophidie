@@ -65,6 +65,8 @@ enum ButtonAction
 	GoToSurvivalSCR,
 	GoToDeathTrapSCR,
 	GoToSurviveHellSCR,
+	GoToNext,
+	GoToPrevious,
 	CloseSubmenu,
 	OpenHomeMenu,
 
@@ -134,22 +136,22 @@ const std::string FONT_PATH = "assets/fonts/PressStart2P.ttf";
 
 const std::vector<std::string> GAMEMODES_PATH =
 {
-        SCOREBOARD_DIR + "Normal",
-        SCOREBOARD_DIR + "Survival",
-        SCOREBOARD_DIR + "DeathTrap",
-        SCOREBOARD_DIR + "SurviveHell"
+        "NORMAL",
+        "SURVIVAL",
+        "DEATH_TRAP",
+        "SURVIVE_HELL"
 };
 
 const std::vector<std::string> DIFFICULTY_PATH =
 {
-        "Baby.txt",
-        "Ez.txt",
-        "MediumRare.txt",
-        "Medium.txt",
-        "Hard.txt",
-        "Harder.txt",
-        "TooHard.txt",
-        "Hardcore.txt"
+        "BABY.txt",
+        "EZ.txt",
+        "MEDIUM_RARE.txt",
+        "MEDIUM.txt",
+        "HARD.txt",
+        "HARDER.txt",
+        "TOO_HARD.txt",
+        "HARDCORE.txt"
 };
 
 const std::vector<std::string> GRID_PATH =
