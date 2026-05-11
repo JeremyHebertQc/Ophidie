@@ -3,6 +3,7 @@
 #include "Grid.h"
 #include "Menu.h"
 #include "Settings.h"
+#include "utils.h"
 #ifdef _WIN32
 	#include "windows.h"
 #endif
@@ -51,6 +52,8 @@ void Game::play()
 
 bool Game::StartGame()
 {
+	playSound("startGame.wav", _settings.getSound());
+	playMusic("game.wav", _settings.getMusic());
 	Grid map(&_window, &_settings);
 	map.createMap();
 
@@ -106,7 +109,7 @@ bool Game::StartGame()
 					if (!_settings.getArrow())
 						snake.setHeadDirection(Down);
 					break;
-				case sf::Keyboard::Delete: //  quitout midgame
+				case sf::Keyboard::Delete: //Note: quitout midgame
 					snake.setLiving(false);
 					break;
 				}
@@ -126,12 +129,14 @@ bool Game::StartGame()
 				break;
 			case egg:
 				snake.moveForward(true);
+				playSound("eatingEgg.wav", _settings.getSound());
 				map.updateSnakePosition(snake.getSnakeCoords());
 				map.placeEgg();
 				break;
 			case body:
 			case trap:
 				snake.setLiving(false);
+				playSound("gameOver.wav", _settings.getSound());
 				break;
 			}
 		}
@@ -141,8 +146,41 @@ bool Game::StartGame()
 		snake.drawSnake();
 		_window.display();
 	}
-
+	stopMusic();
 	return false;
+}
+
+void Game::playSound(const std::string& soundPath, float volume)
+{
+	if (!_soundEffectBuffer.loadFromFile(SOUND_DIR + soundPath))
+	{
+		sendError(FileNotOpened);
+		return;
+	}
+
+	_soundEffect.setBuffer(_soundEffectBuffer);
+	_soundEffect.setLoop(false);
+	_soundEffect.setVolume(volume);
+	_soundEffect.play();
+}
+
+void Game::playMusic(const std::string& soundPath, float volume)
+{
+	if (!_musicBuffer.loadFromFile(MUSIC_DIR + soundPath))
+	{
+		sendError(FileNotOpened);
+		return;
+	}
+
+	_music.setBuffer(_musicBuffer);
+	_music.setLoop(true);
+	_music.setVolume(volume);
+	_music.play();
+}
+
+void Game::stopMusic()
+{
+	_music.stop();
 }
 
 // void Game::showEndScreen()
