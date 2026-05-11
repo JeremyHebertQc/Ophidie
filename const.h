@@ -68,6 +68,10 @@ enum ButtonAction
 	GoToNext,
 	GoToPrevious,
 	CloseSubmenu,
+	OpenHomeMenu,
+
+	Resume,
+	QuitGame,
 
 	NbAction // Number of action
 };

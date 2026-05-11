@@ -291,19 +291,9 @@ void Menu::initStartMenu()
 void Menu::initScoreboardMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(),  getCenterPositionY() * 2 - 150.f));
-	addButton(GoToNext, "Next", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() + 250,  getCenterPositionY() * 2 - 150.f));
-	addButton(GoToPrevious, "Previous", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 250,  getCenterPositionY() * 2 - 150.f));
+	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 
-	addButton(GoToNormalSCR, "Normal", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 330,  120.f));
-	addButton(GoToSurvivalSCR, "Survival", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 111,  120.f));
-	addButton(GoToDeathTrapSCR, "DeathTrap", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 111,  120.f));
-	addButton(GoToSurviveHellSCR, "Hell", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 330,  120.f));
-
-	addText(32, currentDifficulty, sf::Vector2f(getCenterPositionX(), 230.f), AlignmentCenter, 255, 255, 255);
-
-	for (int i = 0; i < 10; i++)
-		addText(32, currentScores[i], sf::Vector2f(getCenterPositionX(), 280.f + (42.0f * i)), AlignmentCenter, 255, 255, 255);
+	//TODO: Build it
 }
 
 // Menu loading
@@ -463,69 +453,17 @@ bool Menu::loadStartMenu()
 
 bool Menu::loadScoreboardMenu()
 {
-	Scoreboard scoreboard;
-	scoreboard.loadData();
-	while (true)
+	_window->clear();
+	draw();
+	_window->display();
+
+	switch (isAction())
 	{
-		_window->clear();
-		draw();
-		_window->display();
-
-		switch (isAction())
-		{
-			case CloseSubmenu:
-				return false;
-			case GoToNext:
-				scoreboardMenuNavigation.x++;
-				if (scoreboardMenuNavigation.x >= DifficultyTotal)
-					scoreboardMenuNavigation.x = DifficultyTotal - 1;
-				currentDifficulty = DIFFICULTY_PATH[scoreboardMenuNavigation.x];
-				for (int i = 0; i < 10; i++)
-					currentScores[i] = scoreboard.getScoreAt(scoreboardMenuNavigation.y,scoreboardMenuNavigation.x,i);
-				clearVectors();
-				initScoreboardMenu();
-				break;
-			case GoToPrevious:
-				scoreboardMenuNavigation.x--;
-				if (scoreboardMenuNavigation.x < 0)
-					scoreboardMenuNavigation.x = 0;
-				currentDifficulty = DIFFICULTY_PATH[scoreboardMenuNavigation.x];
-				for (int i = 0; i < 10; i++)
-					currentScores[i] = scoreboard.getScoreAt(scoreboardMenuNavigation.y,scoreboardMenuNavigation.x,i);
-				clearVectors();
-				initScoreboardMenu();
-				break;
-			case GoToNormalSCR:
-				scoreboardMenuNavigation.y = Normal;
-				for (int i = 0; i < 10; i++)
-					currentScores[i] = scoreboard.getScoreAt(scoreboardMenuNavigation.y,scoreboardMenuNavigation.x,i);
-				clearVectors();
-				initScoreboardMenu();
-				break;
-			case GoToSurvivalSCR:
-				scoreboardMenuNavigation.y = Survival;
-				for (int i = 0; i < 10; i++)
-					currentScores[i] = scoreboard.getScoreAt(scoreboardMenuNavigation.y,scoreboardMenuNavigation.x,i);
-				clearVectors();
-				initScoreboardMenu();
-				break;
-			case GoToDeathTrapSCR:
-				scoreboardMenuNavigation.y = DeathTrap;
-				for (int i = 0; i < 10; i++)
-					currentScores[i] = scoreboard.getScoreAt(scoreboardMenuNavigation.y,scoreboardMenuNavigation.x,i);
-				clearVectors();
-				initScoreboardMenu();
-				break;
-			case GoToSurviveHellSCR:
-				scoreboardMenuNavigation.y = SurviveHell;
-				for (int i = 0; i < 10; i++)
-					currentScores[i] = scoreboard.getScoreAt(scoreboardMenuNavigation.y,scoreboardMenuNavigation.x,i);
-				clearVectors();
-				initScoreboardMenu();
-				break;
-			default:
-
-			return true;
-		}
+	case CloseSubmenu:
+		return false;
+	default:
+		return true;
 	}
+
+	// TODO: Build it
 }

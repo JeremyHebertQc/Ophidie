@@ -89,6 +89,8 @@ private:
 	void initHowToPlayMenu();
 	void initStartMenu();
 	void initScoreboardMenu();
+	void initPauseMenu();
+	void initGameOverMenu();
 
 	// Menu loading
 	bool loadHomeMenu();
@@ -96,4 +98,6 @@ private:
 	bool loadHowToPlayMenu();
 	bool loadStartMenu();
 	bool loadScoreboardMenu();
+	ButtonAction loadPauseMenu();
+	bool loadGameOverMenu();
 };

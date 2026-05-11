@@ -252,8 +252,8 @@ void Grid::renderGrid() const
 
 void Grid::updateSnakePosition(std::vector<sf::Vector2i> bodyParts)
 {
-	for (int i = 0; i < _width; i++)
-		for (int j = 0; j < _height; j++)
+	for (int i = 0; i <= _width; i++)
+		for (int j = 0; j <= _height; j++)
 			if (_board.at(j).at(i) == body)
 				_board.at(j).at(i) = air;
 

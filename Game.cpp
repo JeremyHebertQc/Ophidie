@@ -50,7 +50,7 @@ void Game::play()
 	}
 }
 
-bool Game::StartGame()
+int Game::StartGame()
 {
 	playSound("startGame.wav", _settings.getSound());
 	playMusic("game.wav", _settings.getMusic());
@@ -60,10 +60,26 @@ bool Game::StartGame()
 
 	sf::Clock moveCooldown;
 
+	sf::Font font;
+	if (!font.loadFromFile(FONT_PATH))
+		sendError(FileNotOpened);
+
+	sf::Text hungerMeter("100", font, 30);
+	hungerMeter.setStyle(sf::Text::Regular);
+	hungerMeter.setFillColor(sf::Color::White);
+	hungerMeter.setPosition(sf::Vector2f(100.f, 20.f));
+
+	sf::Clock timeLived;
+	sf::Clock pauseTimer;
+
+	int hunger = 100,
+		timePaused = 0;
+
+	bool isHungry = false;
+
 	Snake snake(&_window, map.getGridOffset());
 
-	bool eat = false;
-	bool chain = true;
+	Menu pauseMenu(&_window, &_settings);
 
 	while (snake.isLiving())
 	{
@@ -110,8 +126,17 @@ bool Game::StartGame()
 					if (!_settings.getArrow())
 						snake.setHeadDirection(Down);
 					break;
-				case sf::Keyboard::Delete: //Note: quitout midgame
-					snake.setLiving(false);
+				case sf::Keyboard::Escape:
+					pauseTimer.restart();
+
+					//if(pauseMenu.)
+
+					break;
+				case sf::Event::Resized:
+					_window.clear();
+					_window.display();
+					break;
+				default:
 					break;
 				}
 				break;
@@ -125,7 +150,16 @@ bool Game::StartGame()
 			switch (map.getTileAt(snake.getDestinationCoord()))
 			{
 			case air:
-				snake.moveForward(false);
+				if (isHungry)
+					if (snake.getSnakeSize() > 5)
+					{
+						snake.moveHurting();
+						hunger += 50;
+					}
+					else
+						snake.setLiving(false);
+				else
+					snake.moveForward(false);
 				map.updateSnakePosition(snake.getSnakeCoords());
 				break;
 			case egg:
@@ -133,6 +167,10 @@ bool Game::StartGame()
 				playSound("eatingEgg.wav", _settings.getSound());
 				map.updateSnakePosition(snake.getSnakeCoords());
 				map.placeEgg();
+
+				if (_settings.getMode() % 2)
+					hunger += 60;
+
 				break;
 			case body:
 			case trap:
@@ -140,16 +178,27 @@ bool Game::StartGame()
 				playSound("gameOver.wav", _settings.getSound());
 				break;
 			}
+
+			if (_settings.getMode() % 2)
+			{
+				hunger = (hunger > ((_settings.getDifficulty() % 4) + 1) ? hunger - ((_settings.getDifficulty() % 4) + 1) : 0);
+				hungerMeter.setString(std::to_string(hunger));
+				if (hunger <= 0)
+					isHungry = true;
+				else
+					isHungry = false;
+			}
 		}
 
 		_window.clear();
-		draw();
-		map.renderGrid();
-		snake.drawSnake();
+		draw(hungerMeter, map, snake);
 		_window.display();
 	}
 	stopMusic();
-	return false;
+
+	if (_settings.getMode() % 2)
+		return timeLived.getElapsedTime().asMilliseconds();//TODO: add the minus pausedTime
+	return snake.getSnakeSize();
 }
 
 void Game::playSound(const std::string& soundPath, float volume)
@@ -218,9 +267,16 @@ void Game::addWallpaper(const std::string& texture)
 	_wallpaper.setTexture(_texture);
 }
 
-void Game::draw()
+void Game::draw(sf::Text hungerMeter, Grid map, Snake snake)
 {
 	_window.draw(_wallpaper);
+
+	if (_settings.getMode() % 2)
+	{
+		_window.draw(hungerMeter);
+	}
+	map.renderGrid();
+	snake.drawSnake();
 }
 
 // void Game::showEndScreen()

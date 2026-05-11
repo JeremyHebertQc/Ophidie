@@ -185,6 +185,14 @@ void Snake::moveForward(bool eggEaten)
 	updateLastDirection();
 }
 
+void Snake::moveHurting()
+{
+	hurtSnake();
+	moveHead();
+
+	updateLastDirection();
+}
+
 void Snake::addNeck()
 {
 	if (_lastDirection != _headDirection)
@@ -258,4 +266,20 @@ void Snake::moveTail()
 			_snake.back().setRotation(_snake.back().getRotation() - CONVERT_DEGREE);
 
 	_snake.erase(_snake.end() - 2);
+}
+
+void Snake::hurtSnake()
+{
+	addNeck();
+
+	_snake.back().setPosition(_snake.at(_snake.size() - 5).getPosition());
+
+	if (_snake.back().getRotation() != _snake.at(_snake.size() - 5).getRotation())
+		if (_snake.back().getRotation() == _snake.at(_snake.size() - 5).getRotation() - CONVERT_DEGREE || _snake.back().getRotation() == _snake.at(_snake.size() - 5).getRotation() + 270)
+			_snake.back().setRotation(_snake.at(_snake.size() - 5).getRotation());
+		else
+			_snake.back().setRotation(_snake.back().getRotation() - CONVERT_DEGREE);
+
+	for (int i = 5; i >= 2; i--)
+		_snake.erase(_snake.end() - i);
 }
