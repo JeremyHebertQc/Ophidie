@@ -131,42 +131,42 @@ void Grid::configureDifficulty()
 	{
 	case Baby:
 		_numberOfEggs = 3;
-		_numberOfTraps = 0;
+		_numberOfTraps = 0.01 * _width * _height;
 		break;
 
 	case Ez:
 		_numberOfEggs = 3;
-		_numberOfTraps = 0.05 * _width * _height;
+		_numberOfTraps = 0.03 * _width * _height;
 		break;
 
 	case MediumRare:
 		_numberOfEggs = 2;
-		_numberOfTraps = 0.10 * _width * _height;
+		_numberOfTraps = 0.05 * _width * _height;
 		break;
 
 	case Medium:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.15 * _width * _height;
+		_numberOfTraps = 0.07 * _width * _height;
 		break;
 
 	case Hard:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.20 * _width * _height;
+		_numberOfTraps = 0.08 * _width * _height;
 		break;
 
 	case Harder:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.25 * _width * _height;
+		_numberOfTraps = 0.10 * _width * _height;
 		break;
 
 	case TooHard:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.30 * _width * _height;
+		_numberOfTraps = 0.12 * _width * _height;
 		break;
 
 	case Hardcore:
 		_numberOfEggs = 1;
-		_numberOfTraps = 0.35 * _width * _height;
+		_numberOfTraps = 0.12 * _width * _height;
 		break;
 
 	default:
