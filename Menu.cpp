@@ -179,6 +179,7 @@ void Menu::addText(int fontSize, const std::string& text, sf::Vector2f position,
 	setAlignment(alignment);
 	//_texts.back().setOrigin(_texts.back().getLocalBounds().width / 2.f, _texts.back().getLocalBounds().height / 2.f);
 	_texts.back().setPosition(position);
+	_texts.back().setLineSpacing(2.f);
 }
 
 void Menu::addTexture(const std::string& texture)
@@ -257,7 +258,7 @@ void Menu::initHomeMenu()
 	addButton(OpenScoreboard, "Scoreboard", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 600.f));
 	addButton(OpenSettings, "Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 130.f, 750.f));
 	addButton(CloseOphidie, "Quit", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() + 130.f, 750.f));
-	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), AlignmentLeft, 61, 24, 79);
+	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), AlignmentLeft, 255, 255, 255);
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), 100.f), LOGO_PATH);
 }
 
@@ -272,10 +273,9 @@ void Menu::initSettingsMenu()
 void Menu::initHowToPlayMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
-	addText(12,
-		"Test msg xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxx\nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-		sf::Vector2f(getCenterPositionX(), getCenterPositionY()), AlignmentCenter, 255, 255, 255);
+	addText(32, "How to play?", sf::Vector2f(getCenterPositionX(), _sprites.front()->getOrigin().y - _sprites.front()->getGlobalBounds().height / 2.f + 100.f), AlignmentCenter, 255, 255, 255);
+	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), _sprites.front()->getOrigin().y + _sprites.front()->getGlobalBounds().height / 2.f - 150.f));
+	addText(20, "Control your snake using the arrow keys\nor WASD depending on your settings.\nYour goal is to eat as many eggs as possible,\nas each one makes your snake grow longer\nand increases your score.\n\nAvoid hitting the walls or your own body,\nas either will end the game instantly.\nThe longer your snake gets, the harder\nit is to maneuver, so plan your moves ahead.\n\nHigher difficulties increase the snake's\nspeed and introduce traps on the grid.\nOne game mode also adds a hunger bar.\nLet it empty and it is game over!\nYour scores are saved to the scoreboard\nfor each game mode.", sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 175.f), AlignmentCenter, 255, 255, 255);
 
 	//TODO: Build it
 }
