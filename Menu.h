@@ -28,7 +28,7 @@ private:
 	// Music declarations
 	sf::SoundBuffer _musicBuffer;
 	sf::Sound _musicSound;
-
+	
 	// Buttons declarations
 	std::vector<Button*> _buttons;
 

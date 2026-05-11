@@ -69,6 +69,8 @@ enum ButtonAction
 	GoToPrevious,
 	CloseSubmenu,
 	OpenHomeMenu,
+	SaveSettings,
+	DeafMode,
 
 	Resume,
 	QuitGame,
