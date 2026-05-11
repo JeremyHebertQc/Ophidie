@@ -107,15 +107,10 @@ void Grid::configureGamemode()
 	switch (_settings->getMode())
 	{
 	case Normal:
-		break;
-
 	case Survival:
 		break;
 
 	case DeathTrap:
-		_hasRandomWalls = true;
-		break;
-
 	case SurviveHell:
 		_hasRandomWalls = true;
 		break;
