@@ -56,6 +56,7 @@ bool Game::StartGame()
 	playMusic("game.wav", _settings.getMusic());
 	Grid map(&_window, &_settings);
 	map.createMap();
+	chooseWallpaper(_settings.getMode());
 
 	sf::Clock moveCooldown;
 
@@ -142,6 +143,7 @@ bool Game::StartGame()
 		}
 
 		_window.clear();
+		draw();
 		map.renderGrid();
 		snake.drawSnake();
 		_window.display();
@@ -181,6 +183,44 @@ void Game::playMusic(const std::string& soundPath, float volume)
 void Game::stopMusic()
 {
 	_music.stop();
+}
+
+void Game::chooseWallpaper(GameMode mode)
+{
+	switch (mode)
+	{
+	case Normal:
+		addWallpaper("wallpaper/ocean.png");
+		break;
+
+	case Survival:
+		addWallpaper("wallpaper/water.png");
+		break;
+
+	case DeathTrap:
+		addWallpaper("wallpaper/lava.png");
+		break;
+
+	case SurviveHell:
+		addWallpaper("wallpaper/hell.png");
+		break;
+
+		default:
+		break;
+	}
+}
+
+void Game::addWallpaper(const std::string& texture)
+{
+	_wallpaper.setScale(static_cast<float>(_window.getSize().x), static_cast<float>(_window.getSize().y));
+	_wallpaper.setScale(5.f, 5.f);
+	_texture.loadFromFile(GAME_DIR + texture);
+	_wallpaper.setTexture(_texture);
+}
+
+void Game::draw()
+{
+	_window.draw(_wallpaper);
 }
 
 // void Game::showEndScreen()

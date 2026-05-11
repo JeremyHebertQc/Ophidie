@@ -19,6 +19,10 @@ class Game
 	sf::SoundBuffer _musicBuffer;
 	sf::Sound _music;
 
+	// Wallpaper declaration
+	sf::Sprite _wallpaper;
+	sf::Texture _texture;
+
   public:
 	// Constructor
 	Game();
@@ -36,4 +40,9 @@ class Game
 	void stopMusic();
 	// void showEndScreen();
 	// void savePlayerScore(Player player, GameMode mode);
+
+	// Display managment
+	void chooseWallpaper(GameMode mode);
+	void addWallpaper(const std::string& texture);
+	void draw();
 };
