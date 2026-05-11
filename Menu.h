@@ -6,6 +6,7 @@
 #include <string>
 #include "Button.h"
 #include "const.h"
+#include "Scoreboard.h"
 #include "Settings.h"
 
 class Menu
@@ -36,9 +37,14 @@ private:
 	Settings* _settings;
 	sf::RenderWindow* _window;
 
-	// Init checkup declaration
+	// Init checkup declarations
 	bool _isMenuInit;
 	bool _isSubmenuInit;
+
+	// Scoreboard menu declartions
+	sf::Vector2i _scoreboardMenuNavigation;
+	std::string _currentScores[NUMBER_OF_SCORES];
+	std::string _currentDifficulty;
 
   public:
 	// Constructor
