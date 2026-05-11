@@ -265,7 +265,17 @@ void Menu::initHomeMenu()
 void Menu::initSettingsMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addButton(CloseSubmenu, "Cancel Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() + 200.f, 800.f));
+	addButton(SaveSettings, "Save Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	addButton(DeafMode, "", _settings->getDeaf() ? NoButton : YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, 100.f));
+	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	addText(25, "Deaf", sf::Vector2f(getCenterPositionX() - 250.f, 100.f), AlignmentCenter, 255, 255, 255);
+	addText(10, "This setting turns off every sound", sf::Vector2f(getCenterPositionX() - 250.f, 120.f), AlignmentCenter, 255, 255, 255);
+	addText(25, "Music", sf::Vector2f(getCenterPositionX() - 250.f, 200.f), AlignmentCenter, 255, 255, 255);
+	addText(25, "Sound", sf::Vector2f(getCenterPositionX() - 250.f, 300.f), AlignmentCenter, 255, 255, 255);
+	addText(25, "Button's Sounds", sf::Vector2f(getCenterPositionX() - 250.f, 400.f), AlignmentCenter, 255, 255, 255);
 
 	//TODO: Build it
 }
@@ -425,13 +435,27 @@ bool Menu::loadSettingsMenu()
 	switch (isAction())
 	{
 	case CloseSubmenu:
+		_settings->readFile();
 		return false;
+
+	case SaveSettings:
+		_settings->saveSettings();
+		return false;
+
+	case DeafMode:
+		_settings->setDeaf(_settings->getDeaf() ? false : true);
+
+		_musicSound.setVolume(*_settings->getMusic());
+		
+		_window->clear();
+		draw();
+		_window->display();
 
 	default:
 		return true;
 	}
 
-	// TODO: Build it
+	// TODO: Build
 }
 
 bool Menu::loadHowToPlayMenu()
