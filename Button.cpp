@@ -173,7 +173,6 @@ void Button::updateButton()
 	_window->draw(_button);
 	_window->draw(_text);
 	_window->display();
-	playButtonSound(SOUND_DIR + "button.wav", _settings->getMenu());
 	sf::sleep(sf::milliseconds(250));
 }
 
@@ -211,8 +210,6 @@ int Button::isButtonPressed(const sf::Event& event)
 
 		_buttonPressed = false;
 		_window->draw(_button);
-		_window->draw(_text);
-		_window->display();
 		return _action;
 	}
 
@@ -228,6 +225,7 @@ int Button::isButtonPressed(const sf::Event& event)
 		else
 			_button.setTexture(_pressedTexture);
 
+		playButtonSound(SOUND_DIR + "button.wav", _settings->getMenu());
 		updateButton();
 	}
 	return -1;
