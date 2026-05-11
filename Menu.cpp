@@ -167,6 +167,11 @@ void Menu::addButton(ButtonAction action, const std::string& text, ButtonStyle s
 	_buttons.push_back(new Button(_window, _settings, action, text, style, scale, position));
 }
 
+void Menu::addButton(ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position, bool* checked)
+{
+	_buttons.push_back(new Button(_window, _settings, action, text, style, scale, position, checked));
+}
+
 void Menu::addText(int fontSize, const std::string& text, sf::Vector2f position, TextAlignment alignment, int r, int g, int b)
 {
 	if (!_font.loadFromFile(FONT_PATH))
@@ -267,7 +272,7 @@ void Menu::initSettingsMenu()
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
 	addButton(CloseSubmenu, "Cancel Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() + 200.f, 800.f));
 	addButton(SaveSettings, "Save Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, 100.f));
+	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, 100.f), _settings->getDeaf());
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
@@ -444,10 +449,10 @@ bool Menu::loadSettingsMenu()
 		return false;
 
 	case DeafMode:
-		_settings->setDeaf(_settings->getDeaf() ? false : true);
+		_settings->setDeaf(_settings->getDeafConst() ? false : true);
 
 		_musicSound.setVolume(_settings->getMusic());
-		
+
 		_window->clear();
 		draw();
 		_window->display();

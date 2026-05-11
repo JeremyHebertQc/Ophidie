@@ -13,7 +13,7 @@ private:
 	int _action;
 	bool _buttonPressed;
 	bool _checkButton;
-	bool _checkedButton;
+	bool* _checkedButton;
 
 	// Interface declarations
 	sf::Sprite _button;
@@ -37,7 +37,8 @@ private:
 public:
 	// Constructors
 	Button() = delete;
-    Button(sf::RenderWindow *window, Settings *settings, ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position);
+  Button(sf::RenderWindow *window, Settings *settings, ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position);
+  Button(sf::RenderWindow *window, Settings *settings, ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position, bool* checked);
 
 	// Destructor
 	~Button();

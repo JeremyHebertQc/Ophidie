@@ -75,9 +75,14 @@ bool Settings::getArrow() const
     return _usingArrowKeys;
 }
 
-bool Settings::getDeaf() const
+bool Settings::getDeafConst() const
 {
     return _deafMode;
+}
+
+bool* Settings::getDeaf()
+{
+	return &_deafMode;
 }
 
 // Setteurs

@@ -25,7 +25,39 @@ Button::Button(sf::RenderWindow* window, Settings* settings, ButtonAction action
 	// Button initializations
 	_action = action;
 	_buttonPressed = false;
-	_checkedButton = false;
+	if (style == CheckButton)
+		_checkButton = true;
+	else
+		_checkButton = false;
+
+	// Display management
+	setButtonTexture(style);
+	_button.setScale(sf::Vector2f(scale, scale));
+	_button.setOrigin(_texture.getSize().x / 2.f, _texture.getSize().y / 2.f);
+	_button.setPosition(position);
+
+	// Text management
+	if (!_font.loadFromFile(FONT_PATH))
+		sendError(FileNotOpened);
+
+	_text.setFont(_font);
+	_text.setCharacterSize(FONT_SIZE);
+	_text.setString(text);
+	_text.setStyle(sf::Text::Bold);
+	setTextColor(BUTTON_TEXT_COLOR_R, BUTTON_TEXT_COLOR_G, BUTTON_TEXT_COLOR_B);
+	calculateTextPosition();
+}
+
+Button::Button(sf::RenderWindow *window, Settings *settings, ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position, bool* checked)
+{
+	// Extern variables initializations
+	_window = window;
+	_settings = settings;
+
+	// Button initializations
+	_action = action;
+	_buttonPressed = false;
+	_checkedButton = checked;
 	if (style == CheckButton)
 		_checkButton = true;
 	else
@@ -106,18 +138,33 @@ void Button::setButtonTexture(int buttonStyle)
 		break;
 
 	case CheckButton:
-		_texture.loadFromFile(BUTTON_DIR + "emptyButton.png");
-		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
-		_secondTexture.loadFromFile(BUTTON_DIR + "yesButton.png");
-		_pressedSecondTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
+		//if (*_checkedButton)
+		//{
+			_texture.loadFromFile(BUTTON_DIR + "yesButton.png");
+			_pressedTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
+			_secondTexture.loadFromFile(BUTTON_DIR + "emptyButton.png");
+			_pressedSecondTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
+		//}
+		//else
+		//{
+		//	_texture.loadFromFile(BUTTON_DIR + "emptyButton.png");
+		//	_pressedTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
+		//	_secondTexture.loadFromFile(BUTTON_DIR + "yesButton.png");
+		//	_pressedSecondTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
+		//}
 		break;
 
 
 	default:
 		sendFatalError(FileNotOpened);
 	}
-
-	_button.setTexture(_texture);
+	if (_checkButton)
+		if (*_checkedButton)
+			_button.setTexture(_texture);
+		else
+			_button.setTexture(_secondTexture);
+	else
+		_button.setTexture(_texture);
 }
 
 // Event management
@@ -150,30 +197,34 @@ int Button::isButtonPressed(const sf::Event& event)
 
 	if (_buttonPressed && event.type == sf::Event::MouseButtonReleased)
 	{
-		if (_checkButton && _checkedButton)
-		{
-			_button.setTexture(_texture);
-			_checkedButton = false;
-		}
-		else if (_checkButton && !_checkedButton)
-		{
-			_button.setTexture(_secondTexture);
-			_checkedButton = true;
-		}
+		if (_checkButton)
+			if (*_checkedButton)
+			{
+				_button.setTexture(_secondTexture);
+			}
+			else
+			{
+				_button.setTexture(_texture);
+			}
 		else
 			_button.setTexture(_texture);
 
 		_buttonPressed = false;
+		_window->draw(_button);
+		_window->draw(_text);
+		_window->display();
 		return _action;
 	}
 
 	if (_button.getGlobalBounds().contains(mousePosition) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
+
 		_buttonPressed = true;
-		if (_checkButton && _checkedButton)
-			_button.setTexture(_pressedTexture);
-		else if (_checkButton && !_checkedButton)
-			_button.setTexture(_pressedSecondTexture);
+		if (_checkButton)
+			if (*_checkedButton)
+				_button.setTexture(_pressedTexture);
+			else
+				_button.setTexture(_pressedSecondTexture);
 		else
 			_button.setTexture(_pressedTexture);
 

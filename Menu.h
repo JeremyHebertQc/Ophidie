@@ -66,6 +66,7 @@ private:
 
 	// Vectors management
 	void addButton(ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position);
+	void addButton(ButtonAction action, const std::string& text, ButtonStyle style, float scale, sf::Vector2f position, bool* checked);
 	void addText(int fontSize, const std::string& text, sf::Vector2f position, TextAlignment alignment, int r, int g, int b);
 	void addTexture(const std::string& texture);
 	void addSprite(float scale, sf::Vector2f position, const std::string& texture);

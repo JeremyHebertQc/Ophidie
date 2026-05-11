@@ -46,7 +46,9 @@ public:
 	GameMode getMode() const;
 	bool getFullScr() const;
 	bool getArrow() const;
-	bool getDeaf() const;
+	bool getDeafConst() const;
+
+	bool* getDeaf();
 
 	// Setteurs
 	void setSound(float volSound);
