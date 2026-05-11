@@ -51,6 +51,7 @@ enum ButtonStyle
 	YesButton,
 	NoButton,
 	CheckButton,
+	EmptySquareButton,
 
 	nbStyle // Number of style
 };

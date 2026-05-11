@@ -154,6 +154,10 @@ void Button::setButtonTexture(int buttonStyle)
 		//}
 		break;
 
+	case EmptySquareButton:
+		_texture.loadFromFile(BUTTON_DIR + "emptyButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
+		break;
 
 	default:
 		sendFatalError(FileNotOpened);
