@@ -66,6 +66,10 @@ enum ButtonAction
 	GoToDeathTrapSCR,
 	GoToSurviveHellSCR,
 	CloseSubmenu,
+	OpenHomeMenu,
+
+	Resume,
+	QuitGame,
 
 	NbAction // Number of action
 };

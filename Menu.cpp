@@ -296,6 +296,23 @@ void Menu::initScoreboardMenu()
 	//TODO: Build it
 }
 
+void Menu::initPauseMenu()
+{
+	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
+	addButton(QuitGame, "Quit", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 250.f));
+	addButton(Resume, "Resume", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	addButton(OpenSettings, "Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 750.f));
+	addText(32, "Pause", sf::Vector2f(getCenterPositionX(), _sprites.front()->getOrigin().y - _sprites.front()->getGlobalBounds().height / 2.f + 150.f), AlignmentCenter, 255, 255, 255);
+}
+
+void Menu::initGameOverMenu()
+{
+	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
+	addButton(CloseSubmenu, "", YesButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+
+	// TODO: Build it
+}
+
 // Menu loading
 bool Menu::loadHomeMenu()
 {
@@ -452,6 +469,61 @@ bool Menu::loadStartMenu()
 }
 
 bool Menu::loadScoreboardMenu()
+{
+	_window->clear();
+	draw();
+	_window->display();
+
+	switch (isAction())
+	{
+	case CloseSubmenu:
+		return false;
+	default:
+		return true;
+	}
+
+	// TODO: Build it
+}
+
+ButtonAction Menu::loadPauseMenu()
+{
+	_window->clear();
+	draw();
+	_window->display();
+
+	while (true)
+	{
+		switch (isAction())
+		{
+		case QuitGame:
+			return QuitGame;
+
+		case Resume:
+			return Resume;
+
+		case OpenSettings:
+			clearVectors();
+
+			if (_isSubmenuInit == false)
+			{
+				initSettingsMenu();
+				_isSubmenuInit = true;
+			}
+
+			_isMenuInit = false;
+
+			while (loadSettingsMenu())
+				;
+
+			_isSubmenuInit = false;
+			clearVectors();
+		default:
+			break;
+		}
+	}
+}
+
+bool Menu::loadGameOverMenu()
 {
 	_window->clear();
 	draw();
