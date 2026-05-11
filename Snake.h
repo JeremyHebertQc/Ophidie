@@ -65,9 +65,11 @@ class Snake
 	void drawSnake();
 
 	void moveForward(bool eggEaten);
+	void moveHurting();
 	void addNeck();
 	void updateLastDirection();
 	void moveBody();
 	void moveHead();
 	void moveTail();
+	void hurtSnake();
 };

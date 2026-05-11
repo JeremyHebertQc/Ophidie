@@ -28,7 +28,7 @@ class Game
 
 	// Method
 	void play();
-	bool StartGame();
+	int StartGame();
 
 	// Music management
 	void playSound(const std::string& soundPath, float volume);
