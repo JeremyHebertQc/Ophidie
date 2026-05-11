@@ -267,7 +267,7 @@ void Menu::initSettingsMenu()
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
 	addButton(CloseSubmenu, "Cancel Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() + 200.f, 800.f));
 	addButton(SaveSettings, "Save Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	addButton(DeafMode, "", _settings->getDeaf() ? NoButton : YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, 100.f));
+	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, 100.f));
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
@@ -436,6 +436,7 @@ bool Menu::loadSettingsMenu()
 	{
 	case CloseSubmenu:
 		_settings->readFile();
+		_musicSound.setVolume(_settings->getMusic());
 		return false;
 
 	case SaveSettings:
@@ -445,7 +446,7 @@ bool Menu::loadSettingsMenu()
 	case DeafMode:
 		_settings->setDeaf(_settings->getDeaf() ? false : true);
 
-		_musicSound.setVolume(*_settings->getMusic());
+		_musicSound.setVolume(_settings->getMusic());
 		
 		_window->clear();
 		draw();
