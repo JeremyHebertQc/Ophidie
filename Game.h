@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Settings.h"
+#include "Grid.h"
+#include "Snake.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -32,7 +34,7 @@ class Game
 
 	// Method
 	void play();
-	bool StartGame();
+	int StartGame();
 
 	// Music management
 	void playSound(const std::string& soundPath, float volume);
@@ -44,5 +46,5 @@ class Game
 	// Display managment
 	void chooseWallpaper(GameMode mode);
 	void addWallpaper(const std::string& texture);
-	void draw();
+	void draw(sf::Text hungerMeter, Grid map, Snake snake);
 };
