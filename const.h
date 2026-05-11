@@ -50,6 +50,7 @@ enum ButtonStyle
 	LittleButton,
 	YesButton,
 	NoButton,
+	CheckButton,
 
 	nbStyle // Number of style
 };
@@ -69,6 +70,7 @@ enum ButtonAction
 	GoToPrevious,
 	CloseSubmenu,
 	OpenHomeMenu,
+	test,
 
 	Resume,
 	QuitGame,
