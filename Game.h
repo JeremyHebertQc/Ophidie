@@ -46,5 +46,5 @@ class Game
 	// Display managment
 	void chooseWallpaper(GameMode mode);
 	void addWallpaper(const std::string& texture);
-	void draw(sf::Text hungerMeter, Grid map, Snake snake);
+	void draw(sf::Text& hungerMeter, Grid& map, Snake& snake);
 };

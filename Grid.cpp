@@ -23,10 +23,12 @@ Grid::Grid(sf::RenderWindow* window, Settings* settings)
 
 	for (int i = 0; i < GRID_PATH.size(); i++)
 	{
-		if (!_textures[i].loadFromFile(GRID_PATH.at(i)))
+		if (!_texture.loadFromFile(GRID_PATH.at(i)))
 			sendFatalError(FileNotOpened);
 
-		_renderers[i].setTexture(_textures[i]);
+		_textures.push_back(new sf::Texture(_texture));
+
+		_renderers.push_back(new sf::Sprite(*_textures.back()));
 	}
 }
 
@@ -35,7 +37,12 @@ Grid::~Grid()
 {
 	_width = _height = _numberOfTraps = _numberOfEggs = 0;
 	_hasRandomWalls = false;
-
+	for (sf::Texture *t : _textures)
+		delete t;
+	for (sf::Sprite *s : _renderers)
+		delete s;
+	_textures.clear();
+	_renderers.clear();
 	_board.clear();
 }
 
@@ -183,7 +190,7 @@ void Grid::placeAir()
 {
 	for (int i = 1; i <= _height; i++)
 	{
-		_board.emplace_back();
+		//_board.emplace_back();
 		for (int j = 1; j <= _width; j++)
 			setTileAt(sf::Vector2i(i, j), air);
 	}
@@ -220,7 +227,7 @@ void Grid::placeEgg()
 
 		if (_board.at(randY).at(randX) == air)
 		{
-			_board.at(randY).at(randX) = egg;
+			_board.at(randY).at(randX) = TileType(getRandIntInRange(whiteEgg, redEgg));
 			eggPlaced = false;
 		}
 	}
@@ -233,13 +240,13 @@ void Grid::renderGrid() const
 		for (int j = 0; j < _height + BORDER_SIZE; j++)
 		{
 			auto pos = transformGridToPixels({j,i});
-			_renderers[air].setPosition(pos.x,pos.y);
-			_window->draw(_renderers[air]);
+			_renderers.at(air)->setPosition(pos.x,pos.y);
+			_window->draw(*_renderers.at(air));
 
 			if (_board.at(j).at(i) != air && _board.at(j).at(i) != body)
 			{
-				_renderers[_board.at(j).at(i)].setPosition(pos.x,pos.y);
-				_window->draw(_renderers[_board.at(j).at(i)]);
+				_renderers.at(_board.at(j).at(i))->setPosition(pos.x, pos.y);
+				_window->draw(*_renderers.at(_board.at(j).at(i)));
 			}
 
 		}

@@ -5,25 +5,19 @@
 #include "Settings.h"
 #include "Snake.h"
 
-enum TileType
-{
-	air,
-	trap,
-	egg,
-	body
-};
-
 class Grid
 {
 private:
 	sf::Vector2i transformGridToPixels(sf::Vector2i cellLocation, sf::Vector2f offsetInAbsolutePixels = {0, 0}) const; // Private method
 
-	mutable sf::Texture _textures[3];
-	mutable sf::Sprite _renderers[3];
+	mutable std::vector<sf::Texture*> _textures;
+	mutable std::vector<sf::Sprite*> _renderers;
 
 	int _width, _height, _numberOfEggs, _numberOfTraps;
 	bool _hasRandomWalls;
 	std::vector<std::vector<int>> _board;
+	sf::Texture _texture;
+	sf::Sprite _renderer;
 
 	// Use extern declarations
 	Settings* _settings;

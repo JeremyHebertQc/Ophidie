@@ -95,6 +95,18 @@ enum Direction
 	Left
 };
 
+enum TileType
+{
+	air,
+	trap,
+	whiteEgg,
+	brownEgg,
+	blueEgg,
+	greenEgg,
+	redEgg,
+	body
+};
+
 // === Grid ===
 const int MIN_GRID_SIZE = 5;
 const int MAX_GRID_SIZE = 32;
@@ -160,9 +172,13 @@ const std::vector<std::string> DIFFICULTY_PATH =
 
 const std::vector<std::string> GRID_PATH =
 {
-	GAME_DIR + "Background.png",
-	GAME_DIR + "Traps.png",
-	GAME_DIR + "egg.png"
+	GAME_DIR + "grid/Background.png",
+	GAME_DIR + "grid/Traps.png",
+	GAME_DIR + "eggs/whiteEgg.png",
+	GAME_DIR + "eggs/brownEgg.png",
+	GAME_DIR + "eggs/blueEgg.png",
+	GAME_DIR + "eggs/greenEgg.png",
+	GAME_DIR + "eggs/redEgg.png"
 };
 
 const int GRID_SMALL_SIZE = 8;

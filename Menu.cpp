@@ -317,7 +317,7 @@ void Menu::initScoreboardMenu()
 
 	addText(32, _currentDifficulty, sf::Vector2f(getCenterPositionX(), 230.f), AlignmentCenter, 255, 255, 255);
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NUMBER_OF_SCORES; i++)
 		addText(32, _currentScores[i], sf::Vector2f(getCenterPositionX(), 280.f + (42.0f * i)), AlignmentCenter, 255, 255, 255);
 }
 

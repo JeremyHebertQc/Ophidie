@@ -163,7 +163,11 @@ int Game::StartGame()
 					snake.moveForward(false);
 				map.updateSnakePosition(snake.getSnakeCoords());
 				break;
-			case egg:
+			case whiteEgg:
+			case brownEgg:
+			case blueEgg:
+			case greenEgg:
+			case redEgg:
 				snake.moveForward(true);
 				playSound("eatingEgg.wav", _settings.getSound());
 				map.updateSnakePosition(snake.getSnakeCoords());
@@ -268,7 +272,7 @@ void Game::addWallpaper(const std::string& texture)
 	_wallpaper.setTexture(_texture);
 }
 
-void Game::draw(sf::Text hungerMeter, Grid map, Snake snake)
+void Game::draw(sf::Text& hungerMeter, Grid& map, Snake& snake)
 {
 	_window.draw(_wallpaper);
 
