@@ -1,10 +1,10 @@
 {
   "Arrow": false,
-  "Deaf": false,
+  "Deaf": true,
   "Difficulty": 3,
   "FullScreen": false,
-  "Menu": 10,
+  "Menu": 0,
   "Mode": 1,
-  "Music": 10,
-  "Sound": 10
+  "Music": 0,
+  "Sound": 0
 }

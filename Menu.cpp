@@ -334,9 +334,9 @@ void Menu::initScoreboardMenu()
 void Menu::initPauseMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(QuitGame, "Quit", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 250.f));
-	addButton(Resume, "Resume", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
-	addButton(OpenSettings, "Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 750.f));
+	addButton(QuitGame, "Quit", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 750.f));
+	addButton(Resume, "Resume", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 250.f));
+	addButton(OpenSettings, "Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
 	addText(32, "Pause", sf::Vector2f(getCenterPositionX(), _sprites.front()->getOrigin().y - _sprites.front()->getGlobalBounds().height / 2.f + 150.f), AlignmentCenter, 255, 255, 255);
 }
 
