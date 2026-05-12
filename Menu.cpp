@@ -301,16 +301,34 @@ void Menu::initHowToPlayMenu()
 	addText(32, "How to play?", sf::Vector2f(getCenterPositionX(), _sprites.front()->getOrigin().y - _sprites.front()->getGlobalBounds().height / 2.f + 100.f), AlignmentCenter, 255, 255, 255);
 	addButton(CloseSubmenu, "", NoButton, 0.5f, sf::Vector2f(getCenterPositionX(), _sprites.front()->getOrigin().y + _sprites.front()->getGlobalBounds().height / 2.f - 150.f));
 	addText(20, "Control your snake using the arrow keys\nor WASD depending on your settings.\nYour goal is to eat as many eggs as possible,\nas each one makes your snake grow longer\nand increases your score.\n\nAvoid hitting the walls or your own Body,\nas either will end the game instantly.\nThe longer your snake gets, the harder\nit is to maneuver, so plan your moves ahead.\n\nHigher difficulties increase the snake's\nspeed and introduce traps on the grid.\nTwo game modes also adds a hunger bar.\nLet it empty and it is game over!\nYour scores are saved to the scoreboard\nfor each game mode.", sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 175.f), AlignmentCenter, 255, 255, 255);
-
-	//TODO: Build it
 }
 
 void Menu::initStartMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(CloseSubmenu, "", YesButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
+	
+	addText(32, "Select Game Mode", sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 400.f), AlignmentCenter, 255, 255, 255);
 
-	//TODO: Build it
+	addButton(SetModeNormal, "Normal", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 330, getCenterPositionY () - 250.f));
+	addButton(SetModeSurvival, "Survival", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 111, getCenterPositionY() - 250.f));
+	addButton(SetModeDeath, "DeathTrap", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 111, getCenterPositionY() - 250.f));
+	addButton(SetModeHell, "Hell", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 330, getCenterPositionY() - 250.f));
+
+	addText(32, "Select Difficulty", sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 100.f), AlignmentCenter, 255, 255, 255);
+
+	addButton(SetBaby, "Very Easy", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 330, getCenterPositionY () + 30.f));
+	addButton(SetEasy, "Easy", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 111, getCenterPositionY() + 30.f));
+	addButton(SetMild, "Mild", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 111, getCenterPositionY() +30.f));
+	addButton(SetNormal, "Normal", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 330, getCenterPositionY() + 30.f));
+	addButton(SetHard, "Hard", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 330, getCenterPositionY () + 130.f));
+	addButton(SetHarder, "Harder", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() - 111, getCenterPositionY() + 130.f));
+	addButton(SetVeryHard, "Very Hard", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 111, getCenterPositionY() + 130.f));
+	addButton(SetHardcore, "Hardcore", LittleButton, 0.45f, sf::Vector2f(getCenterPositionX() + 330, getCenterPositionY() + 130.f));
+
+	addText(20, "The current settings are : ", sf::Vector2f(getCenterPositionX() - 450, getCenterPositionY() + 330.f), AlignmentLeft, 255, 255, 255);
+	updateCurrentGameText();
+
+	addButton(CloseSubmenu, "", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() + 350.f));
 }
 
 void Menu::initScoreboardMenu()
@@ -608,10 +626,131 @@ bool Menu::loadStartMenu()
 	switch (isAction())
 	{
 	case CloseSubmenu:
+		_settings->saveSettings();
+
 		return false;
+
+	case SetBaby:
+		_settings->setDifficulty(Baby);
+		updateCurrentGameText();
+		return true;
+
+	case SetEasy:
+		_settings->setDifficulty(Ez);
+		updateCurrentGameText();
+		return true;
+
+	case SetMild:
+		_settings->setDifficulty(MediumRare);
+		updateCurrentGameText();
+		return true;
+
+	case SetNormal:
+		_settings->setDifficulty(Medium);
+		updateCurrentGameText();
+		return true;
+
+	case SetHard:
+		_settings->setDifficulty(Hard);
+		updateCurrentGameText();
+		return true;
+
+	case SetHarder:
+		_settings->setDifficulty(Harder);
+		updateCurrentGameText();
+		return true;
+
+	case SetVeryHard:
+		_settings->setDifficulty(TooHard);
+		updateCurrentGameText();
+		return true;
+
+	case SetHardcore:
+		_settings->setDifficulty(Hardcore);
+		updateCurrentGameText();
+		return true;
+
+	case SetModeNormal:
+	    _settings->setMode(Normal);
+		updateCurrentGameText();
+		return true;
+
+	case SetModeSurvival:
+		_settings->setMode(Survival);
+		updateCurrentGameText();
+		return true;
+
+	case SetModeDeath:
+		_settings->setMode(DeathTrap);
+		updateCurrentGameText();
+		return true;
+
+	case SetModeHell:
+		_settings->setMode(SurviveHell);
+		updateCurrentGameText();
+		return true;
+
 	default:
 		return true;
+	}//
+}
+
+void Menu::updateCurrentGameText()
+{
+	switch (_settings->getMode())
+	{
+	case Normal:
+		_gameMode = "Normal";
+		break;
+
+	case Survival:
+		_gameMode = "Survival";
+		break;
+
+	case DeathTrap:
+		_gameMode = "DeathTrap";
+		break;
+
+	case SurviveHell:
+		_gameMode = "Hell";
+		break;
 	}
+
+	switch (_settings->getDifficulty())
+	{
+	case Baby:
+		_gameDifficulty = "Very Easy";
+		break;
+
+	case Ez:
+		_gameDifficulty = "Easy";
+		break;
+
+	case MediumRare:
+		_gameDifficulty = "Mild";
+		break;
+
+	case Medium:
+		_gameDifficulty = "Normal";
+		break;
+
+	case Hard:
+		_gameDifficulty = "Hard";
+		break;
+
+	case Harder:
+		_gameDifficulty = "Harder";
+		break;
+
+	case TooHard:
+		_gameDifficulty = "Very Hard";
+		break;
+
+	case Hardcore:
+		_gameDifficulty = "Hardcore";
+		break;
+	}
+	_texts.back().setString("The current settings are : \n" + _gameMode + " on " + _gameDifficulty);
 }
 
 bool Menu::loadScoreboardMenu()
