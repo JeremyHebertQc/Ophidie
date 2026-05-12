@@ -561,20 +561,20 @@ bool Menu::loadSettingsMenu()
 
 void Menu::showVolumeButtons()
 {
-	addButton(IncreaseMusic, ">", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() - 130.f));
-	addButton(BigIncreaseMusic, ">>", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() - 130.f));
-	addButton(DecreaseMusic, "<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() - 130.f));
-	addButton(BigDecreaseMusic, "<<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() - 130.f));
+	addButton(IncreaseMusic, ">", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() - 130.f));
+	addButton(BigIncreaseMusic, ">>", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() - 130.f));
+	addButton(DecreaseMusic, "<", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() - 130.f));
+	addButton(BigDecreaseMusic, "<<", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() - 130.f));
 
-	addButton(IncreaseSound, ">", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() - 5.f));
-	addButton(BigIncreaseSound, ">>", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() - 5.f));
-	addButton(DecreaseSound, "<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() - 5.f));
-	addButton(BigDecreaseSound, "<<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() - 5.f));
+	addButton(IncreaseSound, ">", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() - 5.f));
+	addButton(BigIncreaseSound, ">>", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() - 5.f));
+	addButton(DecreaseSound, "<", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() - 5.f));
+	addButton(BigDecreaseSound, "<<", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() - 5.f));
 
-	addButton(IncreaseMenu, ">", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() + 120.f));
-	addButton(BigIncreaseMenu, ">>", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() + 120.f));
-	addButton(DecreaseMenu, "<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() + 120.f));
-	addButton(BigDecreaseMenu, "<<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() + 120.f));
+	addButton(IncreaseMenu, ">", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() + 120.f));
+	addButton(BigIncreaseMenu, ">>", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() + 120.f));
+	addButton(DecreaseMenu, "<", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() + 120.f));
+	addButton(BigDecreaseMenu, "<<", EmptySquareButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() + 120.f));
 }
 
 void Menu::hideVolumeButtons()
