@@ -1,8 +1,8 @@
+#pragma once
 /*====================================
 Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
-#pragma once
 
 #include <SFML/Graphics.hpp>
 #include <algorithm>

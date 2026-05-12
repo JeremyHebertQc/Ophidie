@@ -61,7 +61,7 @@ private:
 	float getCenterPositionX() const;
 	float getCenterPositionY() const;
 
-	// Setter
+	// Setters
 	void setTextColor(int r, int g, int b, sf::Text& text);
 	void setAlignment(TextAlignment alignment);
 

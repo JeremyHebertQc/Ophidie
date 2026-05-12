@@ -122,11 +122,6 @@ void Snake::setHeadDirection(Direction direction)
 	assert(direction <= 4 && direction >= -1);
 
 	if (direction != _bannedDirection)
-		if (direction == -1) // DELETE: Before hand in
-			_headDirection = Left;
-		else if (direction == 4)
-			_headDirection = Up;
-		else // DELETE: BEfore hand in
 			_headDirection = direction;
 }
 
@@ -288,7 +283,6 @@ void Snake::initializeSnake()
 	_snake.push_back(sf::Sprite(_textureTail));
 	_snake.back().setOrigin(getSnakeTextureCenterPosition());
 	_snake.back().setPosition(static_cast<float>(getSnakeTextureSizeX() + getSnakeTextureCenterPositionX()) + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	//_snake.back().setPosition(static_cast<float>(getSnakeTextureCenterPositionX()) + _offset.x, static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
 	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
 
 	setLiving(true);

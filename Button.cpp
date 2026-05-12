@@ -143,20 +143,10 @@ void Button::setButtonTexture(int buttonStyle)
 		break;
 
 	case CheckButton:
-		//if (*_checkedButton)
-		//{
-			_texture.loadFromFile(BUTTON_DIR + "yesButton.png");
-			_pressedTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
-			_secondTexture.loadFromFile(BUTTON_DIR + "emptyButton.png");
-			_pressedSecondTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
-		//}
-		//else
-		//{
-		//	_texture.loadFromFile(BUTTON_DIR + "emptyButton.png");
-		//	_pressedTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
-		//	_secondTexture.loadFromFile(BUTTON_DIR + "yesButton.png");
-		//	_pressedSecondTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
-		//}
+		_texture.loadFromFile(BUTTON_DIR + "yesButton.png");
+		_pressedTexture.loadFromFile(BUTTON_DIR + "pressedYesButton.png");
+		_secondTexture.loadFromFile(BUTTON_DIR + "emptyButton.png");
+		_pressedSecondTexture.loadFromFile(BUTTON_DIR + "pressedEmptyButton.png");
 		break;
 
 	case EmptySquareButton:

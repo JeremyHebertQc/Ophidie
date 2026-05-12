@@ -24,7 +24,7 @@ private:
 	sf::Texture _texture;
 	sf::Sprite _renderer;
 
-	// Use extern declarations
+	// Pointer declarations
 	Settings* _settings;
 	sf::RenderWindow* _window;
 

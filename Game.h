@@ -56,8 +56,6 @@ class Game
 	void playSound(const std::string& soundPath, float volume);
 	void playMusic(const std::string& soundPath, float volume);
 	void stopMusic();
-	// void showEndScreen();
-	// void savePlayerScore(Player player, GameMode mode);
 
 	// Display managment
 	void chooseWallpaper(GameMode mode);

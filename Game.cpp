@@ -202,7 +202,7 @@ int Game::StartGame()
 					_map.updateSnakePosition(snake.getSnakeCoords());
 					_map.placeEgg();
 
-				if (_settings.getMode() % 2) 
+				if (_settings.getMode() % 2)
 					_hunger += 60;
 				else
 					score += 100;
@@ -260,6 +260,7 @@ void Game::initializeGame(Snake& snake)
 	snake.initializeSnake();
 }
 
+// Music management
 void Game::playSound(const std::string& soundPath, float volume)
 {
 	if (!_soundEffectBuffer.loadFromFile(SOUND_DIR + soundPath))
@@ -293,6 +294,7 @@ void Game::stopMusic()
 	_music.stop();
 }
 
+// Display managment
 void Game::chooseWallpaper(GameMode mode)
 {
 	switch (mode)

@@ -29,13 +29,13 @@ private:
 		_deafMode;
 
 public:
-	// Constructeur
+	// Constructor
 	Settings();
 
-	// Destructeur
+	// Destructor
 	~Settings();
 
-	// Getteurs
+	// Getters
 	float getSound() const;
 	float getMusic() const;
 	float getMenu() const;
@@ -50,7 +50,7 @@ public:
 
 	bool* getDeafPointer();
 
-	// Setteurs
+	// Setters
 	void setSound(float volSound);
 	void setMusic(float volMusic);
 	void setMenuVolume(float volMenu);
@@ -62,12 +62,11 @@ public:
 	void setArrow(bool usingArrow);
 	void setDeaf(bool deafMode);
 
-	// Setteurs complexes
 	void setGrid(int gridW, int gridH);
 	void saveVolume(int volSound, int volMusic, int volMenu);
 	void setVolume(float volSound, float volMusic, float volMenu);
 
-	// Lecture/Écriture de la BD
+	// Read/Write in the Data base
 	void readFile();
 	void saveSettings() const;
 };

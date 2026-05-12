@@ -47,16 +47,7 @@ void closeFile(std::fstream& stream)
 void isFileOpen(std::fstream& stream)
 {
 	if (!stream)
-	{
-		std::cerr << "Error: file could not be opened"; // TODO: Switch to SFML
-#ifdef WIN32
-		system("pause>NUL");
-#else
-		std::cin.get();
-#endif
-
 		sendFatalError(FileNotOpened);
-	}
 }
 
 int getRandIntInRange(int min, int max)
@@ -67,7 +58,7 @@ int getRandIntInRange(int min, int max)
 void sendFatalError(ErrorCode code)
 {
 	std::string errorCodeName = getErrorCodeName(code);
-	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\nPress any key to close the game..."; //TODO: Transform in SFML if we have time
+	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\nPress any key to close the game...";
 
 	system("pause>NUL");
 	exit(code);
@@ -76,7 +67,7 @@ void sendFatalError(ErrorCode code)
 void sendError(ErrorCode code)
 {
 	std::string errorCodeName = getErrorCodeName(code);
-	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\n"; //TODO: Transform in SFML if we have time
+	std::cerr << "ERROR : " << errorCodeName << " Check the wiki to find the problem.\n";
 }
 
 const std::string getErrorCodeName(ErrorCode code)

@@ -48,7 +48,7 @@ float Menu::getCenterPositionY() const
 	return (_window->getSize().y / 2.f);
 }
 
-// Setter
+// Setters
 void Menu::setTextColor(int r, int g, int b, sf::Text& text)
 {
 	assert((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255));
@@ -188,7 +188,6 @@ void Menu::addText(int fontSize, const std::string& text, sf::Vector2f position,
 	_texts.back().setStyle(sf::Text::Regular);
 	setTextColor(r, g, b, _texts.back());
 	setAlignment(alignment);
-	//_texts.back().setOrigin(_texts.back().getLocalBounds().width / 2.f, _texts.back().getLocalBounds().height / 2.f);
 	_texts.back().setPosition(position);
 	_texts.back().setLineSpacing(2.f);
 }
@@ -503,7 +502,7 @@ bool Menu::loadSettingsMenu()
 		if (_settings->getMusic() != 0.0f)
 			_settings->setMusic(_settings->getMusic() - 10.f < 0.0f ? 0.0f : _settings->getMusic() - 10.f);
 		break;
-	
+
 	case IncreaseSound:
 		if (_settings->getSound() != 100.f)
 			_settings->setSound(_settings->getSound() + 1.f > 100.f ? 100.f : _settings->getSound() + 1.f);
@@ -557,7 +556,7 @@ bool Menu::loadSettingsMenu()
 	_texts.at(5).setString(_settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getMusic())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMusic())) == "0"     ? "MIN" : std::to_string(static_cast<int>(_settings->getMusic())));
 	_texts.at(7).setString(_settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getSound())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getSound())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getSound())));
 	_texts.at(9).setString(_settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getMenu())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMenu())) == "0"     ? "MIN" : std::to_string(static_cast<int>(_settings->getMenu())));
-	
+
 	return true;
 }
 
@@ -598,8 +597,6 @@ bool Menu::loadHowToPlayMenu()
 	default:
 		return true;
 	}
-
-	// TODO: Build it
 }
 
 bool Menu::loadStartMenu()
@@ -615,8 +612,6 @@ bool Menu::loadStartMenu()
 	default:
 		return true;
 	}
-
-	// TODO: Build it
 }
 
 bool Menu::loadScoreboardMenu()

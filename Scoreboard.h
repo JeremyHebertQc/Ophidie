@@ -19,31 +19,31 @@ struct Player
 class Scoreboard
 {
 private:
-	static const std::string gamemodesPaths[4];
-	static const std::string difficultyPath[8];
-	Player _scoreboardData[GameModeTotal][DifficultyTotal][NUMBER_OF_SCORES]; //TODO: Optimized it
+	static const std::string _gamemodesPaths[4];
+	static const std::string _difficultyPath[8];
+	Player _scoreboardData[GameModeTotal][DifficultyTotal][NUMBER_OF_SCORES];
 
 public:
-	// Constructeur
+	// Constructor
 	Scoreboard();
 
-	// Destructeur
+	// Destructor
 	~Scoreboard();
 
-	// Gestion des data
+	// Data management
 	void loadData();
 	void writeData() const;
 
+	// Score management
 	std::string getScoreAt(int gamemode, int difficulty, int place);
-	// Gestion du score
-	bool checkScore(float score, GameMode mode, Difficulty difficulty) const; // Returns true if score is at least in top 10
-	void addScore(float score, std::string name, GameMode mode, Difficulty difficulty); // Adds the score to the scoreboards
+	bool checkScore(float score, GameMode mode, Difficulty difficulty) const; //Note: Returns true if score is at least in top 10
+	void addScore(float score, std::string name, GameMode mode, Difficulty difficulty); //Note: Adds the score to the scoreboards
 
-	// Affichage
-	void showMenu(); // Show the menu when selected in main menu
-	void showScore(GameMode mode, Difficulty difficulty); // Shows the selected mode
+	// Display management
+	void showMenu(); //Note: Show the menu when selected in main menu
+	void showScore(GameMode mode, Difficulty difficulty); //Note: Shows the selected mode
 };
 
-// Surcharge des opérateurs
+// Operator overload
 std::fstream& operator<<(std::fstream& file, Player player);
 std::fstream& operator>>(std::fstream& file, Player& player);

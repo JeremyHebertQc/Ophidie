@@ -1,5 +1,5 @@
 /*====================================
-Auteur : Vincent Gagnon
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
 
@@ -14,14 +14,14 @@ Projet : Ophidie
 
  using json = nlohmann::json;
 
-// Constructeur
+// Constructor
 Settings::Settings()
 {
 	saveVolume(0, 0, 0);
     readFile();
 }
 
-// Destructeur
+// Destructor
 Settings::~Settings()
 {
     _gridH = _gridW = _volSound = _volMusic = _fullScr = _usingArrowKeys = _deafMode = 0;
@@ -29,7 +29,7 @@ Settings::~Settings()
     _mode = Normal;
 }
 
-// Getteurs
+// Getters
 float Settings::getSound() const
 {
     return _volSound;
@@ -90,7 +90,7 @@ bool* Settings::getDeafPointer()
 	return &_deafMode;
 }
 
-// Setteurs
+// Setters
 void Settings::setSound(float volSound)
 {
     assert(volSound >= MIN_VOLUME && volSound <= MAX_VOLUME);
@@ -165,7 +165,6 @@ void Settings::setDeaf(bool deafMode)
     }
 }
 
-// Setteurs complexes
 void Settings::setGrid(int gridW, int gridH)
 {
     setWidth(gridW);
@@ -186,7 +185,7 @@ void Settings::saveVolume(int volSound, int volMusic, int volMenu)
 	_savedMenu = volMenu;
 }
 
-// Lecture/Écriture de la BD
+// Read/Write in the Data base
 void Settings::readFile()
 {
     std::fstream input;

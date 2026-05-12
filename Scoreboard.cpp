@@ -9,19 +9,19 @@ Projet : Ophidie
 
 #include "utils.h"
 
-// Constructeur
+// Constructor
 Scoreboard::Scoreboard()
 {
 	loadData();
 }
 
-// Destructeur
+// Destructor
 Scoreboard::~Scoreboard()
 {
 
 }
 
-// Gestion des data
+// Data management
 void Scoreboard::loadData()
 {
 	std::fstream file;
@@ -80,13 +80,13 @@ path.append("/");
 		}
 }
 
+// Score management
 std::string Scoreboard::getScoreAt(int gamemode, int difficulty, int place) {
 	if (_scoreboardData[gamemode][difficulty][place]._name == "" || _scoreboardData[gamemode][difficulty][place]._name == "NULL")
 		return "";
 	return _scoreboardData[gamemode][difficulty][place]._name + " : " + std::to_string(_scoreboardData[gamemode][difficulty][place]._score);
 }
 
-// Gestion du score
 bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) const
 {
 	assert(score >= 0);
@@ -115,7 +115,7 @@ void Scoreboard::addScore(float score, std::string name, GameMode mode, Difficul
 				std::swap(_scoreboardData[mode][difficulty][i], _scoreboardData[mode][difficulty][j]);
 }
 
-// Affichage
+// Display management
 void Scoreboard::showMenu()
 {
 	// TODO: showMenu using a menu
@@ -126,7 +126,7 @@ void Scoreboard::showScore(GameMode mode, Difficulty difficulty)
 	// TODO: showScore using a menu
 }
 
-// Surcharge des opérateurs
+// Operator overload
 std::fstream & operator<<(std::fstream &file, Player player)
 {
 	file << player._name << ", " << player._score << std::endl;
