@@ -84,7 +84,7 @@ path.append("/");
 std::string Scoreboard::getScoreAt(int gamemode, int difficulty, int place) {
 	if (_scoreboardData[gamemode][difficulty][place]._name == "" || _scoreboardData[gamemode][difficulty][place]._name == "NULL")
 		return "";
-	return _scoreboardData[gamemode][difficulty][place]._name + " : " + std::to_string(_scoreboardData[gamemode][difficulty][place]._score);
+	return _scoreboardData[gamemode][difficulty][place]._name + " : " + std::to_string((int)_scoreboardData[gamemode][difficulty][place]._score);
 }
 
 bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) const
