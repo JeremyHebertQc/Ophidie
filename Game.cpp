@@ -204,16 +204,16 @@ int Game::StartGame()
 					_isHungry = false;
 			}
 		}
-		if (_settings.getMode() % 2)
-		{
-			score += int(scoreTimer.getElapsedTime().asMicroseconds() / 10000);
-			scoreTimer.restart();
-		}
+			if (_settings.getMode() % 2)
+			{
+				score += int(scoreTimer.getElapsedTime().asMicroseconds() / 10000);
+				scoreTimer.restart();
+			}
 
-		scoreMeter.setString(std::to_string(int(score / 100) * 100));
-		_window.draw(scoreMeter);
-		draw(_hungerMeter, _map, snake);
-		_window.display();
+			scoreMeter.setString(std::to_string(int(score / 100) * 100));
+			draw(_hungerMeter, _map, snake);
+			_window.draw(scoreMeter);
+			_window.display();
 	}
 	stopMusic();
 
