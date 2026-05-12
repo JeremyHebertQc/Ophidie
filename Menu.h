@@ -97,6 +97,6 @@ private:
 	bool loadHowToPlayMenu();
 	bool loadStartMenu();
 	bool loadScoreboardMenu();
-	ButtonAction loadPauseMenu();
+	bool loadPauseMenu();
 	bool loadGameOverMenu();
 };

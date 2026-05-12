@@ -276,18 +276,18 @@ void Menu::initSettingsMenu()
 	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 255.f), _settings->getDeafPointer());
 	addButton(ArrowKey, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 380.f), _settings->getArrowPointer());
 
-	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	////addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	addText(20, "Arrow Keys", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 380.f), AlignmentCenter, 255, 255, 255);
 	addText(10, "This setting define if the game uses\n     the arrow keys or w,a,s,d", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 360.f), AlignmentCenter, 255, 255, 255);
 	addText(20, "Deaf Mode", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 255.f), AlignmentCenter, 255, 255, 255);
 	addText(10, "This setting turns off every sound", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 235.f), AlignmentCenter, 255, 255, 255);
 	addText(20, "Music", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 130.f), AlignmentCenter, 255, 255, 255);
-	addText(25, std::to_string(static_cast<int>(_settings->getMusic())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 130.f), AlignmentCenter, 255, 255, 255);
+	addText(25, _settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getMusic())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 130.f), AlignmentCenter, 255, 255, 255);
 	addText(20, "Sound", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 5.f), AlignmentCenter, 255, 255, 255);
-	addText(25, std::to_string(static_cast<int>(_settings->getSound())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 5.f), AlignmentCenter, 255, 255, 255);
+	addText(25, _settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getSound())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 5.f), AlignmentCenter, 255, 255, 255);
 	addText(20, "Button's Sounds", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() + 120.f), AlignmentCenter, 255, 255, 255);
-	addText(25, std::to_string(static_cast<int>(_settings->getMenu())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() + 120.f), AlignmentCenter, 255, 255, 255);
+	addText(25, _settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getMenu())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() + 120.f), AlignmentCenter, 255, 255, 255);
 
 	if (!_settings->getDeaf())
 		showVolumeButtons();
@@ -540,9 +540,9 @@ bool Menu::loadSettingsMenu()
 
 	}
 
-	_texts.at(5).setString(std::to_string(static_cast<int>(_settings->getMusic())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMusic())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getMusic())));
-	_texts.at(7).setString(std::to_string(static_cast<int>(_settings->getSound())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getSound())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getSound())));
-	_texts.at(9).setString(std::to_string(static_cast<int>(_settings->getMenu())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMenu())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getMenu())));
+	_texts.at(5).setString(_settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getMusic())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMusic())) == "0"     ? "MIN" : std::to_string(static_cast<int>(_settings->getMusic())));
+	_texts.at(7).setString(_settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getSound())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getSound())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getSound())));
+	_texts.at(9).setString(_settings->getDeaf() ? "MUTED" : std::to_string(static_cast<int>(_settings->getMenu())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMenu())) == "0"     ? "MIN" : std::to_string(static_cast<int>(_settings->getMenu())));
 	
 	return true;
 }
@@ -622,7 +622,7 @@ bool Menu::loadScoreboardMenu()
 	// TODO: Build it
 }
 
-ButtonAction Menu::loadPauseMenu()
+bool Menu::loadPauseMenu()
 {
 	_window->clear();
 	draw();
@@ -633,10 +633,10 @@ ButtonAction Menu::loadPauseMenu()
 		switch (isAction())
 		{
 		case QuitGame:
-			return QuitGame;
+			return true;
 
 		case Resume:
-			return Resume;
+			return false;
 
 		case OpenSettings:
 			clearVectors();
@@ -647,13 +647,12 @@ ButtonAction Menu::loadPauseMenu()
 				_isSubmenuInit = true;
 			}
 
-			_isMenuInit = false;
-
 			while (loadSettingsMenu())
 				;
 
 			_isSubmenuInit = false;
 			clearVectors();
+			break;
 		default:
 			break;
 		}
