@@ -1,4 +1,9 @@
 #pragma once
+/*====================================
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
+Projet : Ophidie
+====================================*/
+
 #include <SFML/Graphics.hpp>
 #include "Settings.h"
 

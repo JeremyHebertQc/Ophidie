@@ -1,9 +1,9 @@
+#pragma once
 /*====================================
-Auteur : Félix-Antoine Lacroix
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
 
-#pragma once
 #include <string>
 #include <SFML/Audio.hpp>
 

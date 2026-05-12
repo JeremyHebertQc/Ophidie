@@ -1,7 +1,8 @@
 /*====================================
-Auteur : Félix-Antoine Lacroix
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
+
 #include <fstream>
 #include <iostream> // TODO: Switch to SFML
 #include "Scoreboard.h"

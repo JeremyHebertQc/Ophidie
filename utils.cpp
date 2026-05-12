@@ -1,5 +1,5 @@
 /*====================================
-Auteur : Jérémy Hébert
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
 

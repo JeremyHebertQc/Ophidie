@@ -1,5 +1,9 @@
-#include "Grid.h"
+/*====================================
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
+Projet : Ophidie
+====================================*/
 
+#include "Grid.h"
 #include "utils.h"
 #include "const.h"
 #include "Menu.h"

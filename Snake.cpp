@@ -1,5 +1,9 @@
-#include "Snake.h"
+/*====================================
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
+Projet : Ophidie
+====================================*/
 
+#include "Snake.h"
 #include "utils.h"
 
 #include <SFML/Graphics.hpp>
