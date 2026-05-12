@@ -276,9 +276,6 @@ void Menu::initSettingsMenu()
 
 	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 255.f), _settings->getDeafPointer());
 	addButton(ArrowKey, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 380.f), _settings->getArrowPointer());
-
-	////addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
 	addText(20, "Arrow Keys", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 380.f), AlignmentCenter, 255, 255, 255);
 	addText(10, "This setting define if the game uses\n     the arrow keys or w,a,s,d", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 360.f), AlignmentCenter, 255, 255, 255);
 	addText(20, "Deaf Mode", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 255.f), AlignmentCenter, 255, 255, 255);
@@ -674,6 +671,7 @@ bool Menu::loadScoreboardMenu()
 bool Menu::loadPauseMenu()
 {
 	_window->clear();
+	initPauseMenu();
 	draw();
 	_window->display();
 
@@ -701,6 +699,10 @@ bool Menu::loadPauseMenu()
 
 			_isSubmenuInit = false;
 			clearVectors();
+			_window->clear();
+			initPauseMenu();
+			draw();
+			_window->display();
 			break;
 		default:
 			break;

@@ -137,11 +137,12 @@ int Game::StartGame()
 					case sf::Keyboard::Escape:
 						_pauseTimer.restart();
 
-						// if(pauseMenu.)
+						if (pauseMenu.loadPauseMenu())
+							snake.setLiving(false);
 
+						_timePaused += _pauseTimer.getElapsedTime().asMicroseconds();
 						break;
 					case sf::Event::Resized:
-						//_window.clear();
 						_window.display();
 						break;
 					default:
@@ -205,8 +206,7 @@ int Game::StartGame()
 		}
 			if (_settings.getMode() % 2)
 			{
-				score += int(scoreTimer.getElapsedTime().asMicroseconds() / 10000);
-				scoreTimer.restart();
+				score = (int(scoreTimer.getElapsedTime().asMicroseconds()) - _timePaused) / 10000;
 			}
 
 			scoreMeter.setString(std::to_string(int(score / 100) * 100));
