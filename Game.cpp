@@ -235,7 +235,7 @@ int Game::StartGame()
 				score = (int(scoreTimer.getElapsedTime().asMicroseconds()) - _timePaused) / 10000;
 			}
 
-			scoreMeter.setString(std::to_string((int)score));
+			scoreMeter.setString(std::to_string((int)(score / 10) * 10));
 			draw(_hungerMeter, _map, snake);
 			_window.draw(scoreMeter);
 			_window.display();
