@@ -25,6 +25,17 @@ class Game
 	sf::Sprite _wallpaper;
 	sf::Texture _texture;
 
+	// Game
+	sf::Text _hungerMeter;
+	sf::Clock _moveCooldown;
+	sf::Clock _timeLived;
+	sf::Clock _pauseTimer;
+	int _hunger;
+	int _timePaused;
+	bool _isHungry;
+	Grid _map{&_window, &_settings};
+	sf::Font _font;
+
   public:
 	// Constructor
 	Game();
@@ -35,6 +46,7 @@ class Game
 	// Method
 	void play();
 	int StartGame();
+	void initializeGame(Snake& snake);
 
 	// Music management
 	void playSound(const std::string& soundPath, float volume);

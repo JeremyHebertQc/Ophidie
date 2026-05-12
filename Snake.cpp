@@ -15,26 +15,7 @@ Snake::Snake(sf::RenderWindow* window, sf::Vector2i offset)
 
 	setOffset(offset);
 
-	_snake.push_back(sf::Sprite(_textureHead));
-	setHeadDirection(Right);
-	_snake.back().setOrigin(getSnakeTextureCenterPosition());
-	_snake.back().setPosition(getSnakeTextureSizeX() * 3.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
-
-	_snake.push_back(sf::Sprite(_textureBody));
-	_snake.back().setOrigin(getSnakeTextureCenterPosition());
-	_snake.back().setPosition(getSnakeTextureSizeX() * 2.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
-
-	_snake.push_back(sf::Sprite(_textureTail));
-	_snake.back().setOrigin(getSnakeTextureCenterPosition());
-	_snake.back().setPosition(static_cast<float>(getSnakeTextureSizeX() + getSnakeTextureCenterPositionX()) + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	//_snake.back().setPosition(static_cast<float>(getSnakeTextureCenterPositionX()) + _offset.x, static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
-	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
-
-	setLiving(true);
-	setBannedDirection(Left);
-	updateLastDirection();
+	initializeSnake();
 }
 
 // Destructor
@@ -282,4 +263,30 @@ void Snake::hurtSnake()
 
 	for (int i = 5; i >= 2; i--)
 		_snake.erase(_snake.end() - i);
+}
+
+void Snake::initializeSnake()
+{
+	_snake.clear();
+
+	setBannedDirection(Left);
+	_snake.push_back(sf::Sprite(_textureHead));
+	setHeadDirection(Right);
+	_snake.back().setOrigin(getSnakeTextureCenterPosition());
+	_snake.back().setPosition(getSnakeTextureSizeX() * 3.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
+
+	_snake.push_back(sf::Sprite(_textureBody));
+	_snake.back().setOrigin(getSnakeTextureCenterPosition());
+	_snake.back().setPosition(getSnakeTextureSizeX() * 2.f + getSnakeTextureCenterPositionX() + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
+
+	_snake.push_back(sf::Sprite(_textureTail));
+	_snake.back().setOrigin(getSnakeTextureCenterPosition());
+	_snake.back().setPosition(static_cast<float>(getSnakeTextureSizeX() + getSnakeTextureCenterPositionX()) + _offset.x, getSnakeTextureSizeY() + static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
+	//_snake.back().setPosition(static_cast<float>(getSnakeTextureCenterPositionX()) + _offset.x, static_cast<float>(getSnakeTextureCenterPositionY()) + _offset.y);
+	_snake.back().setRotation(_headDirection * static_cast<float>(CONVERT_DEGREE));
+
+	setLiving(true);
+	updateLastDirection();
 }

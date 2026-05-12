@@ -25,6 +25,7 @@ private:
 
 public:
 	// Constructor
+	Grid() = delete;
 	Grid(sf::RenderWindow* window, Settings* settings);
 
 	// Destructor

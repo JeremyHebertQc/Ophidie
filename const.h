@@ -59,6 +59,7 @@ enum ButtonStyle
 enum ButtonAction
 {
 	StartGame,
+	StartGameNow,
 	CloseOphidie,
 	OpenSettings,
 	OpenHowToPlay,

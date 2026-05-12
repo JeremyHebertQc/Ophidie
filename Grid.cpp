@@ -18,7 +18,9 @@ Grid::Grid(sf::RenderWindow* window, Settings* settings)
 	_window = window;
 	_settings = settings;
 
-	_width = _height = _numberOfTraps = _numberOfEggs = 0;
+	_width = settings->getWidth();
+	_height = settings->getHeight();
+	_numberOfTraps = _numberOfEggs = 0;
 	_hasRandomWalls = false;
 
 	for (int i = 0; i < GRID_PATH.size(); i++)

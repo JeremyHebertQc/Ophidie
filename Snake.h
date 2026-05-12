@@ -72,4 +72,6 @@ class Snake
 	void moveHead();
 	void moveTail();
 	void hurtSnake();
+
+	void initializeSnake();
 };

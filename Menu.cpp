@@ -118,6 +118,7 @@ int Menu::isAction()
 
 		case sf::Event::MouseButtonPressed:
 		case sf::Event::MouseButtonReleased:
+			draw();
 			action = isButtonPressed(event);
 			_window->clear();
 			if (action != -1)
@@ -333,9 +334,9 @@ void Menu::initPauseMenu()
 void Menu::initGameOverMenu()
 {
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
-	addButton(CloseSubmenu, "", YesButton, 0.5f, sf::Vector2f(getCenterPositionX(), 500.f));
-
-	// TODO: Build it
+	addText(64, "Game Over", sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 350.f), AlignmentCenter, 255, 255, 255);
+	addButton(OpenHomeMenu, "Go back to home menu", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 150.f));
+	addButton(StartGameNow, "Restart a game now", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), getCenterPositionY() + 150.f));
 }
 
 // Menu loading
@@ -374,6 +375,7 @@ bool Menu::loadHomeMenu()
 			clearVectors();
 
 			stopMusic();
+		case StartGameNow:
 			return true;
 
 		case CloseOphidie:
@@ -603,16 +605,21 @@ ButtonAction Menu::loadPauseMenu()
 bool Menu::loadGameOverMenu()
 {
 	_window->clear();
+	clearVectors();
+	initGameOverMenu();
 	draw();
 	_window->display();
 
-	switch (isAction())
-	{
-	case CloseSubmenu:
-		return false;
-	default:
-		return true;
-	}
+	while (true)
+		switch (isAction())
+		{
+		case StartGameNow:
+			return true;
 
-	// TODO: Build it
+		case OpenHomeMenu:
+			return false;
+
+		default:
+			break;
+		}
 }
