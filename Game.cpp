@@ -223,12 +223,12 @@ int Game::StartGame()
 		{
 			bool nameFound = false;
 			std::string name;
-			sf::Text saveText("New highScore! Enter your name", _font, 30);
+			sf::Text saveText("New highScore : " + std::to_string((int)score) + "!\nEnter your name : ", _font, 30);
 			sf::Text saveTextName("", _font, 30);
 			saveText.setFillColor({255,255,255});
 			saveTextName.setFillColor({255,255,255});
 			saveText.setPosition(200, 200);
-			saveTextName.setPosition(200, 250);
+			saveTextName.setPosition(200, 280);
 			while (!nameFound)
 			{
 				sf::Event event;
@@ -253,7 +253,6 @@ int Game::StartGame()
 
 				scoreMeter.setString(std::to_string(int(score / 100) * 100));
 				_window.draw(_wallpaper);
-				_window.draw(scoreMeter);
 				_window.draw(saveText);
 				_window.draw(saveTextName);
 				_window.display();
