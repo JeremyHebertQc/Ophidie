@@ -97,12 +97,6 @@ bool Scoreboard::checkScore(float score, GameMode mode, Difficulty difficulty) c
 	return false;
 }
 
-
-void Scoreboard::addScore(float score, GameMode mode, Difficulty difficulty, sf::RenderWindow* window)
-{
-
-}
-
 void Scoreboard::addScore(float score, std::string name, GameMode mode, Difficulty difficulty)
 {
 	assert(mode >= 0 || mode < GameModeTotal);
