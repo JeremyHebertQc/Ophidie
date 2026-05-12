@@ -98,6 +98,8 @@ int Game::StartGame()
 				{
 				case sf::Event::Closed:
 					_window.close();
+					break;
+
 				case sf::Event::KeyPressed:
 				case sf::Event::KeyReleased:
 					switch (event.key.code)
@@ -106,44 +108,50 @@ int Game::StartGame()
 						if (_settings.getArrow())
 							snake.setHeadDirection(Left);
 						break;
+
 					case sf::Keyboard::A:
 						if (!_settings.getArrow())
 							snake.setHeadDirection(Left);
 						break;
+
 					case sf::Keyboard::Right:
 						if (_settings.getArrow())
 							snake.setHeadDirection(Right);
 						break;
+
 					case sf::Keyboard::D:
 						if (!_settings.getArrow())
 							snake.setHeadDirection(Right);
 						break;
+
 					case sf::Keyboard::Up:
 						if (_settings.getArrow())
 							snake.setHeadDirection(Up);
 						break;
+
 					case sf::Keyboard::W:
 						if (!_settings.getArrow())
 							snake.setHeadDirection(Up);
 						break;
+
 					case sf::Keyboard::Down:
 						if (_settings.getArrow())
 							snake.setHeadDirection(Down);
 						break;
+
 					case sf::Keyboard::S:
 						if (!_settings.getArrow())
 							snake.setHeadDirection(Down);
 						break;
+
 					case sf::Keyboard::Escape:
 						_pauseTimer.restart();
-
-						// if(pauseMenu.)
-
 						break;
+
 					case sf::Event::Resized:
-						//_window.clear();
 						_window.display();
 						break;
+
 					default:
 						break;
 					}
@@ -157,7 +165,7 @@ int Game::StartGame()
 
 				switch (_map.getTileAt(snake.getDestinationCoord()))
 				{
-				case air:
+				case Air:
 					if (_isHungry)
 						if (snake.getSnakeSize() > 5)
 						{
@@ -174,11 +182,12 @@ int Game::StartGame()
 						snake.moveForward(false);
 					_map.updateSnakePosition(snake.getSnakeCoords());
 					break;
-				case whiteEgg:
-				case brownEgg:
-				case blueEgg:
-				case greenEgg:
-				case redEgg:
+
+				case WhiteEgg:
+				case BrownEgg:
+				case BlueEgg:
+				case GreenEgg:
+				case RedEgg:
 					snake.moveForward(true);
 					playSound("eatingEgg.wav", _settings.getSound());
 					_map.updateSnakePosition(snake.getSnakeCoords());
@@ -189,11 +198,13 @@ int Game::StartGame()
 				else
 					score += 100;
 				break;
-			case body:
-			case trap:
+
+			case Body:
+			case Trap:
 				snake.setLiving(false);
 				playSound("gameOver.wav", _settings.getSound());
 				break;
+
 			}
 
 			if (_settings.getMode() % 2)
@@ -219,9 +230,6 @@ int Game::StartGame()
 	}
 	stopMusic();
 
-		//if (_settings.getMode() % 2)
-		//	return _timeLived.getElapsedTime().asMilliseconds(); // TODO: add the minus pausedTime
-
 		gameOverMenu.initGameOverMenu();
 	} while (gameOverMenu.loadGameOverMenu());
 
@@ -242,7 +250,6 @@ void Game::initializeGame(Snake& snake)
 	_timePaused = 0;
 	_isHungry = false;
 	snake.initializeSnake();
-	//snake.setLiving(true);
 }
 
 void Game::playSound(const std::string& soundPath, float volume)
@@ -298,7 +305,7 @@ void Game::chooseWallpaper(GameMode mode)
 		addWallpaper("wallpaper/hell.png");
 		break;
 
-		default:
+	default:
 		break;
 	}
 }

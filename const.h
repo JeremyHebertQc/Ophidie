@@ -111,14 +111,14 @@ enum Direction
 
 enum TileType
 {
-	air,
-	trap,
-	whiteEgg,
-	brownEgg,
-	blueEgg,
-	greenEgg,
-	redEgg,
-	body
+	Air,
+	Trap,
+	WhiteEgg,
+	BrownEgg,
+	BlueEgg,
+	GreenEgg,
+	RedEgg,
+	Body
 };
 
 // === Grid ===
@@ -187,7 +187,7 @@ const std::vector<std::string> DIFFICULTY_PATH =
 const std::vector<std::string> GRID_PATH =
 {
 	GAME_DIR + "grid/Background.png",
-	GAME_DIR + "grid/Traps.png",
+	GAME_DIR + "grid/traps.png",
 	GAME_DIR + "eggs/whiteEgg.png",
 	GAME_DIR + "eggs/brownEgg.png",
 	GAME_DIR + "eggs/blueEgg.png",
