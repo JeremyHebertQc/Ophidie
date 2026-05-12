@@ -36,7 +36,9 @@ Game::Game()
 	_hungerMeter.setCharacterSize(30);
 	_hungerMeter.setStyle(sf::Text::Regular);
 	_hungerMeter.setFillColor(sf::Color::White);
-	_hungerMeter.setPosition(sf::Vector2f(100.f, 20.f));
+	sf::FloatRect bounds = _hungerMeter.getLocalBounds();
+	_hungerMeter.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+	_hungerMeter.setPosition(sf::Vector2f(_window.getSize().x / 2.f + 200, 20.f));
 
 	_hunger = 100;
 	_timePaused = 0;
@@ -68,8 +70,25 @@ int Game::StartGame()
 	Snake snake(&_window, _map.getGridOffset());
 	Menu pauseMenu(&_window, &_settings);
 	Menu gameOverMenu(&_window, &_settings);
+	float score = 0;
+	sf::Text scoreMeter("0", _font, 30);
+
+	sf::Clock scoreTimer;
+	scoreMeter.setStyle(sf::Text::Regular);
+	scoreMeter.setFillColor(sf::Color::White);
+	sf::FloatRect bounds = scoreMeter.getLocalBounds();
+	scoreMeter.setOrigin(bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f);
+	if (_settings.getMode() % 2)
+		scoreMeter.setPosition(sf::Vector2f(_window.getSize().x / 2.f - 200, 20.f));
+	else
+		scoreMeter.setPosition(sf::Vector2f(_window.getSize().x / 2.f, 20.f));
+
+
 	do
 	{
+		scoreTimer.restart();
+		scoreMeter.setString("0");
+		score = 0;
 		initializeGame(snake);
 		while (snake.isLiving())
 		{
@@ -163,33 +182,39 @@ int Game::StartGame()
 					_map.updateSnakePosition(snake.getSnakeCoords());
 					_map.placeEgg();
 
-					if (_settings.getMode() % 2)
-						_hunger += 60;
-
-					break;
-				case body:
-				case trap:
-					snake.setLiving(false);
-					playSound("gameOver.wav", _settings.getSound());
-					break;
-				}
-
 				if (_settings.getMode() % 2)
-				{
-					_hunger = (_hunger > ((_settings.getDifficulty() % 4) + 1) ? _hunger - ((_settings.getDifficulty() % 4) + 1) : 0);
-					_hungerMeter.setString(std::to_string(_hunger));
-					if (_hunger <= 0)
-						_isHungry = true;
-					else
-						_isHungry = false;
-				}
+					_hunger += 60;
+					score += 100;
+				break;
+			case body:
+			case trap:
+				snake.setLiving(false);
+				playSound("gameOver.wav", _settings.getSound());
+				break;
 			}
 
-			//_window.clear();
-			draw(_hungerMeter, _map, snake);
-			_window.display();
+			if (_settings.getMode() % 2)
+			{
+				_hunger = (_hunger > ((_settings.getDifficulty() % 4) + 1) ? _hunger - ((_settings.getDifficulty() % 4) + 1) : 0);
+				_hungerMeter.setString(std::to_string(_hunger));
+				if (_hunger <= 0)
+					_isHungry = true;
+				else
+					_isHungry = false;
+			}
 		}
-		stopMusic();
+		if (_settings.getMode() % 2)
+		{
+			score += int(scoreTimer.getElapsedTime().asMicroseconds() / 10000);
+			scoreTimer.restart();
+		}
+
+		scoreMeter.setString(std::to_string(int(score / 100) * 100));
+		draw(_hungerMeter, _map, snake);
+		_window.draw(scoreMeter);
+		_window.display();
+	}
+	stopMusic();
 
 		//if (_settings.getMode() % 2)
 		//	return _timeLived.getElapsedTime().asMilliseconds(); // TODO: add the minus pausedTime
@@ -294,13 +319,3 @@ void Game::draw(sf::Text& hungerMeter, Grid& map, Snake& snake)
 	_map.renderGrid();
 	snake.drawSnake();
 }
-
-// void Game::showEndScreen()
-// {
-//
-// }
-//
-// void Game::savePlayerScore(Player player, GameMode mode)
-// {
-//
-// }
