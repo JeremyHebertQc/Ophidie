@@ -45,10 +45,11 @@ public:
 	Difficulty getDifficulty() const;
 	GameMode getMode() const;
 	bool getFullScr() const;
+	bool* getArrowPointer();
 	bool getArrow() const;
-	bool getDeafConst() const;
+	bool getDeaf() const;
 
-	bool* getDeaf();
+	bool* getDeafPointer();
 
 	// Setteurs
 	void setSound(float volSound);

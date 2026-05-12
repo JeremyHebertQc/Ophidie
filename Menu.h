@@ -98,9 +98,11 @@ private:
 	// Menu loading
 	bool loadHomeMenu();
 	bool loadSettingsMenu();
+	void showVolumeButtons();
+	void hideVolumeButtons();
 	bool loadHowToPlayMenu();
 	bool loadStartMenu();
 	bool loadScoreboardMenu();
-	ButtonAction loadPauseMenu();
+	bool loadPauseMenu();
 	bool loadGameOverMenu();
 };

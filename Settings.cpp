@@ -70,17 +70,22 @@ bool Settings::getFullScr() const
     return _fullScr;
 }
 
-bool Settings::getArrow() const
+bool* Settings::getArrowPointer()
 {
-    return _usingArrowKeys;
+    return &_usingArrowKeys;
 }
 
-bool Settings::getDeafConst() const
+bool Settings::getArrow() const
+{
+	return _usingArrowKeys;
+}
+
+bool Settings::getDeaf() const
 {
     return _deafMode;
 }
 
-bool* Settings::getDeaf()
+bool* Settings::getDeafPointer()
 {
 	return &_deafMode;
 }
