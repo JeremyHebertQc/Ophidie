@@ -50,6 +50,9 @@ private:
 	std::string _currentScores[NUMBER_OF_SCORES];
 	std::string _currentDifficulty;
 
+	// StartingMenu
+	std::string _gameMode;
+	std::string _gameDifficulty;
   public:
 	// Constructor
 	Menu(sf::RenderWindow* window, Settings* settings);
@@ -106,6 +109,7 @@ private:
 	void hideVolumeButtons();
 	bool loadHowToPlayMenu();
 	bool loadStartMenu();
+	void updateCurrentGameText();
 	bool loadScoreboardMenu();
 	bool loadPauseMenu();
 	bool loadGameOverMenu();

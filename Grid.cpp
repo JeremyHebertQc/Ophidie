@@ -121,6 +121,7 @@ void Grid::configureGamemode()
 	{
 	case Normal:
 	case Survival:
+		_hasRandomWalls = false;
 		break;
 
 	case DeathTrap:
