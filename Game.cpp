@@ -166,7 +166,10 @@ int Game::StartGame()
 							playSound("hungry.wav", _settings.getSound());
 						}
 						else
+						{
+							playSound("gameOver.wav", _settings.getSound());
 							snake.setLiving(false);
+						}
 					else
 						snake.moveForward(false);
 					_map.updateSnakePosition(snake.getSnakeCoords());
