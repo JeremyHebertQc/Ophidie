@@ -54,6 +54,9 @@ Game::~Game()
 // Method
 void Game::play()
 {
+
+	//Scoreboard my;
+	//my.addScore(12.0f, (GameMode)0, (Difficulty)2, &_window);
 	Menu menu(&_window, &_settings);
 
 	while (_window.isOpen())
@@ -72,6 +75,7 @@ int Game::StartGame()
 	Menu gameOverMenu(&_window, &_settings);
 	float score = 0;
 	sf::Text scoreMeter("0", _font, 30);
+	Scoreboard scoreboard;
 
 	sf::Clock scoreTimer;
 	scoreMeter.setStyle(sf::Text::Regular);
@@ -215,13 +219,46 @@ int Game::StartGame()
 			_window.display();
 	}
 	stopMusic();
+		if (scoreboard.checkScore(score, _settings.getMode(),_settings.getDifficulty()))
+		{
+			bool nameFound = false;
+			std::string name;
+			sf::Text saveText("New highScore! Enter your name", _font, 30);
+			saveText.setFillColor({255,255,255});
+			saveText.setPosition(200, 200);
+			while (!nameFound)
+			{
+				sf::Event event;
+				while (_window.pollEvent(event)) {
+					if (!nameFound && event.type == sf::Event::TextEntered) {
+						if (event.text.unicode == 8) { // Backspace
+							if (!name.empty())
+								name.pop_back();
+						} else if (event.text.unicode == 13) { // Enter
+							nameFound = true;
+						} else if (event.text.unicode >= 32 && event.text.unicode < 127) { // any valid
+							name += (char)(event.text.unicode);
+						}
+					}
+				}
 
-		//if (_settings.getMode() % 2)
-		//	return _timeLived.getElapsedTime().asMilliseconds(); // TODO: add the minus pausedTime
+				scoreMeter.setString(std::to_string(int(score / 100) * 100));
+				draw(_hungerMeter, _map, snake);
+				_window.draw(scoreMeter);
+				_window.draw(saveText);
+				_window.display();
+
+
+			}
+			scoreboard.addScore(score, name, _settings.getMode(), _settings.getDifficulty());
+			scoreboard.writeData();
+
+		}
+
 
 		gameOverMenu.initGameOverMenu();
 	} while (gameOverMenu.loadGameOverMenu());
-
+	scoreboard.writeData();
 	return score;
 }
 

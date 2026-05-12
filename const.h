@@ -87,6 +87,7 @@ enum ButtonAction
 	DecreaseMenu,
 	BigDecreaseMenu,
 	ArrowKey,
+	WriteName,
 
 	Resume,
 	QuitGame,

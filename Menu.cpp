@@ -18,6 +18,7 @@ Menu::Menu(sf::RenderWindow* window, Settings* settings)
 	_wallpaper.setScale(5.f, 5.f);
 	addTexture(WALLPAPER_PATH);
 	_wallpaper.setTexture(*_textures.back());
+	_scoreboardMenuNavigation = {0,0};
 }
 
 // Destructor
@@ -264,7 +265,7 @@ void Menu::initHomeMenu()
 	addButton(OpenScoreboard, "Scoreboard", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), 600.f));
 	addButton(OpenSettings, "Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 130.f, 750.f));
 	addButton(CloseOphidie, "Quit", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() + 130.f, 750.f));
-	addText(12, "Credits: Jérémy Hébert, Vincent Gagnon, Félix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), AlignmentLeft, 255, 255, 255);
+	addText(12, "Credits: Jï¿½rï¿½my Hï¿½bert, Vincent Gagnon, Fï¿½lix-Antoine Lacroix & Nathan Bricault", sf::Vector2f(_window->getSize().y - 0.97 * _window->getSize().y, _window->getSize().y - 0.05 * _window->getSize().y), AlignmentLeft, 255, 255, 255);
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), 100.f), LOGO_PATH);
 }
 
@@ -346,6 +347,7 @@ void Menu::initGameOverMenu()
 	addButton(OpenHomeMenu, "Go back to home menu", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), getCenterPositionY() - 150.f));
 	addButton(StartGameNow, "Restart a game now", BigButton, 0.5f, sf::Vector2f(getCenterPositionX(), getCenterPositionY() + 150.f));
 }
+
 
 // Menu loading
 bool Menu::loadHomeMenu()
@@ -621,6 +623,11 @@ bool Menu::loadScoreboardMenu()
 {
 	Scoreboard scoreboard;
 	scoreboard.loadData();
+	_currentDifficulty = DIFFICULTY_PATH[_scoreboardMenuNavigation.x];
+	for (int i = 0; i < NUMBER_OF_SCORES; i++)
+		_currentScores[i] = scoreboard.getScoreAt(_scoreboardMenuNavigation.y, _scoreboardMenuNavigation.x, i);
+	clearVectors();
+	initScoreboardMenu();
 	while (true)
 	{
 		_window->clear();
