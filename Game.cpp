@@ -246,28 +246,38 @@ int Game::StartGame()
 			bool nameFound = false;
 			std::string name;
 			sf::Text saveText("New highScore! Enter your name", _font, 30);
+			sf::Text saveTextName("", _font, 30);
 			saveText.setFillColor({255,255,255});
+			saveTextName.setFillColor({255,255,255});
 			saveText.setPosition(200, 200);
+			saveTextName.setPosition(200, 250);
 			while (!nameFound)
 			{
 				sf::Event event;
-				while (_window.pollEvent(event)) {
-					if (!nameFound && event.type == sf::Event::TextEntered) {
-						if (event.text.unicode == 8) { // Backspace
+				while (_window.pollEvent(event))
+				{
+					if (!nameFound && event.type == sf::Event::TextEntered)
+					{
+						if (event.text.unicode == 8)
+						{ // Backspace
 							if (!name.empty())
 								name.pop_back();
-						} else if (event.text.unicode == 13) { // Enter
+						} else if (event.text.unicode == 13)
+						{ // Enter
 							nameFound = true;
-						} else if (event.text.unicode >= 32 && event.text.unicode < 127) { // any valid
+						} else if (event.text.unicode >= 32 && event.text.unicode < 127)
+						{ // any valid
 							name += (char)(event.text.unicode);
 						}
+						saveTextName.setString(name);
 					}
 				}
 
 				scoreMeter.setString(std::to_string(int(score / 100) * 100));
-				draw(_hungerMeter, _map, snake);
+				_window.draw(_wallpaper);
 				_window.draw(scoreMeter);
 				_window.draw(saveText);
+				_window.draw(saveTextName);
 				_window.display();
 
 
