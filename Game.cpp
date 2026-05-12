@@ -83,7 +83,14 @@ int Game::StartGame()
 	else
 		scoreMeter.setPosition(sf::Vector2f(_window.getSize().x / 2.f, 20.f));
 
+	float score;
+	sf::Text scoreMeter("0", font, 30);
+	sf::Clock scoreTimer;
+	scoreMeter.setStyle(sf::Text::Regular);
+	scoreMeter.setFillColor(sf::Color::White);
+	scoreMeter.setPosition(sf::Vector2f(100.f, 20.f));
 
+	
 	do
 	{
 		scoreTimer.restart();
@@ -164,6 +171,7 @@ int Game::StartGame()
 						{
 							snake.moveHurting();
 							_hunger += 50;
+							score += 100;
 							playSound("hungry.wav", _settings.getSound());
 						}
 						else
@@ -210,8 +218,8 @@ int Game::StartGame()
 		}
 
 		scoreMeter.setString(std::to_string(int(score / 100) * 100));
-		draw(_hungerMeter, _map, snake);
 		_window.draw(scoreMeter);
+		draw(_hungerMeter, _map, snake);
 		_window.display();
 	}
 	stopMusic();
@@ -222,7 +230,7 @@ int Game::StartGame()
 		gameOverMenu.initGameOverMenu();
 	} while (gameOverMenu.loadGameOverMenu());
 
-	return snake.getSnakeSize();
+	return score;
 }
 
 void Game::initializeGame(Snake& snake)
