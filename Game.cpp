@@ -182,10 +182,9 @@ int Game::StartGame()
 					_map.placeEgg();
 
 				if (_settings.getMode() % 2) 
-				{
 					_hunger += 60;
+				else
 					score += 100;
-				}
 				break;
 			case body:
 			case trap:
