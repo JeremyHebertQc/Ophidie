@@ -181,9 +181,11 @@ int Game::StartGame()
 					_map.updateSnakePosition(snake.getSnakeCoords());
 					_map.placeEgg();
 
-				if (_settings.getMode() % 2)
+				if (_settings.getMode() % 2) 
+				{
 					_hunger += 60;
 					score += 100;
+				}
 				break;
 			case body:
 			case trap:
