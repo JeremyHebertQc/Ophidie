@@ -36,8 +36,9 @@ public:
 
 	// Score management
 	std::string getScoreAt(int gamemode, int difficulty, int place);
-	bool checkScore(float score, GameMode mode, Difficulty difficulty) const; //Note: Returns true if score is at least in top 10
-	void addScore(float score, std::string name, GameMode mode, Difficulty difficulty); //Note: Adds the score to the scoreboards
+	bool checkScore(float score, GameMode mode, Difficulty difficulty) const; // Returns true if score is at least in top 10
+	void addScore(float score, GameMode mode, Difficulty difficulty, sf::RenderWindow* window); // Adds the score to the scoreboards
+	void addScore(float score, std::string name, GameMode mode, Difficulty difficulty); // Adds the score to the scoreboards
 
 	// Display management
 	void showMenu(); //Note: Show the menu when selected in main menu
