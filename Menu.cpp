@@ -272,17 +272,25 @@ void Menu::initSettingsMenu()
 	addSprite(1.f, sf::Vector2f(getCenterPositionX(), getCenterPositionY()), "assets/menu/menuBackground.png");
 	addButton(CloseSubmenu, "Cancel Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() + 200.f, 800.f));
 	addButton(SaveSettings, "Save Settings", LittleButton, 0.775f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, 100.f), _settings->getDeaf());
-	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
-	addText(25, "Deaf", sf::Vector2f(getCenterPositionX() - 250.f, 100.f), AlignmentCenter, 255, 255, 255);
-	addText(10, "This setting turns off every sound", sf::Vector2f(getCenterPositionX() - 250.f, 120.f), AlignmentCenter, 255, 255, 255);
-	addText(25, "Music", sf::Vector2f(getCenterPositionX() - 250.f, 200.f), AlignmentCenter, 255, 255, 255);
-	addText(25, "Sound", sf::Vector2f(getCenterPositionX() - 250.f, 300.f), AlignmentCenter, 255, 255, 255);
-	addText(25, "Button's Sounds", sf::Vector2f(getCenterPositionX() - 250.f, 400.f), AlignmentCenter, 255, 255, 255);
 
-	//TODO: Build it
+	addButton(DeafMode, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 255.f), _settings->getDeafPointer());
+	addButton(ArrowKey, "", CheckButton, 0.5f, sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 380.f), _settings->getArrowPointer());
+
+	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	//addButton(SaveSettings, "Save Settings", LittleButton, 0.5f, sf::Vector2f(getCenterPositionX() - 200.f, 800.f));
+	addText(20, "Arrow Keys", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 380.f), AlignmentCenter, 255, 255, 255);
+	addText(10, "This setting define if the game uses\n     the arrow keys or w,a,s,d", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 360.f), AlignmentCenter, 255, 255, 255);
+	addText(20, "Deaf Mode", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 255.f), AlignmentCenter, 255, 255, 255);
+	addText(10, "This setting turns off every sound", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 235.f), AlignmentCenter, 255, 255, 255);
+	addText(20, "Music", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 130.f), AlignmentCenter, 255, 255, 255);
+	addText(25, std::to_string(static_cast<int>(_settings->getMusic())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 130.f), AlignmentCenter, 255, 255, 255);
+	addText(20, "Sound", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() - 5.f), AlignmentCenter, 255, 255, 255);
+	addText(25, std::to_string(static_cast<int>(_settings->getSound())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() - 5.f), AlignmentCenter, 255, 255, 255);
+	addText(20, "Button's Sounds", sf::Vector2f(getCenterPositionX() - 250.f, getCenterPositionY() + 120.f), AlignmentCenter, 255, 255, 255);
+	addText(25, std::to_string(static_cast<int>(_settings->getMenu())), sf::Vector2f(getCenterPositionX() + 200.f, getCenterPositionY() + 120.f), AlignmentCenter, 255, 255, 255);
+
+	if (!_settings->getDeaf())
+		showVolumeButtons();
 }
 
 void Menu::initHowToPlayMenu()
@@ -448,20 +456,119 @@ bool Menu::loadSettingsMenu()
 		_settings->saveSettings();
 		return false;
 
+	case ArrowKey:
+		_settings->setArrow(_settings->getArrow() ? false : true);
+		break;
+
 	case DeafMode:
-		_settings->setDeaf(_settings->getDeafConst() ? false : true);
+		_settings->setDeaf(_settings->getDeaf() ? false : true);
 
 		_musicSound.setVolume(_settings->getMusic());
+		if (_settings->getDeaf())
+			hideVolumeButtons();
+		else
+			showVolumeButtons();
 
-		_window->clear();
-		draw();
-		_window->display();
+		break;
+	case IncreaseMusic:
+		if (_settings->getMusic() != 100.f)
+			_settings->setMusic(_settings->getMusic() + 1.f > 100.f ? 100.f : _settings->getMusic() + 1.f);
+		break;
+
+	case BigIncreaseMusic:
+		if (_settings->getMusic() != 100.f)
+			_settings->setMusic(_settings->getMusic() + 10.f > 100.f ? 100.f : _settings->getMusic() + 10.f);
+		break;
+
+	case DecreaseMusic:
+		if (_settings->getMusic() != 0.0f)
+			_settings->setMusic(_settings->getMusic() - 1.f < 0.0f ? 0.0f : _settings->getMusic() - 1.f);
+		break;
+
+	case BigDecreaseMusic:
+		if (_settings->getMusic() != 0.0f)
+			_settings->setMusic(_settings->getMusic() - 10.f < 0.0f ? 0.0f : _settings->getMusic() - 10.f);
+		break;
+	
+	case IncreaseSound:
+		if (_settings->getSound() != 100.f)
+			_settings->setSound(_settings->getSound() + 1.f > 100.f ? 100.f : _settings->getSound() + 1.f);
+		break;
+
+	case BigIncreaseSound:
+		if (_settings->getSound() != 100.f)
+			_settings->setSound(_settings->getSound() + 10.f > 100.f ? 100.f : _settings->getSound() + 10.f);
+		break;
+
+	case DecreaseSound:
+		if (_settings->getSound() != 0.0f)
+			_settings->setSound(_settings->getSound() - 1.f < 0.0f ? 0.0f : _settings->getSound() - 1.f);
+		break;
+
+	case BigDecreaseSound:
+		if (_settings->getSound() != 0.0f)
+			_settings->setSound(_settings->getSound() - 10.f < 0.0f ? 0.0f : _settings->getSound() - 10.f);
+
+		break;
+
+	case IncreaseMenu:
+		if (_settings->getMenu() != 100.f)
+			_settings->setMenuVolume(_settings->getMenu() + 1.f > 100.f ? 100.f : _settings->getMenu() + 1.f);
+
+		break;
+
+	case BigIncreaseMenu:
+		if (_settings->getMenu() != 100.f)
+			_settings->setMenuVolume(_settings->getMenu() + 10.f > 100.f ? 100.f : _settings->getMenu() + 10.f);
+
+		break;
+
+	case DecreaseMenu:
+		if (_settings->getMenu() != 0.0f)
+			_settings->setMenuVolume(_settings->getMenu() - 1.f < 0.0f ? 0.0f : _settings->getMenu() - 1.f);
+
+		break;
+
+	case BigDecreaseMenu:
+		if (_settings->getMenu() != 0.0f)
+			_settings->setMenuVolume(_settings->getMenu() - 10.f < 0.0f ? 0.0f : _settings->getMenu() - 10.f);
+
+		break;
 
 	default:
 		return true;
+
 	}
 
-	// TODO: Build
+	_texts.at(5).setString(std::to_string(static_cast<int>(_settings->getMusic())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMusic())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getMusic())));
+	_texts.at(7).setString(std::to_string(static_cast<int>(_settings->getSound())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getSound())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getSound())));
+	_texts.at(9).setString(std::to_string(static_cast<int>(_settings->getMenu())) == "100" ? "MAX" : std::to_string(static_cast<int>(_settings->getMenu())) == "0" ? "MIN" : std::to_string(static_cast<int>(_settings->getMenu())));
+	
+	return true;
+}
+
+void Menu::showVolumeButtons()
+{
+	addButton(IncreaseMusic, ">", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() - 130.f));
+	addButton(BigIncreaseMusic, ">>", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() - 130.f));
+	addButton(DecreaseMusic, "<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() - 130.f));
+	addButton(BigDecreaseMusic, "<<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() - 130.f));
+
+	addButton(IncreaseSound, ">", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() - 5.f));
+	addButton(BigIncreaseSound, ">>", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() - 5.f));
+	addButton(DecreaseSound, "<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() - 5.f));
+	addButton(BigDecreaseSound, "<<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() - 5.f));
+
+	addButton(IncreaseMenu, ">", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 300.f, getCenterPositionY() + 120.f));
+	addButton(BigIncreaseMenu, ">>", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 400.f, getCenterPositionY() + 120.f));
+	addButton(DecreaseMenu, "<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 100.f, getCenterPositionY() + 120.f));
+	addButton(BigDecreaseMenu, "<<", YesButton, 0.5f, sf::Vector2f(getCenterPositionX() + 0.0f, getCenterPositionY() + 120.f));
+}
+
+void Menu::hideVolumeButtons()
+{
+	for (int i = 0; i < 12; i++)
+		_buttons.erase(_buttons.end() - 1);
 }
 
 bool Menu::loadHowToPlayMenu()
