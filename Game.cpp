@@ -213,7 +213,7 @@ int Game::StartGame()
 				scoreTimer.restart();
 			}
 
-			scoreMeter.setString(std::to_string((int)score));
+			scoreMeter.setString(std::to_string((int)(score / 10) * 10));
 			draw(_hungerMeter, _map, snake);
 			_window.draw(scoreMeter);
 			_window.display();
