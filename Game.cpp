@@ -204,7 +204,8 @@ int Game::StartGame()
 					isHungry = false;
 			}
 		}
-		if (_settings.getMode() % 2) {
+		if (_settings.getMode() % 2) 
+		{
 			score += int(scoreTimer.getElapsedTime().asMicroseconds() / 10000) ;
 			scoreTimer.restart();
 		}
