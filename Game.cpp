@@ -1,5 +1,9 @@
-#include "Game.h"
+/*====================================
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
+Projet : Ophidie
+====================================*/
 
+#include "Game.h"
 #include "Grid.h"
 #include "Menu.h"
 #include "Settings.h"

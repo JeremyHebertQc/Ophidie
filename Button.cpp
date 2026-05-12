@@ -1,3 +1,8 @@
+/*====================================
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
+Projet : Ophidie
+====================================*/
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <cassert>

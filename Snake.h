@@ -1,9 +1,8 @@
+#pragma once
 /*====================================
-Auteur : Vincent Gagnon
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
 Projet : Ophidie
 ====================================*/
-
-#pragma once
 
 #include "const.h"
 

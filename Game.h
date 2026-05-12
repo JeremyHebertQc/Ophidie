@@ -1,4 +1,8 @@
 #pragma once
+/*====================================
+Auteurs : Jeremy Hebert, Vincent Gagnon et Felix-Antoine Lacroix
+Projet : Ophidie
+====================================*/
 
 #include "Settings.h"
 #include "Grid.h"
