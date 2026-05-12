@@ -108,7 +108,7 @@ void Grid::createMap()
 		placeEgg();
 
 	for (int i = 0; i < AIR_SPACE; i++)
-		_board.at(AIR_SPACE_LOCATION[i]).at(FIRST_ROW_LOCATION) = air;
+		_board.at(AIR_SPACE_LOCATION[i]).at(FIRST_ROW_LOCATION) = Air;
 }
 
 void Grid::configureGamemode()
@@ -184,7 +184,7 @@ void Grid::placeBorder()
 	{
 		_board.emplace_back();
 		for (int j = 0; j < _width + BORDER_SIZE; j++)
-			_board.at(i).push_back(trap);
+			_board.at(i).push_back(Trap);
 	}
 }
 
@@ -194,14 +194,14 @@ void Grid::placeAir()
 	{
 		//_board.emplace_back();
 		for (int j = 1; j <= _width; j++)
-			setTileAt(sf::Vector2i(i, j), air);
+			setTileAt(sf::Vector2i(i, j), Air);
 	}
 }
 
 void Grid::bodyLocationReserve() //NOTE: On prend plus long que le serpent afin de laisser le temps au joueurs de bouger au demarrage du jeu.
 {
 	for (int i = 1; i < BODY_SIZE_RESERVE; i++)
-		_board.at(i).at(FIRST_ROW_LOCATION) = body;
+		_board.at(i).at(FIRST_ROW_LOCATION) = Body;
 }
 
 void Grid::placeTraps()
@@ -211,9 +211,9 @@ void Grid::placeTraps()
 		int randX = getRandIntInRange(START_GRID_LOCATION, _width);
 		int randY = getRandIntInRange(START_GRID_LOCATION, _height);
 
-		if (_board.at(randY).at(randX) == air)
+		if (_board.at(randY).at(randX) == Air)
 		{
-			_board.at(randY).at(randX) = trap;
+			_board.at(randY).at(randX) = Trap;
 			_numberOfTraps--;
 		}
 	}
@@ -227,9 +227,9 @@ void Grid::placeEgg()
 		int randX = getRandIntInRange(START_GRID_LOCATION, _width);
 		int randY = getRandIntInRange(START_GRID_LOCATION, _height);
 
-		if (_board.at(randY).at(randX) == air)
+		if (_board.at(randY).at(randX) == Air)
 		{
-			_board.at(randY).at(randX) = TileType(getRandIntInRange(whiteEgg, redEgg));
+			_board.at(randY).at(randX) = TileType(getRandIntInRange(WhiteEgg, RedEgg));
 			eggPlaced = false;
 		}
 	}
@@ -242,10 +242,10 @@ void Grid::renderGrid() const
 		for (int j = 0; j < _height + BORDER_SIZE; j++)
 		{
 			auto pos = transformGridToPixels({j,i});
-			_renderers.at(air)->setPosition(pos.x,pos.y);
-			_window->draw(*_renderers.at(air));
+			_renderers.at(Air)->setPosition(pos.x,pos.y);
+			_window->draw(*_renderers.at(Air));
 
-			if (_board.at(j).at(i) != air && _board.at(j).at(i) != body)
+			if (_board.at(j).at(i) != Air && _board.at(j).at(i) != Body)
 			{
 				_renderers.at(_board.at(j).at(i))->setPosition(pos.x, pos.y);
 				_window->draw(*_renderers.at(_board.at(j).at(i)));
@@ -258,9 +258,9 @@ void Grid::updateSnakePosition(std::vector<sf::Vector2i> bodyParts)
 {
 	for (int i = 0; i <= _width; i++)
 		for (int j = 0; j <= _height; j++)
-			if (_board.at(j).at(i) == body)
-				_board.at(j).at(i) = air;
+			if (_board.at(j).at(i) == Body)
+				_board.at(j).at(i) = Air;
 
 	for (auto body_part : bodyParts)
-		_board.at(body_part.x).at(body_part.y) = body;
+		_board.at(body_part.x).at(body_part.y) = Body;
 }

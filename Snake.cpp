@@ -10,7 +10,7 @@ Snake::Snake(sf::RenderWindow* window, sf::Vector2i offset)
 {
 	_window = window;
 
-	if (!(_textureHead.loadFromFile(GAME_DIR + "snake/head.png") && _textureBody.loadFromFile(GAME_DIR + "snake/body.png") && _textureCurve.loadFromFile(GAME_DIR + "snake/body_curve.png") && _textureTail.loadFromFile(GAME_DIR + "snake/tail.png")))
+	if (!(_textureHead.loadFromFile(GAME_DIR + "snake/head.png") && _textureBody.loadFromFile(GAME_DIR + "snake/Body.png") && _textureCurve.loadFromFile(GAME_DIR + "snake/body_curve.png") && _textureTail.loadFromFile(GAME_DIR + "snake/tail.png")))
 		sendFatalError(FileNotOpened);
 
 	setOffset(offset);
