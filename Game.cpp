@@ -59,6 +59,8 @@ int Game::StartGame()
 	chooseWallpaper(_settings.getMode());
 
 	sf::Clock moveCooldown;
+	float score;
+
 
 	sf::Font font;
 	if (!font.loadFromFile(FONT_PATH))
@@ -66,8 +68,16 @@ int Game::StartGame()
 
 	sf::Text hungerMeter("100", font, 30);
 	hungerMeter.setStyle(sf::Text::Regular);
-	hungerMeter.setFillColor(sf::Color::White);
-	hungerMeter.setPosition(sf::Vector2f(100.f, 20.f));
+	hungerMeter.setFillColor(sf::Color::Green);
+	hungerMeter.setPosition(sf::Vector2f(100.f, 50.f));
+
+
+	sf::Text scoreMeter("0", font, 30);
+
+	sf::Clock scoreTimer;
+	scoreMeter.setStyle(sf::Text::Regular);
+	scoreMeter.setFillColor(sf::Color::White);
+	scoreMeter.setPosition(sf::Vector2f(100.f, 20.f));
 
 	sf::Clock timeLived;
 	sf::Clock pauseTimer;
@@ -175,7 +185,7 @@ int Game::StartGame()
 
 				if (_settings.getMode() % 2)
 					hunger += 60;
-
+					score += 100;
 				break;
 			case body:
 			case trap:
@@ -194,16 +204,23 @@ int Game::StartGame()
 					isHungry = false;
 			}
 		}
+		if (_settings.getMode() % 2) {
+			score += int(scoreTimer.getElapsedTime().asMicroseconds() / 10000) ;
+			scoreTimer.restart();
+		}
 
+		scoreMeter.setString(std::to_string(int(score / 100) * 100));
 		_window.clear();
 		draw(hungerMeter, map, snake);
+		_window.draw(scoreMeter);
 		_window.display();
 	}
 	stopMusic();
 
-	if (_settings.getMode() % 2)
-		return timeLived.getElapsedTime().asMilliseconds();//TODO: add the minus pausedTime
-	return snake.getSnakeSize();
+	//if (_settings.getMode() % 2)
+	//	return timeLived.getElapsedTime().asMilliseconds();//TODO: add the minus pausedTime
+	//return snake.getSnakeSize();
+	return score;
 }
 
 void Game::playSound(const std::string& soundPath, float volume)
